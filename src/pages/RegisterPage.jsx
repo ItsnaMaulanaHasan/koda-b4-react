@@ -55,7 +55,7 @@ function RegisterPage() {
   return (
     <main>
       <Alert type={alertStatus.type} message={alertStatus.message} onClose={() => setAlertStatus({ type: "", message: "" })} />
-      <div className="flex w-full">
+      <div className="flex w-full min-h-screen">
         <div className="w-1/4">
           <img className="h-full w-full object-cover" src="/public/img/img-register.png" alt="Image Login" />
         </div>
