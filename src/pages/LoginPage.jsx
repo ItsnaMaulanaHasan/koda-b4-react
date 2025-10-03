@@ -73,7 +73,7 @@ function LoginPage() {
           </form>
           <div className="text-center">
             Not Have An Account?{" "}
-            <Link className="text-[#FF8906]" to="/">
+            <Link className="text-[#FF8906]" to="/register">
               Register
             </Link>
           </div>
