@@ -10,12 +10,12 @@ import * as yup from "yup";
 
 const RegisterFormSchema = yup.object({
   fullName: yup.string().required("Name is required").min(3, "Name must be at least 3 characters"),
-  email: yup.string().required("Email harus diisi").email("Format email tidak valid"),
-  password: yup.string().required("Password harus diisi").min(6, "Password minimal 6 karakter"),
+  email: yup.string().required("Email is required").email("Invalid email format"),
+  password: yup.string().required("Password is required").min(6, "Password must be at least 6 characters"),
   confirmPassword: yup
     .string()
-    .required("Konfirmasi password harus diisi")
-    .oneOf([yup.ref("password")], "Password tidak cocok"),
+    .required("Password confirmation is required")
+    .oneOf([yup.ref("password")], "Password does not match"),
 });
 
 function RegisterPage() {
@@ -48,7 +48,7 @@ function RegisterPage() {
     } catch (error) {
       setAlertStatus({
         type: "error",
-        message: `Terjadi kesalahan saat menyimpan data. Silakan coba lagi: ${error}`,
+        message: `An error occurred while saving the data. Please try again: ${error}`,
       });
     }
   };
