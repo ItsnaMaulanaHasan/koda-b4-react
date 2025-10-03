@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
-const RegisterFormSchema = yup.object({
+const LoginFormSchema = yup.object({
   email: yup.string().required("Email is required").email("Invalid email format"),
   password: yup.string().required("Password is required").min(6, "Password must be at least 6 characters"),
 });
@@ -21,7 +21,7 @@ function LoginPage() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(RegisterFormSchema),
+    resolver: yupResolver(LoginFormSchema),
   });
 
   const onSubmit = (data) => {
@@ -42,7 +42,7 @@ function LoginPage() {
     } catch (error) {
       setAlertStatus({
         type: "error",
-        message: `An error occurred while saving the data. Please try again: ${error}`,
+        message: `An error occurred while process the data. Please try again: ${error}`,
       });
     }
   };
@@ -67,7 +67,7 @@ function LoginPage() {
                 Forgot Password?
               </Link>
               <Button type="submit" className="bg-[#FF8906]">
-                Register
+                Login
               </Button>
             </div>
           </form>
