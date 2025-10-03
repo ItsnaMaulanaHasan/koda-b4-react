@@ -1,7 +1,6 @@
 import Input from "../components/Input";
 import Button from "../components/Button";
 import Alert from "../components/Alert";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
