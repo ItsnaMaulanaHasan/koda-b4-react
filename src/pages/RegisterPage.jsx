@@ -61,7 +61,7 @@ function RegisterPage() {
         </div>
         <div className="flex gap-5 flex-col px-40 py-20 flex-1">
           <div>
-            <img src="/public/icon/icon-header.svg" alt="Icon Header" />
+            <img src="/public/icon/logo-original.svg" alt="Icon Header" />
           </div>
           <h1 className="font-semibold text-[#8E6447] text-xl">Register</h1>
           <p className="text-[#4F5665]">Fill out the form correctly</p>
