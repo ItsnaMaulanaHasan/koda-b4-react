@@ -18,3 +18,9 @@
 .animate-slide-in {
   animation: slide-in 0.3s ease-out;
 }
+
+@layer utilities {
+  .bg-custom-gradient {
+    background: linear-gradient(168.18deg, #777C82 -114.74%, #0B0909 91.35%);
+  }
+}¸
