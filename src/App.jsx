@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import MainLayout from "./components/layouts/MainLayout";
 import HomePage from "./pages/HomePage";
+import ProductPage from "./pages/ProductPage";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <HomePage />,
+      },
+      {
+        path: "/product",
+        element: <ProductPage />,
       },
     ],
   },
