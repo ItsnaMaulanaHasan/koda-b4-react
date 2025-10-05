@@ -49,7 +49,7 @@
     "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
     "price": 20000,
     "discountPrice": null,
-    "image": "img-menus/image5.png",
+    "image": "img-menus/image1.png",
     "rating": 4.7,
     "isFlashSale": false,
     "category": "Coffee"
@@ -60,7 +60,7 @@
     "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
     "price": 20000,
     "discountPrice": 10000,
-    "image": "img-menus/image6.png",
+    "image": "img-menus/image2.png",
     "rating": 5.0,
     "isFlashSale": true,
     "category": "Food"
@@ -71,7 +71,7 @@
     "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
     "price": 20000,
     "discountPrice": 10000,
-    "image": "img-menus/image7.png",
+    "image": "img-menus/image3.png",
     "rating": 5.0,
     "isFlashSale": true,
     "category": "Coffee"
@@ -82,7 +82,7 @@
     "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
     "price": 20000,
     "discountPrice": 10000,
-    "image": "img-menus/image8.png",
+    "image": "img-menus/image4.png",
     "rating": 5.0,
     "isFlashSale": true,
     "category": "Food"
