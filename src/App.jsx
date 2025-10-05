@@ -6,6 +6,7 @@ import MainLayout from "./components/layouts/MainLayout";
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
 import DetailProduct from "./pages/DetailProduct";
+import CartPage from "./pages/CartPage";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/product/:id",
         element: <DetailProduct />,
+      },
+      {
+        path: "/cart",
+        element: <CartPage />,
       },
     ],
   },
