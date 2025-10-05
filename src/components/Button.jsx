@@ -1,6 +1,10 @@
-function Button({ type, className, children, onCLick }) {
+function Button({ type, className, children, onClick }) {
   return (
-    <button type={type} onClick={onCLick} className={`w-full py-2 rounded-md cursor-pointer ${className}`}>
+    <button
+      type={type}
+      onClick={onClick}
+      className={`w-full py-2 rounded-md cursor-pointer ${className}`}
+    >
       {children}
     </button>
   );
