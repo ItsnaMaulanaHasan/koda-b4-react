@@ -2,9 +2,7 @@ import { useFetchData } from "../hooks/useFetchData";
 import StarRating from "./StarRating";
 
 function Testimoni() {
-  const { data, isLoading, error } = useFetchData(
-    "/public/data/testimoni.json"
-  );
+  const { data, isLoading, error } = useFetchData("data/testimoni.json");
   if (isLoading) return <div>Loading...</div>;
 
   if (error) return <div>Error: {error}</div>;

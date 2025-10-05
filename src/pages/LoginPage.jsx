@@ -48,22 +48,47 @@ function LoginPage() {
   };
   return (
     <main>
-      <Alert type={alertStatus.type} message={alertStatus.message} onClose={() => setAlertStatus({ type: "", message: "" })} />
+      <Alert
+        type={alertStatus.type}
+        message={alertStatus.message}
+        onClose={() => setAlertStatus({ type: "", message: "" })}
+      />
       <div className="flex w-full min-h-screen">
         <div className="w-1/4">
-          <img className="h-full w-full object-cover" src="/public/img/img-login.png" alt="Image Login" />
+          <img
+            className="h-full w-full object-cover"
+            src="img/img-login.png"
+            alt="Image Login"
+          />
         </div>
         <div className="flex gap-5 flex-col px-40 py-20 flex-1">
           <div>
-            <img src="/public/icon/logo-original.svg" alt="Icon Header" />
+            <img src="icon/logo-original.svg" alt="Icon Header" />
           </div>
           <h1 className="font-semibold text-[#8E6447] text-xl">Login</h1>
           <p className="text-[#4F5665]">Fill out the form correctly</p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-5">
-              <Input {...register("email")} error={errors} id="email" type="email" label="Email" placeholder="Enter Your Email" />
-              <Input {...register("password")} error={errors} id="password" type="password" label="Password" placeholder="Enter Your Password" />
-              <Link className="text-sm text-[#FF8906] text-end" to="/forgot-password">
+              <Input
+                {...register("email")}
+                error={errors}
+                id="email"
+                type="email"
+                label="Email"
+                placeholder="Enter Your Email"
+              />
+              <Input
+                {...register("password")}
+                error={errors}
+                id="password"
+                type="password"
+                label="Password"
+                placeholder="Enter Your Password"
+              />
+              <Link
+                className="text-sm text-[#FF8906] text-end"
+                to="/forgot-password"
+              >
                 Forgot Password?
               </Link>
               <Button type="submit" className="bg-[#FF8906]">
@@ -84,11 +109,11 @@ function LoginPage() {
           </div>
           <div className="flex gap-10">
             <Button className="flex items-center justify-center gap-3 py-4 flex-1 shadow-lg">
-              <img src="/public/img/img-facebook.png" alt="Logo Facebook" />
+              <img src="img/img-facebook.png" alt="Logo Facebook" />
               Facebook
             </Button>
             <Button className="flex items-center justify-center gap-3 py-4 flex-1 shadow-lg">
-              <img src="/public/img/img-google.png" alt="Logo Google" />
+              <img src="img/img-google.png" alt="Logo Google" />
               Goolge
             </Button>
           </div>

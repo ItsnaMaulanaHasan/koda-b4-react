@@ -46,20 +46,39 @@ function ForgotPasswordPage() {
   };
   return (
     <main>
-      <Alert type={alertStatus.type} message={alertStatus.message} onClose={() => setAlertStatus({ type: "", message: "" })} />
+      <Alert
+        type={alertStatus.type}
+        message={alertStatus.message}
+        onClose={() => setAlertStatus({ type: "", message: "" })}
+      />
       <div className="flex w-full min-h-screen">
         <div className="w-1/4">
-          <img className="h-full w-full object-cover" src="/public/img/img-forgot-password.png" alt="Image Login" />
+          <img
+            className="h-full w-full object-cover"
+            src="img/img-forgot-password.png"
+            alt="Image Login"
+          />
         </div>
         <div className="flex gap-5 flex-col px-40 py-20 flex-1">
           <div>
-            <img src="/public/icon/logo-original.svg" alt="Icon Header" />
+            <img src="icon/logo-original.svg" alt="Icon Header" />
           </div>
-          <h1 className="font-semibold text-[#8E6447] text-xl">Fill out the form correctly</h1>
-          <p className="text-[#4F5665]">We will send new password to your email</p>
+          <h1 className="font-semibold text-[#8E6447] text-xl">
+            Fill out the form correctly
+          </h1>
+          <p className="text-[#4F5665]">
+            We will send new password to your email
+          </p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-5">
-              <Input {...register("email")} error={errors} id="email" type="email" label="Email" placeholder="Enter Your Email" />
+              <Input
+                {...register("email")}
+                error={errors}
+                id="email"
+                type="email"
+                label="Email"
+                placeholder="Enter Your Email"
+              />
               <Button type="submit" className="bg-[#FF8906]">
                 Submit
               </Button>
