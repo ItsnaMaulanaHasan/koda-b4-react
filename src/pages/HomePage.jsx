@@ -4,7 +4,7 @@ import Testimoni from "../components/Testimoni";
 import { useFetchData } from "../hooks/useFetchData";
 
 function HomePage() {
-  const { data, isLoading, error } = useFetchData("/public/data/menu.json");
+  const { data, isLoading, error } = useFetchData("data/menu.json");
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -66,31 +66,19 @@ function HomePage() {
             </p>
             <div className="flex flex-col gap-10 text-[#4F5665]">
               <div className="flex gap-5">
-                <img
-                  src="/public/icon/icon-checklist.svg"
-                  alt="Icon Checklist"
-                />
+                <img src="icon/icon-checklist.svg" alt="Icon Checklist" />
                 <p>High quality beans</p>
               </div>
               <div className="flex gap-5">
-                <img
-                  src="/public/icon/icon-checklist.svg"
-                  alt="Icon Checklist"
-                />
+                <img src="icon/icon-checklist.svg" alt="Icon Checklist" />
                 <p>Healthy meals, you can request the ingredients</p>
               </div>
               <div className="flex gap-5">
-                <img
-                  src="/public/icon/icon-checklist.svg"
-                  alt="Icon Checklist"
-                />
+                <img src="icon/icon-checklist.svg" alt="Icon Checklist" />
                 <p>Chat with our staff to get better experience for ordering</p>
               </div>
               <div className="flex gap-5">
-                <img
-                  src="/public/icon/icon-checklist.svg"
-                  alt="Icon Checklist"
-                />
+                <img src="icon/icon-checklist.svg" alt="Icon Checklist" />
                 <p>Free member card with a minimum purchase of IDR 200.000.</p>
               </div>
             </div>
@@ -102,7 +90,7 @@ function HomePage() {
           <div className="h-screen">
             <img
               className="h-full w-full object-cover"
-              src="/public/img/img-homepage.png"
+              src="img/img-homepage.png"
               alt="Image Homepage"
             />
           </div>
@@ -110,7 +98,7 @@ function HomePage() {
           <div className="flex-1">
             <img
               className="w-full h-full object-cover"
-              src="/public/img/img-homepage2.png"
+              src="img/img-homepage2.png"
               alt="Image Homepage"
             />
           </div>
@@ -148,7 +136,7 @@ function HomePage() {
           </p>
         </div>
         <div className="mt-20">
-          <img src="/public/icon/map.svg" alt="Map Store" />
+          <img src="icon/map.svg" alt="Map Store" />
         </div>
       </div>
       {/* section 4 */}

@@ -10,7 +10,7 @@ function Navbar() {
       <nav className="flex w-full fixed top-0 justify-between items-center px-4 sm:px-10 md:px-20 lg:px-40 z-100 py-5 bg-[#0B090921]">
         <div className="flex items-center gap-5 sm:gap-7 md:gap-10">
           <div>
-            <img src="/public/icon/logo-white.svg" alt="Logo white" />
+            <img src="icon/logo-white.svg" alt="Logo white" />
           </div>
           <div>
             <ul className="flex items-center gap-10 text-white">
@@ -27,14 +27,14 @@ function Navbar() {
           <button className="h-6 w-6 flex-shrink-0 cursor-pointer">
             <img
               className="h-full w-full"
-              src="/public/icon/icon-search.svg"
+              src="icon/icon-search.svg"
               alt="Icon Search"
             />
           </button>
           <button className="h-6 w-6 flex-shrink-0 cursor-pointer">
             <img
               className="h-full w-full"
-              src="/public/icon/icon-cart.svg"
+              src="icon/icon-cart.svg"
               alt="Icon Cart"
             />
           </button>
