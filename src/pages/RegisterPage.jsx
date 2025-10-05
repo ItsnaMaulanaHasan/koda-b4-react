@@ -62,7 +62,7 @@ function RegisterPage() {
     }
   };
   return (
-    <main>
+    <>
       <Alert
         type={alertStatus.type}
         message={alertStatus.message}
@@ -144,7 +144,7 @@ function RegisterPage() {
           </div>
         </div>
       </div>
-    </main>
+    </>
   );
 }
 
