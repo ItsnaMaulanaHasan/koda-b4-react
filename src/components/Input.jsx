@@ -11,6 +11,9 @@ function Input({ type, id, label, placeholder, error = {}, ...register }) {
     case "email":
       icon = "/icon/icon-mail.svg";
       break;
+    case "address":
+      icon = "/icon/icon-location.svg";
+      break;
     case "password":
     case "confirmPassword":
       icon = "/icon/icon-password.svg";
