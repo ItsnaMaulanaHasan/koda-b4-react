@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Input({ type, id, label, placeholder, error, ...register }) {
+function Input({ type, id, label, placeholder, error = {}, ...register }) {
   const [showPassword, setShowPassword] = useState(false);
   let isPassword = false;
   let icon = "";
@@ -17,19 +17,24 @@ function Input({ type, id, label, placeholder, error, ...register }) {
       isPassword = true;
       break;
     default:
-      icon = "icon/icon-profile.svg";
+      icon = "";
       break;
   }
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="font-bold text-[#0B132A]" htmlFor={id}>
+      <label
+        className={`font-bold ${
+          id !== "search" ? "text-[#0B132A]" : "text-white"
+        }`}
+        htmlFor={id}
+      >
         {label}
       </label>
       {!isPassword ? (
         <div>
           <div className="flex border rounded-md py-3 px-4 border-[#DEDEDE] w-full gap-4">
-            <img src={icon} alt={id} />
+            {icon && <img src={icon} alt={id} />}
             <input
               {...register}
               id={id}
