@@ -216,7 +216,7 @@ function DetailProduct() {
               onClick={handleAddToCart}
               className="py-4 border-2 border-[#FF8906] text-[#FF8906] rounded-lg hover:bg-[#f9eeee] transition flex items-center justify-center gap-2"
             >
-              <img src="/public/icon/icon-cart-orange.svg" alt="" />
+              <img src="/icon/icon-cart-orange.svg" alt="" />
               add to cart
             </button>
           </div>
