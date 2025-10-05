@@ -8,7 +8,10 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
 const ForgotPasswordFormSchema = yup.object({
-  email: yup.string().required("Email is required").email("Invalid email format"),
+  email: yup
+    .string()
+    .required("Email is required")
+    .email("Invalid email format"),
 });
 
 function ForgotPasswordPage() {
@@ -55,13 +58,13 @@ function ForgotPasswordPage() {
         <div className="w-1/4">
           <img
             className="h-full w-full object-cover"
-            src="img/img-forgot-password.png"
+            src="/img/img-forgot-password.png"
             alt="Image Login"
           />
         </div>
         <div className="flex gap-5 flex-col px-40 py-20 flex-1">
           <div>
-            <img src="icon/logo-original.svg" alt="Icon Header" />
+            <img src="/icon/logo-original.svg" alt="Icon Header" />
           </div>
           <h1 className="font-semibold text-[#8E6447] text-xl">
             Fill out the form correctly

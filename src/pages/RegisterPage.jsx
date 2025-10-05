@@ -9,9 +9,18 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
 const RegisterFormSchema = yup.object({
-  fullName: yup.string().required("Name is required").min(3, "Name must be at least 3 characters"),
-  email: yup.string().required("Email is required").email("Invalid email format"),
-  password: yup.string().required("Password is required").min(6, "Password must be at least 6 characters"),
+  fullName: yup
+    .string()
+    .required("Name is required")
+    .min(3, "Name must be at least 3 characters"),
+  email: yup
+    .string()
+    .required("Email is required")
+    .email("Invalid email format"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters"),
   confirmPassword: yup
     .string()
     .required("Password confirmation is required")
@@ -63,13 +72,13 @@ function RegisterPage() {
         <div className="w-1/4">
           <img
             className="h-full w-full object-cover"
-            src="img/img-register.png"
+            src="/img/img-register.png"
             alt="Image Login"
           />
         </div>
         <div className="flex gap-5 flex-col px-40 py-20 flex-1">
           <div>
-            <img src="icon/logo-original.svg" alt="Icon Header" />
+            <img src="/icon/logo-original.svg" alt="Icon Header" />
           </div>
           <h1 className="font-semibold text-[#8E6447] text-xl">Register</h1>
           <p className="text-[#4F5665]">Fill out the form correctly</p>
@@ -125,11 +134,11 @@ function RegisterPage() {
           </div>
           <div className="flex gap-10">
             <Button className="flex items-center justify-center gap-3 py-4 flex-1 shadow-lg">
-              <img src="img/img-facebook.png" alt="Logo Facebook" />
+              <img src="/img/img-facebook.png" alt="Logo Facebook" />
               Facebook
             </Button>
             <Button className="flex items-center justify-center gap-3 py-4 flex-1 shadow-lg">
-              <img src="img/img-google.png" alt="Logo Google" />
+              <img src="/img/img-google.png" alt="Logo Google" />
               Goolge
             </Button>
           </div>

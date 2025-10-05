@@ -3,7 +3,7 @@ import { useFetchData } from "../hooks/useFetchData";
 import StarRating from "./StarRating";
 
 function Testimoni() {
-  const { data, isLoading, error } = useFetchData("data/testimoni.json");
+  const { data, isLoading, error } = useFetchData("/data/testimoni.json");
   const [currentIndex, setCurrentIndex] = useState(0);
   const dataMax = 5;
 

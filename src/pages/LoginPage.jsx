@@ -9,8 +9,14 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
 const LoginFormSchema = yup.object({
-  email: yup.string().required("Email is required").email("Invalid email format"),
-  password: yup.string().required("Password is required").min(6, "Password must be at least 6 characters"),
+  email: yup
+    .string()
+    .required("Email is required")
+    .email("Invalid email format"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters"),
 });
 
 function LoginPage() {
@@ -29,7 +35,9 @@ function LoginPage() {
       const { email, password } = data;
       const usersData = JSON.parse(localStorage.getItem("users") || "[]");
 
-      const isValidLogin = usersData.find((data) => data.email === email && data.password === password);
+      const isValidLogin = usersData.find(
+        (data) => data.email === email && data.password === password
+      );
 
       if (isValidLogin) {
         setAlertStatus({ type: "success", message: "Login successful!" });
@@ -37,7 +45,10 @@ function LoginPage() {
           navigate("/");
         }, 1500);
       } else {
-        setAlertStatus({ type: "error", message: "Incorrect email or password" });
+        setAlertStatus({
+          type: "error",
+          message: "Incorrect email or password",
+        });
       }
     } catch (error) {
       setAlertStatus({
@@ -57,13 +68,13 @@ function LoginPage() {
         <div className="w-1/4">
           <img
             className="h-full w-full object-cover"
-            src="img/img-login.png"
+            src="/img/img-login.png"
             alt="Image Login"
           />
         </div>
         <div className="flex gap-5 flex-col px-40 py-20 flex-1">
           <div>
-            <img src="icon/logo-original.svg" alt="Icon Header" />
+            <img src="/icon/logo-original.svg" alt="Icon Header" />
           </div>
           <h1 className="font-semibold text-[#8E6447] text-xl">Login</h1>
           <p className="text-[#4F5665]">Fill out the form correctly</p>
@@ -109,11 +120,11 @@ function LoginPage() {
           </div>
           <div className="flex gap-10">
             <Button className="flex items-center justify-center gap-3 py-4 flex-1 shadow-lg">
-              <img src="img/img-facebook.png" alt="Logo Facebook" />
+              <img src="/img/img-facebook.png" alt="Logo Facebook" />
               Facebook
             </Button>
             <Button className="flex items-center justify-center gap-3 py-4 flex-1 shadow-lg">
-              <img src="img/img-google.png" alt="Logo Google" />
+              <img src="/img/img-google.png" alt="Logo Google" />
               Goolge
             </Button>
           </div>

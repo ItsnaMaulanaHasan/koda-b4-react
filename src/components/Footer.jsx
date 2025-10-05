@@ -4,7 +4,7 @@ function Footer() {
       <div className="grid grid-cols-4 gap-5 bg-[#F8F8F8] px-30 py-20">
         <div className="flex flex-col gap-5 justify-end">
           <div>
-            <img src="icon/logo-original.svg" alt="" />
+            <img src="/icon/logo-original.svg" alt="" />
           </div>
           <p className="text-[#4F5665]">
             Coffee Shop is a store that sells some good meals, and especially
@@ -35,17 +35,17 @@ function Footer() {
           <ul className="flex items-center justify-start gap-5">
             <li className="bg-[#0B132A] rounded-full">
               <a href="https://www.facebook.com">
-                <img src="icon/icon-facebook.svg" alt="Icon Facebook" />
+                <img src="/icon/icon-facebook.svg" alt="Icon Facebook" />
               </a>
             </li>
             <li className="bg-[#0B132A] rounded-full">
               <a href="https://www.x.com">
-                <img src="icon/icon-twitter.svg" alt="Icon Twitter" />
+                <img src="/icon/icon-twitter.svg" alt="Icon Twitter" />
               </a>
             </li>
             <li className="bg-[#0B132A] rounded-full">
               <a href="https://www.instagram.com">
-                <img src="icon/icon-instagram.svg" alt="Icon Instagram" />
+                <img src="/icon/icon-instagram.svg" alt="Icon Instagram" />
               </a>
             </li>
           </ul>

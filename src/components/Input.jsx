@@ -6,14 +6,14 @@ function Input({ type, id, label, placeholder, error = {}, ...register }) {
   let icon = "";
   switch (id) {
     case "fullName":
-      icon = "icon/icon-profile.svg";
+      icon = "/icon/icon-profile.svg";
       break;
     case "email":
-      icon = "icon/icon-mail.svg";
+      icon = "/icon/icon-mail.svg";
       break;
     case "password":
     case "confirmPassword":
-      icon = "icon/icon-password.svg";
+      icon = "/icon/icon-password.svg";
       isPassword = true;
       break;
     default:
@@ -64,9 +64,9 @@ function Input({ type, id, label, placeholder, error = {}, ...register }) {
               className="h-4 w-4"
             >
               {!showPassword ? (
-                <img src="icon/icon-eye.svg" alt="Icon Eye Open" />
+                <img src="/icon/icon-eye.svg" alt="Icon Eye Open" />
               ) : (
-                <img src="icon/icon-eye-off.svg" alt="Icon Eye Close" />
+                <img src="/icon/icon-eye-off.svg" alt="Icon Eye Close" />
               )}
             </button>
           </div>

@@ -5,6 +5,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import MainLayout from "./components/layouts/MainLayout";
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
+import DetailProduct from "./pages/DetailProduct";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/product",
         element: <ProductPage />,
+      },
+      {
+        path: "/product/:id",
+        element: <DetailProduct />,
       },
     ],
   },

@@ -20,7 +20,7 @@ function Navbar() {
       >
         <div className="flex items-center gap-5 sm:gap-7 md:gap-10">
           <div>
-            <img src="icon/logo-white.svg" alt="Logo white" />
+            <img src="/icon/logo-white.svg" alt="Logo white" />
           </div>
           <div>
             <ul className="flex items-center gap-10 text-white">
@@ -37,14 +37,14 @@ function Navbar() {
           <button className="h-6 w-6 flex-shrink-0 cursor-pointer">
             <img
               className="h-full w-full"
-              src="icon/icon-search.svg"
+              src="/icon/icon-search.svg"
               alt="Icon Search"
             />
           </button>
           <button className="h-6 w-6 flex-shrink-0 cursor-pointer">
             <img
               className="h-full w-full"
-              src="icon/icon-cart.svg"
+              src="/icon/icon-cart.svg"
               alt="Icon Cart"
             />
           </button>

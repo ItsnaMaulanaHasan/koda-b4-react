@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useFetchData } from "../hooks/useFetchData";
 
 function PromoSection() {
-  const { data, isLoading, error } = useFetchData("data/cupon.json");
+  const { data, isLoading, error } = useFetchData("/data/cupon.json");
   const [currentIndex, setCurrentIndex] = useState(0);
 
   if (isLoading) return <div>Loading...</div>;

@@ -6,10 +6,11 @@ import { useFetchData } from "../hooks/useFetchData";
 import { useForm } from "react-hook-form";
 import Button from "../components/Button";
 import PriceRangeFilter from "../components/PriceRangeFilter";
+import { Link } from "react-router-dom";
 
 function ProductPage() {
   // fetch data menu
-  const { data, isLoading, error } = useFetchData("data/menu.json");
+  const { data, isLoading, error } = useFetchData("/data/menu.json");
 
   // handle pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -191,7 +192,9 @@ function ProductPage() {
             <div className="flex flex-col gap-10">
               <div className="grid grid-cols-2 gap-5">
                 {currentData.map((menu) => (
-                  <CardMenu key={menu.id} dataMenu={menu} />
+                  <Link key={menu.id} to={`/product/${menu.id}`}>
+                    <CardMenu dataMenu={menu} />
+                  </Link>
                 ))}
               </div>
               <div className="flex justify-center items-center gap-3">

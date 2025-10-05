@@ -29,7 +29,7 @@ function CardMenu({ dataMenu }) {
         <div className="flex gap-2">
           <Button className="bg-[#FF8906] flex-2">Buy</Button>
           <Button className="flex-1 border border-[#FF8906] text-[#FF8906] justify-items-center content-center">
-            <img src="icon/icon-cart-orange.svg" alt="Icon Cart Orange" />
+            <img src="/icon/icon-cart-orange.svg" alt="Icon Cart Orange" />
           </Button>
         </div>
       </div>
