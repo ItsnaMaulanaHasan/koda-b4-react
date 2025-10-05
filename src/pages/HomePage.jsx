@@ -10,7 +10,7 @@ function HomePage() {
 
   if (error) return <div>Error: {error}</div>;
   return (
-    <main>
+    <>
       {/* section 1 */}
       <div className="flex">
         {/* sebelah kiri */}
@@ -143,7 +143,7 @@ function HomePage() {
       <div className="bg-custom-gradient px-20 py-10 mb-20">
         <Testimoni />
       </div>
-    </main>
+    </>
   );
 }
 

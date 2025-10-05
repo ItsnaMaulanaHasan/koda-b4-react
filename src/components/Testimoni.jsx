@@ -50,7 +50,7 @@ function Testimoni() {
             </button>
             <button
               onClick={handleNext}
-              className="size-10 rounded-full bg-[#FF8906] text-white flex items-center justify-center hover:bg-[#e67a05] transition"
+              className="size-10 rounded-full bg-[#FF8906] text-black flex items-center justify-center hover:bg-[#e67a05] transition"
             >
               →
             </button>
