@@ -41,7 +41,10 @@ function Navbar() {
               alt="Icon Search"
             />
           </button>
-          <button className="h-6 w-6 flex-shrink-0 cursor-pointer">
+          <button
+            onClick={() => navigate("/cart")}
+            className="h-6 w-6 flex-shrink-0 cursor-pointer"
+          >
             <img
               className="h-full w-full"
               src="/icon/icon-cart.svg"
