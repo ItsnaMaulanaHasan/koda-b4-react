@@ -3,6 +3,8 @@ import { useFetchData } from "../hooks/useFetchData";
 import StarRating from "../components/StarRating";
 import { useState } from "react";
 import CardMenu from "../components/CardMenu";
+import Button from "../components/Button";
+import { addToCart } from "../utils/cartUtils";
 
 function DetailProduct() {
   // fetch data menu
@@ -32,6 +34,28 @@ function DetailProduct() {
 
   const goToPage = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  // handle add to cart
+  const handleAddToCart = () => {
+    const cartItem = {
+      menuId: menu.id,
+      name: menu.name,
+      image: menu.image,
+      price: menu.discountPrice || menu.price,
+      originalPrice: menu.price,
+      size: size,
+      hotIce: hotIce,
+      quantity: amount,
+    };
+
+    addToCart(cartItem);
+    alert(`${menu.name} berhasil ditambahkan ke cart!`);
+
+    // Reset ke default
+    setAmount(1);
+    setSize("Reguler");
+    setHotIce("Ice");
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -188,7 +212,10 @@ function DetailProduct() {
             <button className="py-4 bg-[#FF8906] text-[#0B132A] rounded-lg hover:bg-[#e67a05] transition">
               Buy
             </button>
-            <button className="py-4 border-2 border-[#FF8906] text-[#FF8906] rounded-lg hover:bg-[#FF8906] hover:text-white transition flex items-center justify-center gap-2">
+            <button
+              onClick={handleAddToCart}
+              className="py-4 border-2 border-[#FF8906] text-[#FF8906] rounded-lg hover:bg-[#f9eeee] transition flex items-center justify-center gap-2"
+            >
               <img src="/public/icon/icon-cart-orange.svg" alt="" />
               add to cart
             </button>
