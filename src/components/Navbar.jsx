@@ -5,7 +5,7 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isProductPage = location.pathname === "/product";
+  const isNotHomePage = location.pathname !== "/";
 
   const getNavLinkClass = ({ isActive }) =>
     `hover:font-bold py-1 transition duration-300 ${
@@ -15,7 +15,7 @@ function Navbar() {
     <header>
       <nav
         className={`flex w-full fixed top-0 justify-between items-center px-4 sm:px-10 md:px-20 lg:px-40 z-100 py-5 ${
-          isProductPage ? "bg-[#0B0909]" : "bg-[#0B090921]"
+          isNotHomePage ? "bg-[#0B0909]" : "bg-[#0B090921]"
         }`}
       >
         <div className="flex items-center gap-5 sm:gap-7 md:gap-10">
