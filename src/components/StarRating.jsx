@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function StarRating({
   rating = 0,
@@ -11,6 +11,10 @@ function StarRating({
 }) {
   const [hoverRating, setHoverRating] = useState(0);
   const [currentRating, setCurrentRating] = useState(rating);
+
+  useEffect(() => {
+    setCurrentRating(rating);
+  }, [rating]);
 
   const handleClick = (starValue) => {
     if (readonly) return;
