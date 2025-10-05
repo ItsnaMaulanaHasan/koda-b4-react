@@ -18,7 +18,7 @@ function PromoSection() {
   };
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center px-20">
         <h1 className="font-medium text-5xl">
           Today <span className="text-[#8E6447]">Promo</span>
         </h1>

@@ -116,7 +116,7 @@ function HomePage() {
             yours too!
           </p>
         </div>
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-4 gap-3">
           {data.slice(0, 4).map((menu) => (
             <CardMenu key={menu.id} dataMenu={menu} />
           ))}
