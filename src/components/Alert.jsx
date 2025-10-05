@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
 
-function Alert({ type, message, onClose, duration = 1000000 }) {
+function Alert({ type, message, onClose, duration = 3000 }) {
   useEffect(() => {
     if (type && message) {
       const timer = setTimeout(() => {
@@ -22,11 +22,18 @@ function Alert({ type, message, onClose, duration = 1000000 }) {
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50 animate-slide-in">
-      <div className={`border-l-4 p-4 rounded shadow-lg min-w-[300px] ${alertStyles[type] || alertStyles.info}`}>
+    <div className="fixed top-25 right-4 animate-slide-in z-200">
+      <div
+        className={`border-l-4 p-4 rounded shadow-lg min-w-[300px] ${
+          alertStyles[type] || alertStyles.info
+        }`}
+      >
         <div className="flex items-center justify-between gap-3">
           <p className="text-sm font-medium">{message}</p>
-          <button onClick={onClose} className="text-xl leading-none hover:opacity-70">
+          <button
+            onClick={onClose}
+            className="text-xl leading-none hover:opacity-70"
+          >
             <X size={16} />
           </button>
         </div>
