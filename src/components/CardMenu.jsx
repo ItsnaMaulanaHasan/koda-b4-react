@@ -1,8 +1,34 @@
 import Button from "./Button";
+import Alert from "./Alert";
+import { addToCart } from "../utils/cartUtils";
+import { useState } from "react";
 
 function CardMenu({ dataMenu }) {
+  const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    const cartItem = {
+      menuId: dataMenu.id,
+      name: dataMenu.name,
+      image: dataMenu.image,
+      price: dataMenu.discountPrice || dataMenu.price,
+      originalPrice: dataMenu.price,
+      size: "Reguler",
+      hotIce: "Ice",
+      quantity: 1,
+      isFlashSale: dataMenu.isFlashSale,
+    };
+
+    addToCart(cartItem);
+    setAlertStatus({ type: "success", message: "Successfully added to cart" });
+  };
   return (
     <div className="w-full h-full">
+      <Alert
+        type={alertStatus.type}
+        message={alertStatus.message}
+        onClose={() => setAlertStatus({ type: "", message: "" })}
+      />
       <div className="relative">
         <img className="size-full" src={dataMenu.image} alt={dataMenu.name} />
         {dataMenu.isFlashSale && (
@@ -28,7 +54,10 @@ function CardMenu({ dataMenu }) {
         </div>
         <div className="flex gap-2">
           <Button className="bg-[#FF8906] flex-2">Buy</Button>
-          <Button className="flex-1 border border-[#FF8906] text-[#FF8906] justify-items-center content-center">
+          <Button
+            onClick={handleAddToCart}
+            className="flex-1 border border-[#FF8906] text-[#FF8906] justify-items-center content-center"
+          >
             <img src="/icon/icon-cart-orange.svg" alt="Icon Cart Orange" />
           </Button>
         </div>
