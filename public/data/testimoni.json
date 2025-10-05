@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Viezh Robert",
+    "position": "Manager Coffe Shop",
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop",
+    "rating": 5.0,
+    "testimonial": "Wow... I am very happy to spend my whole day here, the Wi-fi is good, and the coffee and meals tho. I like it here!! Very recommended!"
+  },
+  {
+    "id": 2,
+    "name": "Sarah Anderson",
+    "position": "Freelance Designer",
+    "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop",
+    "rating": 4.5,
+    "testimonial": "The ambiance is perfect for working remotely. Great coffee, friendly staff, and the perfect spot for my creative projects. Will definitely come back!"
+  },
+  {
+    "id": 3,
+    "name": "Michael Chen",
+    "position": "Software Developer",
+    "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop",
+    "rating": 5.0,
+    "testimonial": "Best coffee shop in town! The internet speed is amazing, plenty of power outlets, and their hazelnut latte is to die for. My favorite place to code!"
+  },
+  {
+    "id": 4,
+    "name": "Emma Thompson",
+    "position": "Content Creator",
+    "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop",
+    "rating": 4.8,
+    "testimonial": "Love the cozy atmosphere and the variety of menu options. The staff is always welcoming and the food is consistently delicious. Perfect for meeting clients!"
+  },
+  {
+    "id": 5,
+    "name": "David Martinez",
+    "position": "Business Owner",
+    "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop",
+    "rating": 5.0,
+    "testimonial": "I've been coming here for months now. The quality of coffee is exceptional, and the healthy meal options are a game changer. Highly recommend to everyone!"
+  },
+  {
+    "id": 6,
+    "name": "Lisa Johnson",
+    "position": "Marketing Specialist",
+    "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=300&fit=crop",
+    "rating": 4.7,
+    "testimonial": "Such a wonderful place to work and relax. The service is excellent, coffee is amazing, and I love that they offer healthy food options. My go-to spot!"
+  }
+]
