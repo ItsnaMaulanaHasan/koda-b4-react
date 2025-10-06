@@ -1,10 +1,9 @@
 import { Link, useParams } from "react-router-dom";
 import { useFetchData } from "../hooks/useFetchData";
-import StarRating from "../components/StarRating";
-import { useState } from "react";
-import CardMenu from "../components/CardMenu";
-import Button from "../components/Button";
 import { addToCart } from "../utils/cartUtils";
+import { useState } from "react";
+import StarRating from "../components/StarRating";
+import CardMenu from "../components/CardMenu";
 
 function DetailProduct() {
   // fetch data menu

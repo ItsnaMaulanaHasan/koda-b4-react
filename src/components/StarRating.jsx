@@ -1,5 +1,5 @@
-import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Star } from "lucide-react";
 
 function StarRating({
   rating = 0,

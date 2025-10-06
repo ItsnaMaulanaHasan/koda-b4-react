@@ -1,7 +1,7 @@
-import Button from "./Button";
-import Alert from "./Alert";
 import { addToCart } from "../utils/cartUtils";
 import { useState } from "react";
+import Button from "./Button";
+import Alert from "./Alert";
 
 function CardMenu({ dataMenu }) {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });

@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import Button from "../components/Button";
-import CardMenu from "../components/CardMenu";
-import Testimoni from "../components/Testimoni";
 import { useFetchData } from "../hooks/useFetchData";
+import { Link } from "react-router-dom";
+import Testimoni from "../components/Testimoni";
+import CardMenu from "../components/CardMenu";
+import Button from "../components/Button";
 
 function HomePage() {
   const { data, isLoading, error } = useFetchData("/data/menu.json");

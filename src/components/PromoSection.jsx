@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { useFetchData } from "../hooks/useFetchData";
+import { useState } from "react";
 
 function PromoSection() {
   const { data, isLoading, error } = useFetchData("/data/cupon.json");

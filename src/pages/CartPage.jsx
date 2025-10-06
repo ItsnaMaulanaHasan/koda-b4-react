@@ -1,12 +1,12 @@
+import { getCart, getCartTotal, removeFromCart } from "../utils/cartUtils";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 import CardOrder from "../components/CardOrder";
 import Button from "../components/Button";
 import Alert from "../components/Alert";
 import Input from "../components/Input";
-import { getCart, getCartTotal, removeFromCart } from "../utils/cartUtils";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 const PaymentFormSchema = yup.object({
