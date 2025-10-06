@@ -6,9 +6,10 @@
     "price": 20000,
     "discountPrice": null,
     "image": "/img-menus/image1.png",
-    "rating": 4.5,
+    "rating": 4,
     "isFlashSale": false,
-    "category": "Coffee"
+    "category": ["Coffe"],
+    "sortBy": []
   },
   {
     "id": 2,
@@ -17,20 +18,22 @@
     "price": 20000,
     "discountPrice": null,
     "image": "/img-menus/image2.png",
-    "rating": 4.8,
+    "rating": 3,
     "isFlashSale": false,
-    "category": "Coffee"
+    "category": ["Coffe"],
+    "sortBy": []
   },
   {
     "id": 3,
-    "name": "Hazelnut Latte",
+    "name": "Grilled Sandwich",
     "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
     "price": 20000,
     "discountPrice": 10000,
     "image": "/img-menus/image3.png",
     "rating": 5.0,
     "isFlashSale": true,
-    "category": "Food"
+    "category": ["Foods", "FavoriteProduct"],
+    "sortBy": ["Flashsale", "Cheap"]
   },
   {
     "id": 4,
@@ -39,9 +42,10 @@
     "price": 20000,
     "discountPrice": 10000,
     "image": "/img-menus/image4.png",
-    "rating": 5.0,
+    "rating": 5,
     "isFlashSale": true,
-    "category": "Coffee"
+    "category": ["Coffe", "FavoriteProduct"],
+    "sortBy": ["Flashsale", "Cheap"]
   },
   {
     "id": 5,
@@ -50,9 +54,10 @@
     "price": 20000,
     "discountPrice": null,
     "image": "/img-menus/image1.png",
-    "rating": 4.7,
+    "rating": 4,
     "isFlashSale": false,
-    "category": "Coffee"
+    "category": ["Coffe"],
+    "sortBy": ["BuyGet1"]
   },
   {
     "id": 6,
@@ -63,7 +68,8 @@
     "image": "/img-menus/image2.png",
     "rating": 5.0,
     "isFlashSale": true,
-    "category": "Food"
+    "category": ["Foods", "FavoriteProduct"],
+    "sortBy": ["Flashsale", "Cheap", "BirthdayPackage"]
   },
   {
     "id": 7,
@@ -74,7 +80,8 @@
     "image": "/img-menus/image3.png",
     "rating": 5.0,
     "isFlashSale": true,
-    "category": "Coffee"
+    "category": ["Coffe"],
+    "sortBy": ["Flashsale", "Cheap"]
   },
   {
     "id": 8,
@@ -85,6 +92,7 @@
     "image": "/img-menus/image4.png",
     "rating": 5.0,
     "isFlashSale": true,
-    "category": "Food"
+    "category": ["Foods", "AddOn"],
+    "sortBy": ["Flashsale", "Cheap"]
   }
 ]
