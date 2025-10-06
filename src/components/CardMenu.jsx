@@ -27,7 +27,10 @@ function CardMenu({ dataMenu }) {
       <Alert
         type={alertStatus.type}
         message={alertStatus.message}
-        onClose={() => setAlertStatus({ type: "", message: "" })}
+        onClose={(e) => {
+          e.preventDefault();
+          setAlertStatus({ type: "", message: "" });
+        }}
       />
       <div className="relative">
         <img className="size-full" src={dataMenu.image} alt={dataMenu.name} />
