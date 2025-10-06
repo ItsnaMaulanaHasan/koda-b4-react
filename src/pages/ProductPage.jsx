@@ -196,6 +196,7 @@ function ProductPage() {
                         sortByFilter: [],
                         priceRange: { minPrice: 0, maxPrice: 1000000 },
                       });
+                      setSearchParams("");
                     }}
                   >
                     Reset Filter
@@ -279,13 +280,21 @@ function ProductPage() {
 
             {/* list menu */}
             <div className="flex flex-col gap-10">
-              <div className="grid grid-cols-2 gap-5">
-                {currentData.map((menu) => (
-                  <Link key={menu.id} to={`/product/${menu.id}`}>
-                    <CardMenu dataMenu={menu} />
-                  </Link>
-                ))}
-              </div>
+              {filteredMenu.length === 0 ? (
+                <div className="h-full content-center justify-items-center py-10 text-gray-500">
+                  <p className="text-xl">Menu data not found</p>
+                  <p className="mt-2">Check the filters you applied!</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-5">
+                  {currentData.map((menu) => (
+                    <Link key={menu.id} to={`/product/${menu.id}`}>
+                      <CardMenu dataMenu={menu} />
+                    </Link>
+                  ))}
+                </div>
+              )}
+
               {/* pagination list menu */}
               <div className="flex justify-center items-center gap-3">
                 <button
