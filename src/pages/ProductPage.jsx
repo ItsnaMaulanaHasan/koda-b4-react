@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardMenu from "../components/CardMenu";
 import Checkbox from "../components/Checkbox";
 import PromoSection from "../components/PromoSection";
@@ -6,44 +6,90 @@ import { useFetchData } from "../hooks/useFetchData";
 import { useForm } from "react-hook-form";
 import Button from "../components/Button";
 import PriceRangeFilter from "../components/PriceRangeFilter";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 function ProductPage() {
   // fetch data menu
-  const { data, isLoading, error } = useFetchData("/data/menu.json");
+  const { data: dataMenu, isLoading, error } = useFetchData("/data/menu.json");
+  // state list menu yang sudah di filter
+  const [filteredMenu, setFilteredMenu] = useState([]);
+  // inisialisasi search params untuk filter
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  // handle pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
+  // get data filter dari query params
+  const getFiltersFromParams = () => {
+    const search = searchParams.get("search") || "";
+    const categoryFilter = searchParams.get("category")
+      ? searchParams.get("category").split(",")
+      : [];
+    const sortByFilter = searchParams.get("sortBy")
+      ? searchParams.get("sortBy").split(",")
+      : [];
+    const minPrice = parseInt(searchParams.get("minPrice")) || 0;
+    const maxPrice = parseInt(searchParams.get("maxPrice")) || 1000000;
 
-  const handlePrev = () => {
-    setCurrentPage((prev) => (prev === 1 ? totalPages : prev - 1));
+    return {
+      search,
+      categoryFilter,
+      sortByFilter,
+      priceRange: { minPrice, maxPrice },
+    };
   };
 
-  const handleNext = () => {
-    setCurrentPage((prev) => (prev === totalPages ? 1 : prev + 1));
-  };
+  // state data filter
+  const [searchFilter, setSearchFilter] = useState(getFiltersFromParams());
 
-  const goToPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // Update searchFilter ketika query params berubah
+  useEffect(() => {
+    setSearchFilter(getFiltersFromParams());
+  }, [searchParams]);
 
-  // handle form search
+  // Update filtered menu ketika data menu dan data filter berubah
+  useEffect(() => {
+    if (!dataMenu) return;
+
+    setFilteredMenu(
+      dataMenu.filter((menu) => {
+        // Filter search
+        const matchSearch =
+          !searchFilter.search ||
+          menu.name.toLowerCase().includes(searchFilter.search.toLowerCase());
+
+        // Filter category
+        const matchCategory =
+          searchFilter.categoryFilter.length === 0 ||
+          searchFilter.categoryFilter.some((cat) =>
+            menu.category.includes(cat)
+          );
+
+        // Filter sortBy
+        const matchSortBy =
+          searchFilter.sortByFilter.length === 0 ||
+          searchFilter.sortByFilter.some((sort) => menu.sortBy.includes(sort));
+
+        // Filter price
+        const price = menu.discountPrice || menu.price;
+        const matchPrice =
+          price >= searchFilter.priceRange.minPrice &&
+          price <= searchFilter.priceRange.maxPrice;
+
+        return matchSearch && matchCategory && matchSortBy && matchPrice;
+      })
+    );
+  }, [dataMenu, searchFilter]);
+
+  // inisialisasi hooks useForm untuk form filter
   const { register, handleSubmit, setValue, reset } = useForm({
-    defaultValues: {
-      search: "",
-      categoryFilter: [],
-      sortByFilter: [],
-      priceRange: { minPrice: 0, maxPrice: 1000000 },
-    },
+    defaultValues: getFiltersFromParams(),
   });
 
-  const [categoryFilter, setCategoryFilter] = useState([]);
-  const [sortByFilter, setSortByFilter] = useState([]);
+  // handle input checkbox
+  const [categoryFilter, setCategoryFilter] = useState(
+    getFiltersFromParams().categoryFilter
+  );
+  const [sortByFilter, setSortByFilter] = useState(
+    getFiltersFromParams().sortByFilter
+  );
 
   const handleCategoryChange = (category) => {
     const currentCategory = categoryFilter.includes(category)
@@ -67,12 +113,46 @@ function ProductPage() {
     setValue("priceRange", priceData);
   };
 
-  const onSubmit = (data) => {
+  // handle form filter
+  const onFilter = (data) => {
     try {
+      const params = new URLSearchParams();
+
+      if (data.search) params.set("search", data.search);
+      if (data.categoryFilter.length > 0)
+        params.set("category", data.categoryFilter.join(","));
+      if (data.sortByFilter.length > 0)
+        params.set("sortBy", data.sortByFilter.join(","));
+      if (data.priceRange.minPrice !== 0)
+        params.set("minPrice", data.priceRange.minPrice);
+      if (data.priceRange.maxPrice !== 1000000)
+        params.set("maxPrice", data.priceRange.maxPrice);
+
+      setSearchParams(params);
       console.log(data);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // handle pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+  const totalPages = Math.ceil(filteredMenu.length / itemsPerPage) || 1;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentData = filteredMenu.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePrev = () => {
+    setCurrentPage((prev) => (prev === 1 ? totalPages : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prev) => (prev === totalPages ? 1 : prev + 1));
+  };
+
+  const goToPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   // handle loading and error fetching data menu
@@ -82,9 +162,11 @@ function ProductPage() {
   return (
     <>
       <div className="flex flex-col gap-10 mt-20 mb-20">
+        {/* hero section */}
         <div className="px-20 py-20 bg-[url('/img/img-header-product.png')] font-medium text-white text-5xl bg-no-repeat bg-cover bg-center">
           We Provide Good Coffee and Healthy Meals
         </div>
+        {/* promo section */}
         <div>
           <PromoSection />
         </div>
@@ -96,7 +178,7 @@ function ProductPage() {
             {/* form filter */}
             <div className="rounded-xl bg-[#0B0909] text-white p-10 h-max">
               <form
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(onFilter)}
                 className="flex flex-col gap-6"
               >
                 <div className="flex justify-between items-center">
@@ -108,6 +190,12 @@ function ProductPage() {
                       reset();
                       setCategoryFilter([]);
                       setSortByFilter([]);
+                      setSearchFilter({
+                        search: "",
+                        categoryFilter: [],
+                        sortByFilter: [],
+                        priceRange: { minPrice: 0, maxPrice: 1000000 },
+                      });
                     }}
                   >
                     Reset Filter
@@ -188,6 +276,7 @@ function ProductPage() {
                 </Button>
               </form>
             </div>
+
             {/* list menu */}
             <div className="flex flex-col gap-10">
               <div className="grid grid-cols-2 gap-5">
@@ -197,6 +286,7 @@ function ProductPage() {
                   </Link>
                 ))}
               </div>
+              {/* pagination list menu */}
               <div className="flex justify-center items-center gap-3">
                 <button
                   onClick={handlePrev}
