@@ -3,6 +3,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import DetailProduct from "./pages/DetailProduct";
 import RegisterPage from "./pages/RegisterPage";
 import ProductPage from "./pages/ProductPage";
+import HistoryPage from "./pages/HistoryPage";
 import MainLayout from "./components/layouts/MainLayout";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <CartPage />,
+      },
+      {
+        path: "/order-history",
+        element: <HistoryPage />,
       },
     ],
   },

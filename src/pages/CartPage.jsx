@@ -4,10 +4,12 @@ import {
   removeFromCart,
   clearCart,
 } from "../utils/cartUtils";
+import { addOrderToHistories } from "../utils/orderUtils";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import ModalConfirmation from "../components/ModalConfirmation";
 import CardOrder from "../components/CardOrder";
 import Button from "../components/Button";
 import Alert from "../components/Alert";
@@ -32,7 +34,9 @@ const PaymentFormSchema = yup.object({
 function CartPage() {
   const navigate = useNavigate();
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
-  const [delivery, setDelivery] = useState("Dine In");
+  const [shipping, setShipping] = useState("Dine In");
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState(null);
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
@@ -64,22 +68,45 @@ function CartPage() {
   // handle submit form order
   const onSubmit = (data) => {
     try {
+      setFormData(data);
+      setShowModal(true);
+    } catch (error) {
+      setAlertStatus({
+        type: "error",
+        message: `An error occurred: ${error}`,
+      });
+    }
+  };
+
+  const handleConfirmCheckout = () => {
+    try {
       const orderData = {
-        ...data,
-        delivery,
-        cart,
+        fullName: formData.fullName,
+        email: formData.email,
+        address: formData.address,
+        shipping,
+        listOrders: cart,
         orderTotal,
         deliveryFee,
         tax,
         subTotal,
       };
-      console.log(orderData);
+
+      // Save to order histories
+      const savedOrder = addOrderToHistories(orderData);
+      console.log("Order saved:", savedOrder);
 
       setCart(clearCart());
-      setDelivery("Dine In");
+      setShipping("Dine In");
       reset();
+      setShowModal(false);
       setAlertStatus({ type: "success", message: "Checkout successful!" });
+
+      setTimeout(() => {
+        navigate("/order-history");
+      }, 2000);
     } catch (error) {
+      setShowModal(false);
       setAlertStatus({
         type: "error",
         message: `An error occurred: ${error}`,
@@ -93,6 +120,18 @@ function CartPage() {
         type={alertStatus.type}
         message={alertStatus.message}
         onClose={() => setAlertStatus({ type: "", message: "" })}
+      />
+      <ModalConfirmation
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={handleConfirmCheckout}
+        title="Confirm Checkout"
+        message={`Are you sure you want to checkout? Total: Idr. ${subTotal.toLocaleString(
+          "id"
+        )}`}
+        confirmText="Checkout"
+        cancelText="Cancel"
+        type="info"
       />
       <h1 className="font-medium text-5xl text-[#0B0909] mb-10">
         Payment Details
@@ -225,9 +264,9 @@ function CartPage() {
               <div className="grid grid-cols-3 gap-3">
                 <button
                   type="button"
-                  onClick={() => setDelivery("Dine In")}
+                  onClick={() => setShipping("Dine In")}
                   className={`py-3 border-2 ${
-                    delivery === "Dine In"
+                    shipping === "Dine In"
                       ? "border-[#FF8906]"
                       : "border-[#E8E8E8]"
                   } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition`}
@@ -236,9 +275,9 @@ function CartPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setDelivery("Door Delivery")}
+                  onClick={() => setShipping("Door Delivery")}
                   className={`py-3 border-2 ${
-                    delivery === "Door Delivery"
+                    shipping === "Door Delivery"
                       ? "border-[#FF8906]"
                       : "border-[#E8E8E8]"
                   } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition`}
@@ -247,9 +286,9 @@ function CartPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setDelivery("Pick Up")}
+                  onClick={() => setShipping("Pick Up")}
                   className={`py-3 border-2 ${
-                    delivery === "Pick Up"
+                    shipping === "Pick Up"
                       ? "border-[#FF8906]"
                       : "border-[#E8E8E8]"
                   } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition`}
