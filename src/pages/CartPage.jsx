@@ -1,4 +1,9 @@
-import { getCart, getCartTotal, removeFromCart } from "../utils/cartUtils";
+import {
+  getCart,
+  getCartTotal,
+  removeFromCart,
+  clearCart,
+} from "../utils/cartUtils";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -27,31 +32,36 @@ const PaymentFormSchema = yup.object({
 function CartPage() {
   const navigate = useNavigate();
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
-  const [cart, setCart] = useState([]);
   const [delivery, setDelivery] = useState("Dine In");
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     setCart(getCart());
   }, []);
 
+  // delete cart
   const handleRemoveItem = (cartId) => {
     removeFromCart(cartId);
     setCart(getCart());
   };
 
+  // calculate total and subtotal order
   const orderTotal = getCartTotal();
   const deliveryFee = 0;
   const tax = orderTotal * 0.1;
   const subTotal = orderTotal + deliveryFee + tax;
 
+  // handle form order
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(PaymentFormSchema),
   });
 
+  // handle submit form order
   const onSubmit = (data) => {
     try {
       const orderData = {
@@ -64,6 +74,10 @@ function CartPage() {
         subTotal,
       };
       console.log(orderData);
+
+      setCart(clearCart());
+      setDelivery("Dine In");
+      reset();
       setAlertStatus({ type: "success", message: "Checkout successful!" });
     } catch (error) {
       setAlertStatus({
