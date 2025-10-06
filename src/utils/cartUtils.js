@@ -41,3 +41,8 @@ export const getCartTotal = () => {
   const cart = getCart();
   return cart.reduce((total, item) => total + item.price * item.quantity, 0);
 };
+
+export const clearCart = () => {
+  localStorage.removeItem("cart");
+  return [];
+};
