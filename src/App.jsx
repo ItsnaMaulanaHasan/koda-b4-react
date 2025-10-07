@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import DetailProduct from "./pages/DetailProduct";
+import DetailHistory from "./pages/DetailHistory";
 import RegisterPage from "./pages/RegisterPage";
 import ProductPage from "./pages/ProductPage";
 import HistoryPage from "./pages/HistoryPage";
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/order-history",
         element: <HistoryPage />,
+      },
+      {
+        path: "/order-history/:noOrder",
+        element: <DetailHistory />,
       },
     ],
   },
