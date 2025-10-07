@@ -31,6 +31,9 @@ function CardMenu({ dataMenu }) {
           e.preventDefault();
           setAlertStatus({ type: "", message: "" });
         }}
+        onClick={(e) => {
+          e.preventDefault();
+        }}
       />
       <div className="relative">
         <img className="size-full" src={dataMenu.image} alt={dataMenu.name} />

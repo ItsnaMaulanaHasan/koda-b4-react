@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
 
-function Alert({ type, message, onClose, duration = 3000 }) {
+function Alert({ type, message, onClose, duration = 3000, onClick }) {
   useEffect(() => {
     if (type && message) {
       const timer = setTimeout(() => {
@@ -22,7 +22,10 @@ function Alert({ type, message, onClose, duration = 3000 }) {
   };
 
   return (
-    <div className="fixed top-25 right-4 animate-slide-in z-200">
+    <div
+      onClick={onClick}
+      className="fixed top-25 right-4 animate-slide-in z-200"
+    >
       <div
         className={`border-l-4 p-4 rounded shadow-lg min-w-[300px] ${
           alertStyles[type] || alertStyles.info
