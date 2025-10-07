@@ -2,21 +2,50 @@ import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { getOrderHistories } from "../utils/orderUtils";
 import CardHistory from "../components/CardHistory";
+import moment from "moment";
 
 function HistoryPage() {
   const [histories, setHistories] = useState([]);
+  const [filteredHistory, setFilteredHistories] = useState([]);
   const [status, setStatus] = useState("On Progress");
+  const [filterDate, setFilterDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
 
   useEffect(() => {
-    setHistories(getOrderHistories());
+    const data = getOrderHistories();
+    setHistories(data);
+    setFilteredHistories(data);
   }, []);
+
+  useEffect(() => {
+    let filtered = histories;
+
+    // Filter by status
+    if (status) {
+      filtered = filtered.filter(
+        (history) => history.status.toLowerCase() === status.toLowerCase()
+      );
+    }
+
+    // Filter by date
+    if (filterDate) {
+      filtered = filtered.filter((history) => {
+        const orderDate = moment(history.dateOrder).format("YYYY-MM-DD");
+        return orderDate === filterDate;
+      });
+    }
+
+    setFilteredHistories(filtered);
+    setCurrentPage(1); // Reset ke page 1 saat filter berubah
+  }, [status, filterDate, histories]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const totalPages = Math.ceil(histories.length / itemsPerPage) || 1;
+  const totalPages = Math.ceil(filteredHistory.length / itemsPerPage) || 1;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = histories.slice(indexOfFirstItem, indexOfLastItem);
+  const currentData = filteredHistory.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePrev = () => {
     setCurrentPage((prev) => (prev === 1 ? totalPages : prev - 1));
@@ -70,33 +99,43 @@ function HistoryPage() {
                 </li>
               </ul>
             </div>
-            <div className="py-2 px-5 bg-[#E8E8E899] min-w-40 flex items-center gap-2 relative">
-              <label htmlFor="dateSorting">
-                <img
-                  src="/icon/icon-date.svg"
-                  alt="Icon Date"
-                  className="pointer-events-none"
+            <div className="py-2 px-5 bg-[#E8E8E899] min-w-40 h-full content-center">
+              <form className="flex items-center gap-2 relative">
+                <label htmlFor="dateSorting">
+                  <img
+                    src="/icon/icon-date.svg"
+                    alt="Icon Date"
+                    className="pointer-events-none"
+                  />
+                </label>
+                <input
+                  onChange={(e) => setFilterDate(e.target.value)}
+                  type="date"
+                  name="dateSorting"
+                  id="dateSorting"
+                  defaultValue={new Date().toISOString().split("T")[0]}
+                  className="bg-transparent outline-none cursor-pointer flex-1 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                 />
-              </label>
-              <input
-                type="date"
-                name="dateSorting"
-                id="dateSorting"
-                className="bg-transparent outline-none cursor-pointer flex-1 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
-              />
-              <label htmlFor="dateSorting">
-                <img
-                  src="/icon/icon-dropdown.svg"
-                  alt="Icon Dropdown"
-                  className="pointer-events-none"
-                />
-              </label>
+                <label htmlFor="dateSorting">
+                  <img
+                    src="/icon/icon-dropdown.svg"
+                    alt="Icon Dropdown"
+                    className="pointer-events-none"
+                  />
+                </label>
+              </form>
             </div>
           </div>
           <div className="grid grid-rows-[1fr_auto] gap-10">
-            {currentData.map((history) => (
-              <CardHistory dataHistory={history} />
-            ))}
+            {filteredHistory.length === 0 ? (
+              <div className="text-center py-10 text-gray-500">
+                <p className="text-xl">Data is empty</p>
+              </div>
+            ) : (
+              currentData.map((history) => (
+                <CardHistory dataHistory={history} />
+              ))
+            )}
             <div className="flex justify-center items-center gap-3">
               <button
                 onClick={handlePrev}
