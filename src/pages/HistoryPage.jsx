@@ -1,51 +1,45 @@
-import { useEffect, useState } from "react";
-import Button from "../components/Button";
-import { getOrderHistories } from "../utils/orderUtils";
-import CardHistory from "../components/CardHistory";
 import moment from "moment";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import Button from "../components/Button";
+import CardHistory from "../components/CardHistory";
 
 function HistoryPage() {
-  const [histories, setHistories] = useState([]);
-  const [filteredHistory, setFilteredHistories] = useState([]);
+  const dataOrders = useSelector((state) => state.order.dataOrders);
+  const [filteredOrders, setFilteredOrders] = useState(dataOrders);
   const [status, setStatus] = useState("On Progress");
   const [filterDate, setFilterDate] = useState(
     new Date().toISOString().split("T")[0]
   );
 
   useEffect(() => {
-    const data = getOrderHistories();
-    setHistories(data);
-    setFilteredHistories(data);
-  }, []);
-
-  useEffect(() => {
-    let filtered = histories;
+    let filtered = dataOrders;
 
     // Filter by status
     if (status) {
       filtered = filtered.filter(
-        (history) => history.status.toLowerCase() === status.toLowerCase()
+        (order) => order.status.toLowerCase() === status.toLowerCase()
       );
     }
 
     // Filter by date
     if (filterDate) {
-      filtered = filtered.filter((history) => {
-        const orderDate = moment(history.dateOrder).format("YYYY-MM-DD");
+      filtered = filtered.filter((order) => {
+        const orderDate = moment(order.dateOrder).format("YYYY-MM-DD");
         return orderDate === filterDate;
       });
     }
 
-    setFilteredHistories(filtered);
-    setCurrentPage(1); // Reset ke page 1 saat filter berubah
-  }, [status, filterDate, histories]);
+    setFilteredOrders(filtered);
+    setCurrentPage(1);
+  }, [status, filterDate, dataOrders]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const totalPages = Math.ceil(filteredHistory.length / itemsPerPage) || 1;
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage) || 1;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = filteredHistory.slice(indexOfFirstItem, indexOfLastItem);
+  const currentData = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePrev = () => {
     setCurrentPage((prev) => (prev === 1 ? totalPages : prev - 1));
@@ -62,7 +56,7 @@ function HistoryPage() {
     <div className="px-20 py-10 mt-20">
       <div className="flex items-center gap-10 mb-10">
         <h1 className="font-medium text-5xl text-[#0B0909]">History Order</h1>
-        <span className="px-3 py-1 bg-[#E8E8E8]">{histories.length}</span>
+        <span className="px-3 py-1 bg-[#E8E8E8]">{dataOrders.length}</span>
       </div>
       <div className="grid grid-cols-[2fr_1fr] gap-5">
         <div className="flex flex-col gap-10">
@@ -127,14 +121,12 @@ function HistoryPage() {
             </div>
           </div>
           <div className="grid grid-rows-[1fr_auto] gap-10">
-            {filteredHistory.length === 0 ? (
+            {filteredOrders.length === 0 ? (
               <div className="text-center py-10 text-gray-500">
                 <p className="text-xl">Data is empty</p>
               </div>
             ) : (
-              currentData.map((history) => (
-                <CardHistory dataHistory={history} />
-              ))
+              currentData.map((order) => <CardHistory dataHistory={order} />)
             )}
             <div className="flex justify-center items-center gap-3">
               <button

@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getOrderHistories } from "../utils/orderUtils";
 import moment from "moment";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import CardOrder from "../components/CardOrder";
 
 function DetailHistory() {
   const { noOrder } = useParams();
   const [history, setHistory] = useState(null);
+  const dataOrders = useSelector((state) => state.order.dataOrders);
 
   useEffect(() => {
-    const data = getOrderHistories().find(
-      (history) => history.noOrder === noOrder
-    );
+    const data = dataOrders.find((order) => order.noOrder === noOrder);
     setHistory(data);
-  }, [noOrder]);
+  }, [dataOrders, noOrder]);
 
   if (!history) return <div className="mt-20 p-20">Loading...</div>;
 

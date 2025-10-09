@@ -10,7 +10,7 @@ import CardOrder from "../components/CardOrder";
 import Input from "../components/Input";
 import ModalConfirmation from "../components/ModalConfirmation";
 import { clearDataCart, removeDataCart } from "../redux/reducers/cart";
-import { addOrderToHistories } from "../utils/orderUtils";
+import { addDataOrder } from "../redux/reducers/order";
 
 const PaymentFormSchema = yup.object({
   email: yup
@@ -85,8 +85,7 @@ function CartPage() {
       };
 
       // Save to order histories
-      const savedOrder = addOrderToHistories(orderData);
-      console.log("Order saved:", savedOrder);
+      dispatch(addDataOrder(orderData));
 
       dispatch(clearDataCart());
       setShipping("Dine In");
