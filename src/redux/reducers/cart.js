@@ -33,16 +33,10 @@ const cart = createSlice({
     clearDataCart: (state) => {
       state.dataCarts = [];
     },
-    getTotalCart: (state) => {
-      state.dataCarts.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0
-      );
-    },
   },
 });
 
 export const {
   reducer: cartReducer,
-  actions: { addDataCart, removeDataCart, clearDataCart, getTotalCart },
+  actions: { addDataCart, removeDataCart, clearDataCart },
 } = cart;

@@ -9,11 +9,7 @@ import Button from "../components/Button";
 import CardOrder from "../components/CardOrder";
 import Input from "../components/Input";
 import ModalConfirmation from "../components/ModalConfirmation";
-import {
-  clearDataCart,
-  getTotalCart,
-  removeDataCart,
-} from "../redux/reducers/cart";
+import { clearDataCart, removeDataCart } from "../redux/reducers/cart";
 import { addDataOrder } from "../redux/reducers/order";
 
 const PaymentFormSchema = yup.object({
@@ -46,7 +42,12 @@ function CartPage() {
   };
 
   // calculate total and subtotal order
-  const orderTotal = dispatch(getTotalCart());
+  const orderTotal = useSelector((state) =>
+    state.cart.dataCarts.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    )
+  );
   const deliveryFee = 0;
   const tax = orderTotal * 0.1;
   const subTotal = orderTotal + deliveryFee + tax;
