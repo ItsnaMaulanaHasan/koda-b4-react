@@ -1,6 +1,7 @@
+import { useContext, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
@@ -22,6 +23,7 @@ const LoginFormSchema = yup.object({
 function LoginPage() {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
   const navigate = useNavigate();
+  const { setUserLogin } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -35,11 +37,12 @@ function LoginPage() {
       const { email, password } = data;
       const usersData = JSON.parse(localStorage.getItem("users") || "[]");
 
-      const isValidLogin = usersData.find(
+      const isValidLogin = usersData.some(
         (data) => data.email === email && data.password === password
       );
 
       if (isValidLogin) {
+        setUserLogin(data);
         setAlertStatus({ type: "success", message: "Login successful!" });
         setTimeout(() => {
           navigate("/");
@@ -98,7 +101,7 @@ function LoginPage() {
               />
               <Link
                 className="text-sm text-[#FF8906] text-end"
-                to="/forgot-password"
+                to="/auth/forgot-password"
               >
                 Forgot Password?
               </Link>
@@ -109,7 +112,7 @@ function LoginPage() {
           </form>
           <div className="text-center">
             Not Have An Account?{" "}
-            <Link className="text-[#FF8906]" to="/register">
+            <Link className="text-[#FF8906]" to="/auth/register">
               Register
             </Link>
           </div>
