@@ -1,20 +1,16 @@
-import {
-  getCart,
-  getCartTotal,
-  removeFromCart,
-  clearCart,
-} from "../utils/cartUtils";
-import { addOrderToHistories } from "../utils/orderUtils";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import ModalConfirmation from "../components/ModalConfirmation";
-import CardOrder from "../components/CardOrder";
-import Button from "../components/Button";
-import Alert from "../components/Alert";
-import Input from "../components/Input";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import Alert from "../components/Alert";
+import Button from "../components/Button";
+import CardOrder from "../components/CardOrder";
+import Input from "../components/Input";
+import ModalConfirmation from "../components/ModalConfirmation";
+import { clearDataCart, removeDataCart } from "../redux/reducers/cart";
+import { addOrderToHistories } from "../utils/orderUtils";
 
 const PaymentFormSchema = yup.object({
   email: yup
@@ -37,20 +33,16 @@ function CartPage() {
   const [shipping, setShipping] = useState("Dine In");
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState(null);
-  const [cart, setCart] = useState([]);
-
-  useEffect(() => {
-    setCart(getCart());
-  }, []);
+  const dataCarts = useSelector((state) => state.cart.dataCarts);
+  const dispatch = useDispatch();
 
   // delete cart
   const handleRemoveItem = (cartId) => {
-    removeFromCart(cartId);
-    setCart(getCart());
+    dispatch(removeDataCart(cartId));
   };
 
   // calculate total and subtotal order
-  const orderTotal = getCartTotal();
+  const orderTotal = dataCarts.length;
   const deliveryFee = 0;
   const tax = orderTotal * 0.1;
   const subTotal = orderTotal + deliveryFee + tax;
@@ -85,7 +77,7 @@ function CartPage() {
         email: formData.email,
         address: formData.address,
         shipping,
-        listOrders: cart,
+        listOrders: dataCarts,
         orderTotal,
         deliveryFee,
         tax,
@@ -96,7 +88,7 @@ function CartPage() {
       const savedOrder = addOrderToHistories(orderData);
       console.log("Order saved:", savedOrder);
 
-      setCart(clearCart());
+      dispatch(clearDataCart());
       setShipping("Dine In");
       reset();
       setShowModal(false);
@@ -152,13 +144,13 @@ function CartPage() {
               </button>
             </div>
             <div className="flex flex-col gap-4">
-              {cart.length === 0 ? (
+              {dataCarts.length === 0 ? (
                 <div className="text-center py-10 text-gray-500">
                   <p className="text-xl">Your cart is empty</p>
                   <p className="mt-2">Add some items to get started!</p>
                 </div>
               ) : (
-                cart.map((item) => (
+                dataCarts.map((item) => (
                   <CardOrder
                     key={item.cartId}
                     order={item}
@@ -199,7 +191,7 @@ function CartPage() {
               </div>
               <Button
                 type="submit"
-                disabled={cart.length === 0}
+                disabled={dataCarts.length === 0}
                 className="w-full bg-[#FF8906] text-[#0B0909] py-4 rounded-lg hover:bg-[#e67a05] transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Checkout

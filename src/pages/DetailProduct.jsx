@@ -1,15 +1,17 @@
-import { Link, useParams } from "react-router-dom";
-import { useFetchData } from "../hooks/useFetchData";
-import { addToCart } from "../utils/cartUtils";
 import { useState } from "react";
-import StarRating from "../components/StarRating";
+import { useDispatch } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import CardMenu from "../components/CardMenu";
+import StarRating from "../components/StarRating";
+import { useFetchData } from "../hooks/useFetchData";
+import { addDataCart } from "../redux/reducers/cart";
 
 function DetailProduct() {
   // fetch data menu
   const { data, isLoading, error } = useFetchData("/data/menu.json");
   const { id: idMenu } = useParams();
   const menu = data.find((menu) => menu.id === parseInt(idMenu));
+  const dispatch = useDispatch();
 
   const [amount, setAmount] = useState(1);
   const [size, setSize] = useState("Reguler");
@@ -48,7 +50,7 @@ function DetailProduct() {
       quantity: amount,
     };
 
-    addToCart(cartItem);
+    dispatch(addDataCart(cartItem));
     alert(`${menu.name} berhasil ditambahkan ke cart!`);
 
     // Reset ke default

@@ -1,10 +1,12 @@
-import { addToCart } from "../utils/cartUtils";
 import { useState } from "react";
-import Button from "./Button";
+import { useDispatch } from "react-redux";
+import { addDataCart } from "../redux/reducers/cart";
 import Alert from "./Alert";
+import Button from "./Button";
 
 function CardMenu({ dataMenu }) {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  const dispatch = useDispatch();
   const handleAddToCart = (e) => {
     e.preventDefault();
     const cartItem = {
@@ -19,7 +21,7 @@ function CardMenu({ dataMenu }) {
       isFlashSale: dataMenu.isFlashSale,
     };
 
-    addToCart(cartItem);
+    dispatch(addDataCart(cartItem));
     setAlertStatus({ type: "success", message: "Successfully added to cart" });
   };
   return (
