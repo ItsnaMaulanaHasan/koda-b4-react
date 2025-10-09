@@ -52,13 +52,13 @@ function Navbar() {
             />
           </button>
           <Button
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/auth/login")}
             className="border border-white px-4 text-white whitespace-nowrap"
           >
             Sign In
           </Button>
           <Button
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/auth/register")}
             className="px-4 bg-[#FF8906] whitespace-nowrap"
           >
             Sign Up

@@ -52,7 +52,7 @@ function RegisterPage() {
       setAlertStatus({ type: "success", message: "Registration successful!" });
 
       setTimeout(() => {
-        navigate("/login");
+        navigate("/auth/login");
       }, 1500);
     } catch (error) {
       setAlertStatus({
@@ -123,7 +123,7 @@ function RegisterPage() {
           </form>
           <div className="text-center">
             Have An Account?{" "}
-            <Link className="text-[#FF8906]" to="/login">
+            <Link className="text-[#FF8906]" to="/auth/login">
               Login
             </Link>
           </div>

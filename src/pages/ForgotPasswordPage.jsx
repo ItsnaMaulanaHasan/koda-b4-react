@@ -35,7 +35,7 @@ function ForgotPasswordPage() {
       if (isValidEmail) {
         setAlertStatus({ type: "success", message: "Email sent successfully" });
         setTimeout(() => {
-          navigate("/login");
+          navigate("/auth/login");
         }, 1500);
       } else {
         setAlertStatus({ type: "error", message: "Email not registered" });
