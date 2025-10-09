@@ -1,5 +1,17 @@
 import moment from "moment";
 
+/**
+ * CardHistory component for displaying order history information
+ * @param {Object} props - Component props
+ * @param {Object} props.dataHistory - Order history data
+ * @param {string} props.dataHistory.noOrder - Order number
+ * @param {Array} props.dataHistory.listOrders - List of ordered items
+ * @param {string} props.dataHistory.listOrders[].image - Product image URL
+ * @param {string} props.dataHistory.dateOrder - Order date
+ * @param {string} props.dataHistory.totalTransaction - Total transaction amount
+ * @param {'On Progress'|'Sending Goods'|'Finish Order'} props.dataHistory.status - Order status
+ * @returns {JSX.Element} CardHistory component
+ */
 function CardHistory({ dataHistory }) {
   const getStatusStyle = (status) => {
     const styles = {

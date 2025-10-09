@@ -1,6 +1,10 @@
-import { useFetchData } from "../hooks/useFetchData";
 import { useState } from "react";
+import { useFetchData } from "../hooks/useFetchData";
 
+/**
+ * PromoSection component for displaying promotional offers in a carousel
+ * @returns {JSX.Element} PromoSection component with carousel navigation and indicators
+ */
 function PromoSection() {
   const { data, isLoading, error } = useFetchData("/data/cupon.json");
   const [currentIndex, setCurrentIndex] = useState(0);

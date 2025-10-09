@@ -1,6 +1,17 @@
-import { useEffect, useState } from "react";
 import { Star } from "lucide-react";
+import { useEffect, useState } from "react";
 
+/**
+ * StarRating component for displaying and interacting with star ratings
+ * @param {Object} props - Component props
+ * @param {number} [props.rating=0] - Current rating value
+ * @param {number} [props.maxStars=5] - Maximum number of stars to display
+ * @param {Function} [props.onRatingChange] - Callback function when rating changes
+ * @param {boolean} [props.readonly=false] - Whether the rating is read-only (non-interactive)
+ * @param {number} [props.size=20] - Size of star icons in pixels
+ * @param {boolean} [props.allowHalf=true] - Whether to allow half-star ratings
+ * @returns {JSX.Element} StarRating component with interactive or display-only stars
+ */
 function StarRating({
   rating = 0,
   maxStars = 5,

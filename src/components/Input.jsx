@@ -1,5 +1,16 @@
 import { useState } from "react";
 
+/**
+ * Input component with label, icon, and password visibility toggle
+ * @param {Object} props - Component props
+ * @param {string} props.type - HTML input type (text, email, password, etc.)
+ * @param {string} props.id - Input field identifier (fullName, email, address, password, confirmPassword, search)
+ * @param {string} props.label - Label text to display above input
+ * @param {string} props.placeholder - Placeholder text for input field
+ * @param {Object} [props.error={}] - Error object containing validation messages
+ * @param {Object} props.register - React Hook Form register object for form validation
+ * @returns {JSX.Element} Input component with icon and error handling
+ */
 function Input({ type, id, label, placeholder, error = {}, ...register }) {
   const [showPassword, setShowPassword] = useState(false);
   let isPassword = false;

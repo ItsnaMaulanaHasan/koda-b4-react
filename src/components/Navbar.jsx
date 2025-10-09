@@ -1,6 +1,10 @@
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Button from "./Button";
 
+/**
+ * Navbar component for site navigation with authentication buttons
+ * @returns {JSX.Element} Navbar component with logo, navigation links, search, cart, and auth buttons
+ */
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();

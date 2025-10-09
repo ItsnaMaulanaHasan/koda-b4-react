@@ -1,5 +1,19 @@
 import { X } from "lucide-react";
 
+/**
+ * ModalConfirmation component for displaying confirmation dialogs
+ * @param {Object} props - Component props
+ * @param {boolean} props.isOpen - Whether the modal is open
+ * @param {Function} props.onClose - Callback function when modal is closed
+ * @param {Function} props.onConfirm - Callback function when user confirms action
+ * @param {string} [props.title="Confirmation"] - Modal title text
+ * @param {string} [props.message="Are you sure you want to proceed?"] - Confirmation message
+ * @param {string} [props.confirmText="Confirm"] - Text for confirm button
+ * @param {string} [props.cancelText="Cancel"] - Text for cancel button
+ * @param {string} [props.confirmClassName="bg-[#FF8906] text-white hover:bg-[#e67a05]"] - Custom CSS classes for confirm button
+ * @param {'warning'|'danger'|'info'} [props.type="warning"] - Type of modal determining icon and styling
+ * @returns {JSX.Element|null} ModalConfirmation component or null if not open
+ */
 function ModalConfirmation({
   isOpen,
   onClose,

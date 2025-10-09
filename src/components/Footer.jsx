@@ -1,3 +1,7 @@
+/**
+ * Footer component displaying company information, navigation links, and social media
+ * @returns {JSX.Element} Footer component with company branding, product links, engagement links, and social media icons
+ */
 function Footer() {
   return (
     <footer>

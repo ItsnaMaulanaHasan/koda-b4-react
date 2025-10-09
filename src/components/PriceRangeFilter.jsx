@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
 
+/**
+ * PriceRangeFilter component for filtering items by price range using dual sliders
+ * @param {Object} props - Component props
+ * @param {Function} props.onPriceChange - Callback function triggered when price range changes
+ * @param {number} [props.defaultMin=0] - Default minimum price value
+ * @param {number} [props.defaultMax=1000000] - Default maximum price value
+ * @returns {JSX.Element} PriceRangeFilter component with dual range sliders
+ */
 function PriceRangeFilter({
   onPriceChange,
   defaultMin = 0,

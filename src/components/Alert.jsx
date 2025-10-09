@@ -1,6 +1,16 @@
-import { useEffect } from "react";
 import { X } from "lucide-react";
+import { useEffect } from "react";
 
+/**
+ * Alert component for displaying temporary notifications
+ * @param {Object} props - Component props
+ * @param {'success'|'error'|'warning'|'info'} props.type - Alert type that determines styling
+ * @param {string} props.message - Message to be displayed
+ * @param {Function} props.onClose - Callback function when alert is closed
+ * @param {number} [props.duration=3000] - Display duration in milliseconds
+ * @param {Function} [props.onClick] - Callback function when alert is clicked
+ * @returns {JSX.Element|null} Alert component or null if no type/message
+ */
 function Alert({ type, message, onClose, duration = 3000, onClick }) {
   useEffect(() => {
     if (type && message) {

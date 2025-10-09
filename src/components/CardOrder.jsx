@@ -1,3 +1,20 @@
+import CardMenu from "./CardMenu";
+
+/**
+ * CardOrder component for displaying order item in cart with remove functionality
+ * @param {Object} props - Component props
+ * @param {Object} props.order - Order item data
+ * @param {string} props.order.image - Product image URL
+ * @param {string} props.order.name - Product name
+ * @param {boolean} [props.order.isFlashSale] - Whether item is on flash sale
+ * @param {number} props.order.quantity - Quantity of items ordered
+ * @param {string} props.order.size - Size of the product (e.g., "Reguler", "Large")
+ * @param {string} props.order.hotIce - Temperature preference (e.g., "Hot", "Ice")
+ * @param {number} props.order.price - Current price per item
+ * @param {number} [props.order.originalPrice] - Original price before discount
+ * @param {Function} props.onRemove - Callback function when remove button is clicked
+ * @returns {JSX.Element} CardOrder component
+ */
 function CardOrder({ order, onRemove }) {
   return (
     <div className="flex gap-4 p-3 items-center bg-[#E8E8E84D]">
@@ -8,7 +25,7 @@ function CardOrder({ order, onRemove }) {
           className="w-full h-full object-cover rounded"
         />
       </div>
-
+      <CardMenu />
       <div className="flex flex-col gap-3 flex-1">
         {order.isFlashSale && (
           <span className="py-1 px-3 bg-[#D00000] text-white uppercase font-bold rounded-full text-xs w-max">

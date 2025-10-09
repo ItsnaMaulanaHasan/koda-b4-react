@@ -1,7 +1,11 @@
-import { useFetchData } from "../hooks/useFetchData";
 import { useState } from "react";
+import { useFetchData } from "../hooks/useFetchData";
 import StarRating from "./StarRating";
 
+/**
+ * Testimoni component for displaying customer testimonials in a carousel
+ * @returns {JSX.Element} Testimoni component with customer reviews, images, ratings, and navigation
+ */
 function Testimoni() {
   const { data, isLoading, error } = useFetchData("/data/testimoni.json");
   const [currentIndex, setCurrentIndex] = useState(0);

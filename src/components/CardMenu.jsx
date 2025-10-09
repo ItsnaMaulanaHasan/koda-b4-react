@@ -4,6 +4,19 @@ import { addDataCart } from "../redux/reducers/cart";
 import Alert from "./Alert";
 import Button from "./Button";
 
+/**
+ * CardMenu component for displaying menu item with add to cart functionality
+ * @param {Object} props - Component props
+ * @param {Object} props.dataMenu - Menu item data
+ * @param {string|number} props.dataMenu.id - Menu item ID
+ * @param {string} props.dataMenu.name - Menu item name
+ * @param {string} props.dataMenu.image - Menu item image URL
+ * @param {string} props.dataMenu.description - Menu item description
+ * @param {number} props.dataMenu.price - Original price of menu item
+ * @param {number} [props.dataMenu.discountPrice] - Discounted price if available
+ * @param {boolean} [props.dataMenu.isFlashSale] - Whether item is on flash sale
+ * @returns {JSX.Element} CardMenu component
+ */
 function CardMenu({ dataMenu }) {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
   const dispatch = useDispatch();
