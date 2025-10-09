@@ -1,5 +1,3 @@
-import CardMenu from "./CardMenu";
-
 /**
  * CardOrder component for displaying order item in cart with remove functionality
  * @param {Object} props - Component props
@@ -25,7 +23,6 @@ function CardOrder({ order, onRemove }) {
           className="w-full h-full object-cover rounded"
         />
       </div>
-      <CardMenu />
       <div className="flex flex-col gap-3 flex-1">
         {order.isFlashSale && (
           <span className="py-1 px-3 bg-[#D00000] text-white uppercase font-bold rounded-full text-xs w-max">

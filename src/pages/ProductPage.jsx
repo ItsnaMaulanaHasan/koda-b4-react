@@ -1,12 +1,12 @@
-import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useFetchData } from "../hooks/useFetchData";
 import { useForm } from "react-hook-form";
+import { Link, useSearchParams } from "react-router-dom";
 import Button from "../components/Button";
 import CardMenu from "../components/CardMenu";
 import Checkbox from "../components/Checkbox";
-import PromoSection from "../components/PromoSection";
 import PriceRangeFilter from "../components/PriceRangeFilter";
+import PromoSection from "../components/PromoSection";
+import { useFetchData } from "../hooks/useFetchData";
 
 function ProductPage() {
   // fetch data menu
