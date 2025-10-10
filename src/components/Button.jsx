@@ -12,7 +12,7 @@ function Button({ type, className, children, onClick }) {
     <button
       type={type}
       onClick={onClick}
-      className={`w-full py-2 rounded-md cursor-pointer ${className}`}
+      className={`w-full py-2 rounded-md cursor-pointer font-medium text-[#0B132A] ${className}`}
     >
       {children}
     </button>
