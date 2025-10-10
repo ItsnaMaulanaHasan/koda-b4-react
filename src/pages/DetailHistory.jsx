@@ -29,32 +29,80 @@ function DetailHistory() {
           <h1 className="text-2xl font-medium">Order Information</h1>
           <div className="flex flex-col">
             <div className="px-3 py-5 flex justify-between items-center">
-              <div>1</div>
-              <div>{history.fullName}</div>
+              <div className="flex items-center gap-3 font-medium text-[#4F5665]">
+                <img
+                  className="size-4"
+                  src="/icon/icon-profile.svg"
+                  alt="Icon Fullname"
+                />
+                <span>Full Name</span>
+              </div>
+              <div className="font-bold text-[#0B132A]">{history.fullName}</div>
             </div>
             <div className="px-3 py-5 flex justify-between items-center">
-              <div>1</div>
-              <div>{history.address}</div>
+              <div className="flex items-center gap-3 font-medium text-[#4F5665]">
+                <img
+                  className="size-4"
+                  src="/icon/icon-location.svg"
+                  alt="Icon Location"
+                />
+                <span>Address</span>
+              </div>
+              <div className="font-bold text-[#0B132A]">{history.address}</div>
             </div>
             <div className="px-3 py-5 flex justify-between items-center">
-              <div>1</div>
-              <div>{history.phone}</div>
+              <div className="flex items-center gap-3 font-medium text-[#4F5665]">
+                <img
+                  className="size-4"
+                  src="/icon/icon-phone.svg"
+                  alt="Icon Phone"
+                />
+                <span>Phone</span>
+              </div>
+              <div className="font-bold text-[#0B132A]">{history.phone}</div>
             </div>
             <div className="px-3 py-5 flex justify-between items-center">
-              <div>1</div>
-              <div>{history.paymentMethod}</div>
+              <div className="flex items-center gap-3 font-medium text-[#4F5665]">
+                <img
+                  className="size-4"
+                  src="/icon/icon-payment.svg"
+                  alt="Icon Payment"
+                />
+                <span>Payment Method</span>
+              </div>
+              <div className="font-bold text-[#0B132A]">
+                {history.paymentMethod}
+              </div>
             </div>
             <div className="px-3 py-5 flex justify-between items-center">
-              <div>1</div>
-              <div>{history.shipping}</div>
+              <div className="flex items-center gap-3 font-medium text-[#4F5665]">
+                <img
+                  className="size-4"
+                  src="/icon/icon-shipping.svg"
+                  alt="Icon Shipping"
+                />
+                <span>Shipping</span>
+              </div>
+              <div className="font-bold text-[#0B132A]">{history.shipping}</div>
             </div>
             <div className="px-3 py-5 flex justify-between items-center">
-              <div>1</div>
-              <div>{history.status}</div>
+              <div className="flex items-center gap-3 font-medium text-[#4F5665]">
+                <img
+                  className="size-4"
+                  src="/icon/icon-status.svg"
+                  alt="Icon Status"
+                />
+                <span>Status</span>
+              </div>
+              <div className="font-bold text-[#0B132A]">{history.status}</div>
             </div>
             <div className="px-3 py-5 flex justify-between items-center">
-              <div>1</div>
-              <div>{history.totalTransaction}</div>
+              <div className="font-medium text-[#4F5665]">
+                Total Transaction
+              </div>
+              <div className="font-bold text-[#FF8906]">
+                Idr. {history.totalTransaction}
+              </div>
             </div>
           </div>
         </div>
