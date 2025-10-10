@@ -83,7 +83,7 @@ function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <AuthContext.Provider value={{ userLogin, setUserLogin }}>
-          <RouterProvider router={router} />;
+          <RouterProvider router={router} />
         </AuthContext.Provider>
       </PersistGate>
     </Provider>
