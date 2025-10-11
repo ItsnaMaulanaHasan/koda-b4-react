@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import bcrypt from "bcryptjs";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -37,14 +38,31 @@ function RegisterPage() {
     resolver: yupResolver(RegisterFormSchema),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     try {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(data.password, salt);
+
       const registerData = {
-        ...data,
+        fullname: data.fullName,
+        email: data.email,
+        password: hashedPassword,
         id: Date.now(),
       };
 
       const existingData = JSON.parse(localStorage.getItem("users") || "[]");
+
+      const emailExists = existingData.some(
+        (user) => user.email === data.email
+      );
+      if (emailExists) {
+        setAlertStatus({
+          type: "error",
+          message: "Email already registered!",
+        });
+        return;
+      }
+
       existingData.push(registerData);
       localStorage.setItem("users", JSON.stringify(existingData));
 

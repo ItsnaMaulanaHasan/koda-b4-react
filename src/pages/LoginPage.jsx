@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import bcrypt from "bcryptjs";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -31,18 +32,35 @@ function LoginPage() {
     resolver: yupResolver(LoginFormSchema),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     try {
       const { email, password } = data;
       const usersData = JSON.parse(localStorage.getItem("users") || "[]");
 
-      const isValidLogin = usersData.some(
-        (data) => data.email === email && data.password === password
-      );
+      const user = usersData.find((user) => user.email === email);
 
-      if (isValidLogin) {
-        setUserLogin(data);
+      // cek email
+      if (!user) {
+        setAlertStatus({
+          type: "error",
+          message: "Incorrect email or password",
+        });
+        return;
+      }
+
+      // cek password
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (isPasswordValid) {
+        const userDataToStore = {
+          id: user.id,
+          email: user.email,
+          fullName: user.fullName,
+        };
+
+        setUserLogin(userDataToStore);
         setAlertStatus({ type: "success", message: "Login successful!" });
+
         setTimeout(() => {
           navigate("/");
         }, 1500);
