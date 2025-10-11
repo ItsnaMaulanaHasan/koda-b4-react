@@ -13,6 +13,7 @@ import HistoryPage from "./pages/HistoryPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProductPage from "./pages/ProductPage";
+import ProfilePage from "./pages/ProfilePage";
 import RegisterPage from "./pages/RegisterPage";
 import { persistor, store } from "./redux/store";
 
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
         path: "/order-history/:noOrder",
         element: <DetailHistory />,
       },
+      {
+        path: "/profile",
+        element: <ProfilePage />,
+      },
     ],
   },
   {
@@ -58,11 +63,11 @@ const router = createBrowserRouter([
         path: "/auth/login",
         element: <LoginPage />,
       },
-      {
-        path: "/auth/forgot-password",
-        element: <ForgotPasswordPage />,
-      },
     ],
+  },
+  {
+    path: "/auth/forgot-password",
+    element: <ForgotPasswordPage />,
   },
 ]);
 

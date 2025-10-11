@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 /**
  * Input component with label, icon, and password visibility toggle
@@ -11,7 +12,15 @@ import { useState } from "react";
  * @param {Object} props.register - React Hook Form register object for form validation
  * @returns {JSX.Element} Input component with icon and error handling
  */
-function Input({ type, id, label, placeholder, error = {}, ...register }) {
+function Input({
+  type,
+  id,
+  label,
+  placeholder,
+  error = {},
+  passwordInProfile = false,
+  ...register
+}) {
   const [showPassword, setShowPassword] = useState(false);
   let isPassword = false;
   let icon = "";
@@ -25,6 +34,9 @@ function Input({ type, id, label, placeholder, error = {}, ...register }) {
     case "address":
       icon = "/icon/icon-location.svg";
       break;
+    case "phone":
+      icon = "/icon/icon-phone.svg";
+      break;
     case "password":
     case "confirmPassword":
       icon = "/icon/icon-password.svg";
@@ -37,14 +49,30 @@ function Input({ type, id, label, placeholder, error = {}, ...register }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <label
-        className={`font-bold ${
-          id !== "search" ? "text-[#0B132A]" : "text-white"
-        }`}
-        htmlFor={id}
-      >
-        {label}
-      </label>
+      {passwordInProfile ? (
+        <div className="flex justify-between items-center">
+          <label
+            className={`font-bold ${
+              id !== "search" ? "text-[#0B132A]" : "text-white"
+            }`}
+            htmlFor={id}
+          >
+            {label}
+          </label>
+          <Link to="/auth/forgot-password" className="text-[#FF8906]">
+            Set New Password
+          </Link>
+        </div>
+      ) : (
+        <label
+          className={`font-bold ${
+            id !== "search" ? "text-[#0B132A]" : "text-white"
+          }`}
+          htmlFor={id}
+        >
+          {label}
+        </label>
+      )}
       {!isPassword ? (
         <div>
           <div className="flex border rounded-md py-3 px-4 border-[#DEDEDE] w-full gap-4">
