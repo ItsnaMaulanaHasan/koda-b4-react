@@ -124,7 +124,7 @@ function ProductPage() {
       <DrawerFilterContext.Provider value={{ showDrawer, setShowDrawer }}>
         <div className="flex flex-col gap-10 mt-20 mb-20">
           {/* Filter Search on Mobile */}
-          <div className="flex md:hidden mt-5 justify-center px-8 items-center gap-4 flex-1">
+          <div className="flex items-center justify-center flex-1 gap-4 px-8 mt-5 md:hidden">
             <FilterSearch isMobile={true} />
           </div>
           {/* drawer filter search mobile */}
@@ -139,7 +139,7 @@ function ProductPage() {
           <div>
             <PromoSection />
           </div>
-          <div className="px-8 sm:px-12 md:px-16 lg:px-20">
+          <div className="px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20">
             <h1 className="text-2xl font-medium sm:text-3xl md:text-4xl lg:text-5xl">
               Our <span className="text-[#8E6447]">Product</span>
             </h1>

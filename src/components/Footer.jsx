@@ -5,7 +5,7 @@
 function Footer() {
   return (
     <footer>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-20 bg-[#F8F8F8] px-8 sm:px-12 md:px-16 lg:px-30 py-20">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-20 bg-[#F8F8F8] px-4 sm:px-8 md:px-12 lg:px-16 xl:px-30 py-20">
         <div className="flex flex-col justify-center gap-5">
           <div>
             <img src="/icon/logo-original.svg" alt="" />
