@@ -23,27 +23,20 @@ function CardHistory({ dataHistory }) {
   };
   return (
     <div className="flex items-center w-full p-3 bg-[#E8E8E84D] gap-5">
-      <div className="size-36">
+      <div className="hidden md:block size-36">
         <img
           className="size-full"
           src={dataHistory.listOrders[0].image}
           alt={dataHistory.noOrder}
         />
       </div>
-      <div className="grid w-full grid-cols-[auto_auto_auto_auto]">
+      <div className="grid w-full grid-cols-[auto_auto] grid-rows-2 md:grid-cols-[auto_auto_auto_auto]">
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2 text-[#4F5665]">
             <img src="/icon/icon-noorder.svg" alt="Icon No Order" />
             <span>No. Order</span>
           </div>
           <div className="font-bold">{dataHistory.noOrder}</div>
-          <div>
-            <a
-              href={`/order-history/${dataHistory.noOrder}`}
-              className="underline text-[#FF8906]">
-              Views Order Detail
-            </a>
-          </div>
         </div>
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2 text-[#4F5665]">
@@ -72,6 +65,13 @@ function CardHistory({ dataHistory }) {
             )}`}>
             {dataHistory.status}
           </div>
+        </div>
+        <div>
+          <a
+            href={`/order-history/${dataHistory.noOrder}`}
+            className="underline text-[#FF8906]">
+            Views Order Detail
+          </a>
         </div>
       </div>
     </div>
