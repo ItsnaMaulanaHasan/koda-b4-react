@@ -53,48 +53,47 @@ function HistoryPage() {
     setCurrentPage(pageNumber);
   };
   return (
-    <div className="px-20 py-10 mt-20">
+    <div className="px-4 py-10 mt-20 sm:px-6 md:px-10 lg:px-16 xl:px-20">
       <div className="flex items-center gap-10 mb-10">
-        <h1 className="font-medium text-5xl text-[#0B0909]">History Order</h1>
-        <span className="px-3 py-1 bg-[#E8E8E8]">{dataOrders.length}</span>
+        <h1 className="font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#0B0909]">
+          History Order
+        </h1>
+        <span className="px-2 text-xs md:text-base md:px-3 md:py-1 py-1 bg-[#E8E8E8]">
+          {dataOrders.length}
+        </span>
       </div>
-      <div className="grid grid-cols-[2fr_1fr] gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-5">
         <div className="flex flex-col gap-10">
-          <div className="flex justify-between items-center">
-            <div className="py-2 px-5 bg-[#E8E8E899]">
-              <ul className="flex">
+          <div className="flex flex-col items-start justify-between gap-5 md:items-center md:gap-0 md:flex-row">
+            <div className="py-2 order-2 md:order-1 px-5 w-full md:w-max bg-[#E8E8E899]">
+              <ul className="flex justify-around text-xs sm:text-sm md:text-base md:justify-start">
                 <li className={`${status === "On Progress" && "bg-white"} p-3`}>
                   <button
                     className="cursor-pointer"
-                    onClick={() => setStatus("On Progress")}
-                  >
+                    onClick={() => setStatus("On Progress")}>
                     On Progress
                   </button>
                 </li>
                 <li
-                  className={`${status === "Sending Goods" && "bg-white"} p-3`}
-                >
+                  className={`${status === "Sending Goods" && "bg-white"} p-3`}>
                   <button
                     className="cursor-pointer"
-                    onClick={() => setStatus("Sending Goods")}
-                  >
+                    onClick={() => setStatus("Sending Goods")}>
                     Sending Goods
                   </button>
                 </li>
                 <li
-                  className={`${status === "Finish Order" && "bg-white"} p-3`}
-                >
+                  className={`${status === "Finish Order" && "bg-white"} p-3`}>
                   <button
                     className="cursor-pointer"
-                    onClick={() => setStatus("Finish Order")}
-                  >
+                    onClick={() => setStatus("Finish Order")}>
                     Finish Order
                   </button>
                 </li>
               </ul>
             </div>
-            <div className="py-2 px-5 bg-[#E8E8E899] min-w-40 h-full content-center">
-              <form className="flex items-center gap-2 relative">
+            <div className="py-2 px-5 order-1 md:order-2 bg-[#E8E8E899] min-w-40 h-full content-center">
+              <form className="relative flex items-center gap-2">
                 <label htmlFor="dateSorting">
                   <img
                     src="/icon/icon-date.svg"
@@ -122,36 +121,35 @@ function HistoryPage() {
           </div>
           <div className="grid grid-rows-[1fr_auto] gap-10">
             {filteredOrders.length === 0 ? (
-              <div className="text-center py-10 text-gray-500">
+              <div className="py-10 text-center text-gray-500">
                 <p className="text-xl">Data is empty</p>
               </div>
             ) : (
-              currentData.map((order) => <CardHistory dataHistory={order} />)
+              currentData.map((order) => (
+                <CardHistory key={order.noOrder} dataHistory={order} />
+              ))
             )}
-            <div className="flex justify-center items-center gap-3">
+            <div className="flex items-center justify-center gap-2 sm:gap-3">
               <button
                 onClick={handlePrev}
-                className="size-10 rounded-full bg-[#E8E8E8] text-black flex items-center justify-center hover:bg-gray-200 transition"
-              >
+                className="size-8 sm:size-10 rounded-full bg-[#E8E8E8] text-black flex items-center justify-center hover:bg-gray-200 transition text-sm sm:text-base">
                 ←
               </button>
               {Array.from({ length: totalPages }, (_, index) => (
                 <button
                   key={index + 1}
                   onClick={() => goToPage(index + 1)}
-                  className={`size-10 rounded-full flex items-center justify-center transition ${
+                  className={`size-8 sm:size-10 rounded-full flex items-center justify-center transition text-sm sm:text-base ${
                     currentPage === index + 1
                       ? "bg-[#FF8906] text-[#0B0909]"
                       : "bg-[#E8E8E8] text-[#A0A3BD] hover:bg-gray-300"
-                  }`}
-                >
+                  }`}>
                   {index + 1}
                 </button>
               ))}
               <button
                 onClick={handleNext}
-                className="size-10 rounded-full bg-[#FF8906] text-white flex items-center justify-center hover:bg-[#e67a05] transition"
-              >
+                className="size-8 sm:size-10 rounded-full bg-[#FF8906] text-white flex items-center justify-center hover:bg-[#e67a05] transition text-sm sm:text-base">
                 →
               </button>
             </div>

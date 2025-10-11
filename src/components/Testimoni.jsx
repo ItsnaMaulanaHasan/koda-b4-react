@@ -24,42 +24,39 @@ function Testimoni() {
   };
 
   return (
-    <div className="flex">
-      <div className="w-100 h-100">
+    <div className="flex flex-col md:flex-row">
+      <div className="mb-5 font-normal text-center text-white uppercase md:hidden">
+        Testimonial
+      </div>
+      <div className="md:size-100 size-full">
         <img
-          className="h-full w-full object-cover"
+          className="object-cover w-full h-full"
           src={data[currentIndex].image}
           alt={data[currentIndex].name}
         />
       </div>
-      <div className="flex-1 px-10 flex flex-col gap-7 text-white">
-        <div className="font-normal uppercase">Testimonial</div>
-        <div>
-          <div className="text-5xl font-medium border-l-5 border-[#FF8906] p-3">
-            {data[currentIndex].name}
-          </div>
-          <div className="mt-3 text-[#FF8906]">
-            {data[currentIndex].position}
-          </div>
+      <div className="flex flex-col flex-1 gap-5 mt-5 text-white md:px-10 md:mt-0">
+        <div className="hidden font-normal uppercase md:block">Testimonial</div>
+        <div className="sm:text-3xl md:text-4xl lg:text-5xl text-2xl font-medium border-l-5 border-[#FF8906] p-3">
+          {data[currentIndex].name}
         </div>
+        <div className="mt-3 text-[#FF8906]">{data[currentIndex].position}</div>
         <p>{data[currentIndex].testimonial}</p>
         <StarRating rating={data[currentIndex].rating} readonly={true} />
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-5">
           <div className="flex gap-3">
             <button
               onClick={handlePrev}
-              className="size-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition"
-            >
+              className="flex items-center justify-center text-black transition bg-white rounded-full size-10 hover:bg-gray-200">
               ←
             </button>
             <button
               onClick={handleNext}
-              className="size-10 rounded-full bg-[#FF8906] text-black flex items-center justify-center hover:bg-[#e67a05] transition"
-            >
+              className="size-10 rounded-full bg-[#FF8906] text-black flex items-center justify-center hover:bg-[#e67a05] transition">
               →
             </button>
           </div>
-          <div className="flex gap-2 ml-3">
+          <div className="flex gap-2">
             {data.slice(0, dataMax).map((data, index) => (
               <button
                 key={data.id}

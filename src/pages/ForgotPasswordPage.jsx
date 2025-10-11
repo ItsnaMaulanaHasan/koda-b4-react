@@ -54,14 +54,14 @@ function ForgotPasswordPage() {
         message={alertStatus.message}
         onClose={() => setAlertStatus({ type: "", message: "" })}
       />
-      <div className="w-1/4">
+      <div className="hidden w-1/4 md:block">
         <img
-          className="h-full w-full object-cover"
+          className="object-cover w-full h-full"
           src="/img/img-forgot-password.png"
           alt="Image Login"
         />
       </div>
-      <div className="flex gap-5 flex-col px-40 py-20 flex-1">
+      <div className="flex flex-col flex-1 gap-5 px-8 py-20 sm:px-12 md:px-16 lg:px-40">
         <div>
           <img src="/icon/logo-original.svg" alt="Icon Header" />
         </div>

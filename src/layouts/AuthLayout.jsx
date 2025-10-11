@@ -4,7 +4,9 @@ import ProtectedRoute from "../context/ProtectedRoute";
 function AuthLayout() {
   return (
     <ProtectedRoute redirectIfAuthenticated={true}>
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
     </ProtectedRoute>
   );
 }

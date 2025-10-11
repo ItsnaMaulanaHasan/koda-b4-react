@@ -5,8 +5,8 @@
 function Footer() {
   return (
     <footer>
-      <div className="grid grid-cols-4 gap-5 bg-[#F8F8F8] px-30 py-20">
-        <div className="flex flex-col gap-5 justify-end">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-20 bg-[#F8F8F8] px-4 sm:px-8 md:px-12 lg:px-16 xl:px-30 py-20">
+        <div className="flex flex-col justify-center gap-5">
           <div>
             <img src="/icon/logo-original.svg" alt="" />
           </div>
@@ -14,25 +14,26 @@ function Footer() {
             Coffee Shop is a store that sells some good meals, and especially
             coffee. We provide high quality beans
           </p>
-          <span className="text-[#AFB5C0] text-sm">©2020CoffeeStore</span>
         </div>
-        <div>
-          <h1 className="mb-5">Product</h1>
-          <ul className="flex flex-col gap-4 text-[#4F5665]">
-            <li>Our Product</li>
-            <li>Pricing</li>
-            <li>Locations</li>
-            <li>Blog</li>
-          </ul>
-        </div>
-        <div>
-          <h1 className="mb-5">Engage</h1>
-          <ul className="flex flex-col gap-4 text-[#4F5665]">
-            <li>Our Product</li>
-            <li>Pricing</li>
-            <li>Locations</li>
-            <li>Blog</li>
-          </ul>
+        <div className="flex justify-between gap-20">
+          <div>
+            <h1 className="mb-5">Product</h1>
+            <ul className="flex flex-col gap-4 text-[#4F5665]">
+              <li>Our Product</li>
+              <li>Pricing</li>
+              <li>Locations</li>
+              <li>Blog</li>
+            </ul>
+          </div>
+          <div>
+            <h1 className="mb-5">Engage</h1>
+            <ul className="flex flex-col gap-4 text-[#4F5665]">
+              <li>Our Product</li>
+              <li>Pricing</li>
+              <li>Locations</li>
+              <li>Blog</li>
+            </ul>
+          </div>
         </div>
         <div>
           <h1 className="mb-5">Social Media</h1>
@@ -54,6 +55,7 @@ function Footer() {
             </li>
           </ul>
         </div>
+        <span className="text-[#AFB5C0] text-sm">©2020CoffeeStore</span>
       </div>
     </footer>
   );
