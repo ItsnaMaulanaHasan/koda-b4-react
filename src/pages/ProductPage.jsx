@@ -5,7 +5,7 @@ import Drawer from "../components/Drawer";
 import FilterSearch from "../components/FilterSearch";
 import PromoSection from "../components/PromoSection";
 import { DrawerFilterContext } from "../context/DrawerContext";
-import { SearchFilterContext } from "../context/SearchFilterContext,jsx";
+import { SearchFilterContext } from "../context/SearchFilterContext";
 import { useFetchData } from "../hooks/useFetchData";
 
 function ProductPage() {

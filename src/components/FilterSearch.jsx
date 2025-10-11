@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import Checkbox from "../components/Checkbox";
 import PriceRangeFilter from "../components/PriceRangeFilter";
 import { DrawerFilterContext } from "../context/DrawerContext";
-import { SearchFilterContext } from "../context/SearchFilterContext,jsx";
+import { SearchFilterContext } from "../context/SearchFilterContext";
 import Button from "./Button";
 
 function FilterSearch({ isMobile = false }) {
@@ -94,7 +94,7 @@ function FilterSearch({ isMobile = false }) {
       {isMobile ? (
         <form
           onSubmit={handleSubmit(onFilter)}
-          className="w-full flex items-center gap-4">
+          className="flex items-center w-full gap-4">
           <div className="flex border rounded-md py-3 px-4 border-[#DEDEDE] w-full gap-4">
             <img src="/public/icon/icon-search-black.svg" alt="Icon Search" />
             <input
