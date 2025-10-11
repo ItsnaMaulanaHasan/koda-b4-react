@@ -48,72 +48,85 @@ function Input({
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1.5 sm:gap-2">
       {passwordInProfile ? (
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <label
-            className={`font-bold ${
+            className={`font-bold text-sm sm:text-base ${
               id !== "search" ? "text-[#0B132A]" : "text-white"
             }`}
-            htmlFor={id}
-          >
+            htmlFor={id}>
             {label}
           </label>
-          <Link to="/auth/forgot-password" className="text-[#FF8906]">
+          <Link
+            to="/auth/forgot-password"
+            className="text-[#FF8906] text-xs sm:text-sm">
             Set New Password
           </Link>
         </div>
       ) : (
         <label
-          className={`font-bold ${
+          className={`font-bold text-sm sm:text-base ${
             id !== "search" ? "text-[#0B132A]" : "text-white"
           }`}
-          htmlFor={id}
-        >
+          htmlFor={id}>
           {label}
         </label>
       )}
       {!isPassword ? (
         <div>
-          <div className="flex border rounded-md py-3 px-4 border-[#DEDEDE] w-full gap-4">
-            {icon && <img src={icon} alt={id} />}
+          <div className="flex border rounded-md py-2.5 px-3 sm:py-3 sm:px-4 border-[#DEDEDE] w-full gap-3 sm:gap-4">
+            {icon && (
+              <img className="w-4 h-4 sm:w-5 sm:h-5" src={icon} alt={id} />
+            )}
             <input
               {...register}
               id={id}
               type={type}
               placeholder={placeholder}
-              className="focus:outline-none w-full text-sm"
+              className="w-full text-xs focus:outline-none sm:text-sm placeholder:text-xs sm:placeholder:text-sm"
             />
           </div>
           {error[id] && (
-            <p className="text-red-500 text-sm mt-1">{error[id].message}</p>
+            <p className="mt-1 text-xs text-red-500 sm:text-sm">
+              {error[id].message}
+            </p>
           )}
         </div>
       ) : (
         <div>
-          <div className="flex border rounded-md py-3 px-4 border-[#DEDEDE] w-full gap-4">
-            <img src={icon} alt={id} />
+          <div className="flex border rounded-md py-2.5 px-3 sm:py-3 sm:px-4 border-[#DEDEDE] w-full gap-3 sm:gap-4">
+            <img className="w-4 h-4 sm:w-5 sm:h-5" src={icon} alt={id} />
             <input
               {...register}
               id={id}
               type={!showPassword ? type : "text"}
               placeholder={placeholder}
-              className="focus:outline-none w-full text-sm"
+              className="w-full text-xs focus:outline-none sm:text-sm placeholder:text-xs sm:placeholder:text-sm"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="h-4 w-4"
-            >
+              className="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5">
               {!showPassword ? (
-                <img src="/icon/icon-eye.svg" alt="Icon Eye Open" />
+                <img
+                  className="w-full h-full"
+                  src="/icon/icon-eye.svg"
+                  alt="Icon Eye Open"
+                />
               ) : (
-                <img src="/icon/icon-eye-off.svg" alt="Icon Eye Close" />
+                <img
+                  className="w-full h-full"
+                  src="/icon/icon-eye-off.svg"
+                  alt="Icon Eye Close"
+                />
               )}
             </button>
           </div>
           {error[id] && (
-            <p className="text-red-500 text-sm mt-1">{error[id].message}</p>
+            <p className="mt-1 text-xs text-red-500 sm:text-sm">
+              {error[id].message}
+            </p>
           )}
         </div>
       )}
