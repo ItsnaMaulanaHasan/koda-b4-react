@@ -122,13 +122,16 @@ function ProductPage() {
   return (
     <SearchFilterContext value={{ searchFilter, setSearchFilter }}>
       <DrawerFilterContext.Provider value={{ showDrawer, setShowDrawer }}>
-        <div className="flex flex-col gap-10 mt-20 mb-20">
+        <div className="flex flex-col gap-10 mb-20 mt-13 md:mt-20">
           {/* Filter Search on Mobile */}
-          <div className="flex items-center justify-center flex-1 gap-4 px-8 mt-5 md:hidden">
+          <div className="flex items-center justify-center flex-1 gap-4 px-8 pb-3 mt-5 border-b border-b-[#E8E8E8] md:hidden">
             <FilterSearch isMobile={true} />
           </div>
           {/* drawer filter search mobile */}
-          <Drawer>
+          <Drawer
+            drawerCtx={{ showDrawer, setShowDrawer }}
+            bg="bg-[#0B0909]"
+            textColor="text-white">
             <FilterSearch />
           </Drawer>
           {/* hero section */}

@@ -37,6 +37,9 @@ function Input({
     case "phone":
       icon = "/icon/icon-phone.svg";
       break;
+    case "search":
+      icon = "/icon/icon-search-black.svg";
+      break;
     case "password":
     case "confirmPassword":
       icon = "/icon/icon-password.svg";
@@ -52,9 +55,7 @@ function Input({
       {passwordInProfile ? (
         <div className="flex items-center justify-between">
           <label
-            className={`font-bold text-sm sm:text-base ${
-              id !== "search" ? "text-[#0B132A]" : "text-white"
-            }`}
+            className="font-bold text-sm sm:text-base text-[#0B132A]"
             htmlFor={id}>
             {label}
           </label>
@@ -66,9 +67,7 @@ function Input({
         </div>
       ) : (
         <label
-          className={`font-bold text-sm sm:text-base ${
-            id !== "search" ? "text-[#0B132A]" : "text-white"
-          }`}
+          className="font-bold text-sm sm:text-base text-[#0B132A]"
           htmlFor={id}>
           {label}
         </label>
