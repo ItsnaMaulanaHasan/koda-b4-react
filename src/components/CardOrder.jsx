@@ -13,7 +13,7 @@
  * @param {Function} props.onRemove - Callback function when remove button is clicked
  * @returns {JSX.Element} CardOrder component
  */
-function CardOrder({ order, onRemove }) {
+function CardOrder({ order, onRemove, remove = true }) {
   return (
     <div className="flex gap-3 p-2 items-center bg-[#E8E8E84D] sm:gap-4 sm:p-3">
       <div className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32">
@@ -56,11 +56,13 @@ function CardOrder({ order, onRemove }) {
         </div>
       </div>
 
-      <button
-        onClick={onRemove}
-        className="flex items-center self-start justify-center flex-shrink-0 text-red-500 transition border-2 border-red-500 rounded-full md:self-center w-7 h-7 hover:bg-red-500 hover:text-white sm:w-8 sm:h-8">
-        ✕
-      </button>
+      {remove && (
+        <button
+          onClick={onRemove}
+          className="flex items-center self-start justify-center flex-shrink-0 text-red-500 transition border-2 border-red-500 rounded-full md:self-center w-7 h-7 hover:bg-red-500 hover:text-white sm:w-8 sm:h-8">
+          ✕
+        </button>
+      )}
     </div>
   );
 }
