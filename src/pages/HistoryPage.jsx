@@ -60,41 +60,36 @@ function HistoryPage() {
       </div>
       <div className="grid grid-cols-[2fr_1fr] gap-5">
         <div className="flex flex-col gap-10">
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <div className="py-2 px-5 bg-[#E8E8E899]">
               <ul className="flex">
                 <li className={`${status === "On Progress" && "bg-white"} p-3`}>
                   <button
                     className="cursor-pointer"
-                    onClick={() => setStatus("On Progress")}
-                  >
+                    onClick={() => setStatus("On Progress")}>
                     On Progress
                   </button>
                 </li>
                 <li
-                  className={`${status === "Sending Goods" && "bg-white"} p-3`}
-                >
+                  className={`${status === "Sending Goods" && "bg-white"} p-3`}>
                   <button
                     className="cursor-pointer"
-                    onClick={() => setStatus("Sending Goods")}
-                  >
+                    onClick={() => setStatus("Sending Goods")}>
                     Sending Goods
                   </button>
                 </li>
                 <li
-                  className={`${status === "Finish Order" && "bg-white"} p-3`}
-                >
+                  className={`${status === "Finish Order" && "bg-white"} p-3`}>
                   <button
                     className="cursor-pointer"
-                    onClick={() => setStatus("Finish Order")}
-                  >
+                    onClick={() => setStatus("Finish Order")}>
                     Finish Order
                   </button>
                 </li>
               </ul>
             </div>
             <div className="py-2 px-5 bg-[#E8E8E899] min-w-40 h-full content-center">
-              <form className="flex items-center gap-2 relative">
+              <form className="relative flex items-center gap-2">
                 <label htmlFor="dateSorting">
                   <img
                     src="/icon/icon-date.svg"
@@ -122,17 +117,16 @@ function HistoryPage() {
           </div>
           <div className="grid grid-rows-[1fr_auto] gap-10">
             {filteredOrders.length === 0 ? (
-              <div className="text-center py-10 text-gray-500">
+              <div className="py-10 text-center text-gray-500">
                 <p className="text-xl">Data is empty</p>
               </div>
             ) : (
               currentData.map((order) => <CardHistory dataHistory={order} />)
             )}
-            <div className="flex justify-center items-center gap-3">
+            <div className="flex items-center justify-center gap-3">
               <button
                 onClick={handlePrev}
-                className="size-10 rounded-full bg-[#E8E8E8] text-black flex items-center justify-center hover:bg-gray-200 transition"
-              >
+                className="size-10 rounded-full bg-[#E8E8E8] text-black flex items-center justify-center hover:bg-gray-200 transition">
                 ←
               </button>
               {Array.from({ length: totalPages }, (_, index) => (
@@ -143,15 +137,13 @@ function HistoryPage() {
                     currentPage === index + 1
                       ? "bg-[#FF8906] text-[#0B0909]"
                       : "bg-[#E8E8E8] text-[#A0A3BD] hover:bg-gray-300"
-                  }`}
-                >
+                  }`}>
                   {index + 1}
                 </button>
               ))}
               <button
                 onClick={handleNext}
-                className="size-10 rounded-full bg-[#FF8906] text-white flex items-center justify-center hover:bg-[#e67a05] transition"
-              >
+                className="size-10 rounded-full bg-[#FF8906] text-white flex items-center justify-center hover:bg-[#e67a05] transition">
                 →
               </button>
             </div>

@@ -142,8 +142,7 @@ function CartPage() {
               <button
                 type="button"
                 onClick={() => navigate("/product")}
-                className="bg-[#FF8906] text-[#0B0909] py-2 px-4 rounded hover:bg-[#e67a05] transition"
-              >
+                className="bg-[#FF8906] text-[#0B0909] py-2 px-4 rounded hover:bg-[#e67a05] transition">
                 + Add Menu
               </button>
             </div>
@@ -196,8 +195,7 @@ function CartPage() {
               <Button
                 type="submit"
                 disabled={dataCarts.length === 0}
-                className="w-full bg-[#FF8906] text-[#0B0909] py-4 rounded-lg hover:bg-[#e67a05] transition disabled:opacity-50 disabled:cursor-not-allowed"
-              >
+                className="w-full bg-[#FF8906] text-[#0B0909] py-4 rounded-lg hover:bg-[#e67a05] transition disabled:opacity-50 disabled:cursor-not-allowed">
                 Checkout
               </Button>
 
@@ -265,8 +263,7 @@ function CartPage() {
                     shipping === "Dine In"
                       ? "border-[#FF8906]"
                       : "border-[#E8E8E8]"
-                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition`}
-                >
+                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition`}>
                   Dine In
                 </button>
                 <button
@@ -276,8 +273,7 @@ function CartPage() {
                     shipping === "Door Delivery"
                       ? "border-[#FF8906]"
                       : "border-[#E8E8E8]"
-                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition`}
-                >
+                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition`}>
                   Door Delivery
                 </button>
                 <button
@@ -287,8 +283,7 @@ function CartPage() {
                     shipping === "Pick Up"
                       ? "border-[#FF8906]"
                       : "border-[#E8E8E8]"
-                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition`}
-                >
+                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition`}>
                   Pick Up
                 </button>
               </div>

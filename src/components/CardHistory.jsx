@@ -40,8 +40,7 @@ function CardHistory({ dataHistory }) {
           <div>
             <a
               href={`/order-history/${dataHistory.noOrder}`}
-              className="underline text-[#FF8906]"
-            >
+              className="underline text-[#FF8906]">
               Views Order Detail
             </a>
           </div>
@@ -70,8 +69,7 @@ function CardHistory({ dataHistory }) {
           <div
             className={`py-2 w-max px-4 font-bold rounded-full text-center text-sm ${getStatusStyle(
               dataHistory.status
-            )}`}
-          >
+            )}`}>
             {dataHistory.status}
           </div>
         </div>

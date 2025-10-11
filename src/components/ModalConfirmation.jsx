@@ -42,8 +42,7 @@ function ModalConfirmation({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition"
-        >
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition">
           <X size={20} />
         </button>
         {/* Icon */}
@@ -55,8 +54,7 @@ function ModalConfirmation({
                 : type === "danger"
                 ? "bg-red-100"
                 : "bg-blue-100"
-            }`}
-          >
+            }`}>
             <span className={`text-3xl ${iconStyles[type]}`}>
               {type === "warning" ? "⚠️" : type === "danger" ? "🗑️" : "ℹ️"}
             </span>
@@ -72,14 +70,12 @@ function ModalConfirmation({
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 py-3 px-4 border-2 border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition"
-          >
+            className="flex-1 py-3 px-4 border-2 border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition">
             {cancelText}
           </button>
           <button
             onClick={onConfirm}
-            className={`flex-1 py-3 px-4 rounded-lg font-medium transition ${confirmClassName}`}
-          >
+            className={`flex-1 py-3 px-4 rounded-lg font-medium transition ${confirmClassName}`}>
             {confirmText}
           </button>
         </div>
