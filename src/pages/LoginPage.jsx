@@ -116,7 +116,7 @@ function LoginPage() {
               placeholder="Enter Your Password"
             />
             <Link
-              className="text-sm text-[#FF8906] text-end"
+              className="text-sm text-[#FF8906] w-max self-end"
               to="/forgot-password">
               Forgot Password?
             </Link>
