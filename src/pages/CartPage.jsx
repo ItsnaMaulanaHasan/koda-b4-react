@@ -111,7 +111,7 @@ function CartPage() {
   };
 
   return (
-    <div className="px-20 py-10 mt-20 mb-20">
+    <div className="px-4 py-6 mt-20 mb-10 sm:px-6 sm:py-8 md:px-10 md:mb-16 lg:px-16 xl:px-20 lg:mb-20">
       <Alert
         type={alertStatus.type}
         message={alertStatus.message}
@@ -129,28 +129,30 @@ function CartPage() {
         cancelText="Cancel"
         type="info"
       />
-      <h1 className="font-medium text-5xl text-[#0B0909] mb-10">
+      <h1 className="font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#0B0909] mb-6 sm:mb-8 md:mb-10">
         Payment Details
       </h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-rows-2 grid-cols-[1.5fr_1fr] gap-10">
+        <div className="grid grid-cols-1 md:grid-rows-2 md:grid-cols-[1.5fr_1fr] gap-6 sm:gap-8 md:gap-10">
           {/* List Card */}
-          <div className="flex flex-col gap-5">
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-medium">Your Order</h2>
+          <div className="flex flex-col gap-4 sm:gap-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-medium sm:text-xl">Your Order</h2>
               <button
                 type="button"
                 onClick={() => navigate("/product")}
-                className="bg-[#FF8906] text-[#0B0909] py-2 px-4 rounded hover:bg-[#e67a05] transition">
+                className="bg-[#FF8906] text-[#0B0909] py-2 px-3 sm:px-4 rounded hover:bg-[#e67a05] transition text-sm sm:text-base">
                 + Add Menu
               </button>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3 sm:gap-4">
               {dataCarts.length === 0 ? (
-                <div className="text-center py-10 text-gray-500">
-                  <p className="text-xl">Your cart is empty</p>
-                  <p className="mt-2">Add some items to get started!</p>
+                <div className="py-8 text-center text-gray-500 sm:py-10">
+                  <p className="text-lg sm:text-xl">Your cart is empty</p>
+                  <p className="mt-2 text-sm sm:text-base">
+                    Add some items to get started!
+                  </p>
                 </div>
               ) : (
                 dataCarts.map((item) => (
@@ -165,59 +167,85 @@ function CartPage() {
           </div>
 
           {/* Payment Summary */}
-          <div className="flex flex-col gap-7">
-            <h2 className="text-2xl font-medium">Total</h2>
-            <div className="bg-[#E8E8E84D] p-6 flex flex-col gap-4 border border-gray-200">
-              <div className="flex justify-between items-center">
-                <span className="text-[#4F5665] font-bold">Order</span>
-                <span className="font-bold text-[#0B132A]">
+          <div className="flex flex-col order-3 gap-5 md:order-2 sm:gap-6 md:gap-7">
+            <h2 className="text-xl font-medium sm:text-2xl">Total</h2>
+            <div className="bg-[#E8E8E84D] p-4 sm:p-5 md:p-6 flex flex-col gap-3 sm:gap-4 border border-gray-200 rounded-lg">
+              <div className="flex items-center justify-between">
+                <span className="text-[#4F5665] font-bold text-sm sm:text-base">
+                  Order
+                </span>
+                <span className="font-bold text-[#0B132A] text-sm sm:text-base">
                   Idr. {orderTotal.toLocaleString("id")}
                 </span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#4F5665] font-bold">Delivery</span>
-                <span className="font-bold text-[#0B132A]">
+              <div className="flex items-center justify-between">
+                <span className="text-[#4F5665] font-bold text-sm sm:text-base">
+                  Delivery
+                </span>
+                <span className="font-bold text-[#0B132A] text-sm sm:text-base">
                   Idr. {deliveryFee.toLocaleString("id")}
                 </span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#4F5665] font-bold">Tax</span>
-                <span className="text-[#0B132A] font-bold">
+              <div className="flex items-center justify-between">
+                <span className="text-[#4F5665] font-bold text-sm sm:text-base">
+                  Tax
+                </span>
+                <span className="text-[#0B132A] font-bold text-sm sm:text-base">
                   Idr. {tax.toLocaleString("id")}
                 </span>
               </div>
-              <div className="border-t pt-4 flex justify-between items-center">
-                <span className="font-bold text-[#4F5665]">Sub Total</span>
-                <span className="text-[#0B132A] font-bold">
+              <div className="flex items-center justify-between pt-3 border-t sm:pt-4">
+                <span className="font-bold text-[#4F5665] text-sm sm:text-base">
+                  Sub Total
+                </span>
+                <span className="text-[#0B132A] font-bold text-sm sm:text-base">
                   Idr. {subTotal.toLocaleString("id")}
                 </span>
               </div>
               <Button
                 type="submit"
                 disabled={dataCarts.length === 0}
-                className="w-full bg-[#FF8906] text-[#0B0909] py-4 rounded-lg hover:bg-[#e67a05] transition disabled:opacity-50 disabled:cursor-not-allowed">
+                className="w-full bg-[#FF8906] text-[#0B0909] py-3 sm:py-4 rounded-lg hover:bg-[#e67a05] transition disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base font-medium">
                 Checkout
               </Button>
 
               <div>
-                <h3 className="text-lg text-[#4F5665] mb-4">We Accept</h3>
-                <div className="flex gap-4 items-center justify-around">
+                <h3 className="text-base sm:text-lg text-[#4F5665] mb-3 sm:mb-4">
+                  We Accept
+                </h3>
+                <div className="flex items-center justify-around gap-2 sm:gap-3 md:gap-4">
                   <img
                     src="/icon/icon-bri.svg"
                     alt="Bank BRI"
-                    className="h-5"
+                    className="h-4 sm:h-5"
                   />
-                  <img src="/icon/icon-dana.svg" alt="Dana" className="h-5" />
-                  <img src="/icon/icon-bca.svg" alt="BCA" className="h-5" />
-                  <img src="/icon/icon-gopay.svg" alt="Gopay" className="h-5" />
-                  <img src="/icon/icon-ovo.svg" alt="OVO" className="h-5" />
+                  <img
+                    src="/icon/icon-dana.svg"
+                    alt="Dana"
+                    className="h-4 sm:h-5"
+                  />
+                  <img
+                    src="/icon/icon-bca.svg"
+                    alt="BCA"
+                    className="h-4 sm:h-5"
+                  />
+                  <img
+                    src="/icon/icon-gopay.svg"
+                    alt="Gopay"
+                    className="h-4 sm:h-5"
+                  />
+                  <img
+                    src="/icon/icon-ovo.svg"
+                    alt="OVO"
+                    className="h-4 sm:h-5"
+                  />
                   <img
                     src="/icon/icon-paypal.svg"
                     alt="Paypal"
-                    className="h-5"
+                    className="h-4 sm:h-5"
                   />
                 </div>
-                <p className="text-xs text-gray-500 mt-3">
+                <p className="mt-2 sm:mt-3 text-[10px] sm:text-xs text-gray-500">
                   *Get Discount if you pay with Bank Central Asia
                 </p>
               </div>
@@ -225,11 +253,11 @@ function CartPage() {
           </div>
 
           {/* Payment Info */}
-          <div className="mt-10">
-            <h1 className="font-medium text-3xl text-[#0B0909] mb-10">
+          <div className="order-2 mt-6 sm:mt-8 md:mt-10 md:order-3">
+            <h1 className="font-medium text-xl sm:text-2xl md:text-3xl text-[#0B0909] mb-6 sm:mb-8 md:mb-10">
               Payment Info & Delivery
             </h1>
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-4 sm:gap-5">
               <Input
                 {...register("email")}
                 error={errors}
@@ -254,36 +282,38 @@ function CartPage() {
                 label="Address"
                 placeholder="Enter Your Address"
               />
-              <h3 className="font-semibold">Delivery Method</h3>
-              <div className="grid grid-cols-3 gap-3">
+              <h3 className="text-sm font-semibold sm:text-base">
+                Delivery Method
+              </h3>
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 <button
                   type="button"
                   onClick={() => setShipping("Dine In")}
-                  className={`py-3 border-2 ${
+                  className={`py-2 sm:py-3 border-2 ${
                     shipping === "Dine In"
                       ? "border-[#FF8906]"
                       : "border-[#E8E8E8]"
-                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition`}>
+                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition text-xs sm:text-sm md:text-base`}>
                   Dine In
                 </button>
                 <button
                   type="button"
                   onClick={() => setShipping("Door Delivery")}
-                  className={`py-3 border-2 ${
+                  className={`py-2 sm:py-3 border-2 ${
                     shipping === "Door Delivery"
                       ? "border-[#FF8906]"
                       : "border-[#E8E8E8]"
-                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition`}>
+                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition text-xs sm:text-sm md:text-base`}>
                   Door Delivery
                 </button>
                 <button
                   type="button"
                   onClick={() => setShipping("Pick Up")}
-                  className={`py-3 border-2 ${
+                  className={`py-2 sm:py-3 border-2 ${
                     shipping === "Pick Up"
                       ? "border-[#FF8906]"
                       : "border-[#E8E8E8]"
-                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition`}>
+                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition text-xs sm:text-sm md:text-base`}>
                   Pick Up
                 </button>
               </div>
