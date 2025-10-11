@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { Link, useSearchParams } from "react-router-dom";
-import Button from "../components/Button";
 import CardMenu from "../components/CardMenu";
-import Checkbox from "../components/Checkbox";
-import PriceRangeFilter from "../components/PriceRangeFilter";
+import Drawer from "../components/Drawer";
+import FilterSearch from "../components/FilterSearch";
 import PromoSection from "../components/PromoSection";
+import { DrawerFilterContext } from "../context/DrawerContext";
+import { SearchFilterContext } from "../context/SearchFilterContext,jsx";
 import { useFetchData } from "../hooks/useFetchData";
 
 function ProductPage() {
@@ -14,11 +14,15 @@ function ProductPage() {
   // state list menu yang sudah di filter
   const [filteredMenu, setFilteredMenu] = useState([]);
   // inisialisasi search params untuk filter
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
+
+  // handle drawer
+  const [showDrawer, setShowDrawer] = useState(false);
 
   // get data filter dari query params
   const getFiltersFromParams = () => {
     const search = searchParams.get("search") || "";
+    const searchMobile = searchParams.get("searchMobile") || "";
     const categoryFilter = searchParams.get("category")
       ? searchParams.get("category").split(",")
       : [];
@@ -30,6 +34,7 @@ function ProductPage() {
 
     return {
       search,
+      searchMobile,
       categoryFilter,
       sortByFilter,
       priceRange: { minPrice, maxPrice },
@@ -55,6 +60,12 @@ function ProductPage() {
           !searchFilter.search ||
           menu.name.toLowerCase().includes(searchFilter.search.toLowerCase());
 
+        const matchSearchMobile =
+          !searchFilter.searchMobile ||
+          menu.name
+            .toLowerCase()
+            .includes(searchFilter.searchMobile.toLowerCase());
+
         // Filter category
         const matchCategory =
           searchFilter.categoryFilter.length === 0 ||
@@ -73,67 +84,16 @@ function ProductPage() {
           price >= searchFilter.priceRange.minPrice &&
           price <= searchFilter.priceRange.maxPrice;
 
-        return matchSearch && matchCategory && matchSortBy && matchPrice;
+        return (
+          matchSearch &&
+          matchSearchMobile &&
+          matchCategory &&
+          matchSortBy &&
+          matchPrice
+        );
       })
     );
   }, [dataMenu, searchFilter]);
-
-  // inisialisasi hooks useForm untuk form filter
-  const { register, handleSubmit, setValue, reset } = useForm({
-    defaultValues: getFiltersFromParams(),
-  });
-
-  // handle input checkbox
-  const [categoryFilter, setCategoryFilter] = useState(
-    getFiltersFromParams().categoryFilter
-  );
-  const [sortByFilter, setSortByFilter] = useState(
-    getFiltersFromParams().sortByFilter
-  );
-
-  const handleCategoryChange = (category) => {
-    const currentCategory = categoryFilter.includes(category)
-      ? categoryFilter.filter((b) => b !== category)
-      : [...categoryFilter, category];
-
-    setCategoryFilter(currentCategory);
-    setValue("categoryFilter", currentCategory);
-  };
-
-  const handleSortByChange = (sortby) => {
-    const currentSortBy = sortByFilter.includes(sortby)
-      ? sortByFilter.filter((b) => b !== sortby)
-      : [...sortByFilter, sortby];
-
-    setSortByFilter(currentSortBy);
-    setValue("sortByFilter", currentSortBy);
-  };
-
-  const handlePriceChange = (priceData) => {
-    setValue("priceRange", priceData);
-  };
-
-  // handle form filter
-  const onFilter = (data) => {
-    try {
-      const params = new URLSearchParams();
-
-      if (data.search) params.set("search", data.search);
-      if (data.categoryFilter.length > 0)
-        params.set("category", data.categoryFilter.join(","));
-      if (data.sortByFilter.length > 0)
-        params.set("sortBy", data.sortByFilter.join(","));
-      if (data.priceRange.minPrice !== 0)
-        params.set("minPrice", data.priceRange.minPrice);
-      if (data.priceRange.maxPrice !== 1000000)
-        params.set("maxPrice", data.priceRange.maxPrice);
-
-      setSearchParams(params);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   // handle pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -160,174 +120,81 @@ function ProductPage() {
 
   if (error) return <div>Error: {error}</div>;
   return (
-    <>
-      <div className="flex flex-col gap-10 mt-20 mb-20">
-        {/* hero section */}
-        <div className="px-20 py-20 bg-[url('/img/img-header-product.png')] font-medium text-white text-5xl bg-no-repeat bg-cover bg-center">
-          We Provide Good Coffee and Healthy Meals
-        </div>
-        {/* promo section */}
-        <div>
-          <PromoSection />
-        </div>
-        <div className="px-20">
-          <h1 className="font-medium text-5xl">
-            Our <span className="text-[#8E6447]">Product</span>
-          </h1>
-          <div className="mt-10 grid grid-cols-[1fr_2fr] gap-5">
-            {/* form filter */}
-            <div className="rounded-xl bg-[#0B0909] text-white p-10 h-max">
-              <form
-                onSubmit={handleSubmit(onFilter)}
-                className="flex flex-col gap-6"
-              >
-                <div className="flex justify-between items-center">
-                  <h1 className="font-semibold text-lg">Filter</h1>
+    <SearchFilterContext value={{ searchFilter, setSearchFilter }}>
+      <DrawerFilterContext.Provider value={{ showDrawer, setShowDrawer }}>
+        <div className="flex flex-col gap-10 mt-20 mb-20">
+          {/* Filter Search on Mobile */}
+          <div className="flex md:hidden mt-5 justify-center px-8 items-center gap-4 flex-1">
+            <FilterSearch isMobile={true} />
+          </div>
+          {/* drawer filter search mobile */}
+          <Drawer>
+            <FilterSearch />
+          </Drawer>
+          {/* hero section */}
+          <div className="hidden md:block px-20 py-20 bg-[url('/img/img-header-product.png')] font-medium text-white text-5xl bg-no-repeat bg-cover bg-center">
+            We Provide Good Coffee and Healthy Meals
+          </div>
+          {/* promo section */}
+          <div>
+            <PromoSection />
+          </div>
+          <div className="px-8 sm:px-12 md:px-16 lg:px-20">
+            <h1 className="text-2xl font-medium sm:text-3xl md:text-4xl lg:text-5xl">
+              Our <span className="text-[#8E6447]">Product</span>
+            </h1>
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-5">
+              {/* form filter dekstop */}
+              <div className="hidden md:block rounded-xl bg-[#0B0909] text-white p-10 h-max">
+                <FilterSearch />
+              </div>
+              {/* list menu */}
+              <div className="flex flex-col gap-10">
+                {filteredMenu.length === 0 ? (
+                  <div className="content-center h-full py-10 text-gray-500 justify-items-center">
+                    <p className="text-xl">Menu data not found</p>
+                    <p className="mt-2">Check the filters you applied!</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-5">
+                    {currentData.map((menu) => (
+                      <Link key={menu.id} to={`/product/${menu.id}`}>
+                        <CardMenu dataMenu={menu} />
+                      </Link>
+                    ))}
+                  </div>
+                )}
+                {/* pagination list menu */}
+                <div className="flex items-center justify-center gap-3">
                   <button
-                    type="reset"
-                    className="cursor-pointer"
-                    onClick={() => {
-                      reset();
-                      setCategoryFilter([]);
-                      setSortByFilter([]);
-                      setSearchFilter({
-                        search: "",
-                        categoryFilter: [],
-                        sortByFilter: [],
-                        priceRange: { minPrice: 0, maxPrice: 1000000 },
-                      });
-                      setSearchParams("");
-                    }}
-                  >
-                    Reset Filter
+                    onClick={handlePrev}
+                    className="size-10 rounded-full bg-[#E8E8E8] text-black flex items-center justify-center hover:bg-gray-200 transition">
+                    ←
                   </button>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="font-semibold" htmlFor="search">
-                    Search
-                  </label>
-                  <input
-                    className="p-3 rounded-sm bg-[#FCFDFE] placeholder:text-[#696F79] placeholder:text-sm text-black"
-                    type="text"
-                    id="search"
-                    placeholder="Search Your Product"
-                    {...register("search")}
-                  />
-                </div>
-                <div className="flex flex-col gap-5">
-                  <h1 className="font-semibold" htmlFor="search">
-                    Category
-                  </h1>
-                  <Checkbox
-                    checked={categoryFilter.includes("FavoriteProduct")}
-                    onChange={() => handleCategoryChange("FavoriteProduct")}
-                    label="Favorite Product"
-                  />
-                  <Checkbox
-                    checked={categoryFilter.includes("Coffe")}
-                    onChange={() => handleCategoryChange("Coffe")}
-                    label="Coffe"
-                  />
-                  <Checkbox
-                    checked={categoryFilter.includes("NonCoffe")}
-                    onChange={() => handleCategoryChange("NonCoffe")}
-                    label="Non Coffe"
-                  />
-                  <Checkbox
-                    checked={categoryFilter.includes("Foods")}
-                    onChange={() => handleCategoryChange("Foods")}
-                    label="Foods"
-                  />
-                  <Checkbox
-                    checked={categoryFilter.includes("AddOn")}
-                    onChange={() => handleCategoryChange("AddOn")}
-                    label="Add-On"
-                  />
-                </div>
-                <div className="flex flex-col gap-5">
-                  <h1 className="font-semibold" htmlFor="search">
-                    Sort By
-                  </h1>
-                  <Checkbox
-                    checked={sortByFilter.includes("BuyGet1")}
-                    onChange={() => handleSortByChange("BuyGet1")}
-                    label="Buy 1 Get 1"
-                  />
-                  <Checkbox
-                    checked={sortByFilter.includes("Flashsale")}
-                    onChange={() => handleSortByChange("Flashsale")}
-                    label="Flashsale"
-                  />
-                  <Checkbox
-                    checked={sortByFilter.includes("BirthdayPackage")}
-                    onChange={() => handleSortByChange("BirthdayPackage")}
-                    label="Birthday Package"
-                  />
-                  <Checkbox
-                    checked={sortByFilter.includes("Cheap")}
-                    onChange={() => handleSortByChange("Cheap")}
-                    label="Cheap"
-                  />
-                </div>
-                <div>
-                  <PriceRangeFilter onPriceChange={handlePriceChange} />
-                </div>
-                <Button type="submit" className="bg-[#FF8906] text-[#0B0909]">
-                  Apply Filter
-                </Button>
-              </form>
-            </div>
-
-            {/* list menu */}
-            <div className="flex flex-col gap-10">
-              {filteredMenu.length === 0 ? (
-                <div className="h-full content-center justify-items-center py-10 text-gray-500">
-                  <p className="text-xl">Menu data not found</p>
-                  <p className="mt-2">Check the filters you applied!</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-2 gap-5">
-                  {currentData.map((menu) => (
-                    <Link key={menu.id} to={`/product/${menu.id}`}>
-                      <CardMenu dataMenu={menu} />
-                    </Link>
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <button
+                      key={index + 1}
+                      onClick={() => goToPage(index + 1)}
+                      className={`size-10 rounded-full flex items-center justify-center transition ${
+                        currentPage === index + 1
+                          ? "bg-[#FF8906] text-[#0B0909]"
+                          : "bg-[#E8E8E8] text-[#A0A3BD] hover:bg-gray-300"
+                      }`}>
+                      {index + 1}
+                    </button>
                   ))}
-                </div>
-              )}
-
-              {/* pagination list menu */}
-              <div className="flex justify-center items-center gap-3">
-                <button
-                  onClick={handlePrev}
-                  className="size-10 rounded-full bg-[#E8E8E8] text-black flex items-center justify-center hover:bg-gray-200 transition"
-                >
-                  ←
-                </button>
-                {Array.from({ length: totalPages }, (_, index) => (
                   <button
-                    key={index + 1}
-                    onClick={() => goToPage(index + 1)}
-                    className={`size-10 rounded-full flex items-center justify-center transition ${
-                      currentPage === index + 1
-                        ? "bg-[#FF8906] text-[#0B0909]"
-                        : "bg-[#E8E8E8] text-[#A0A3BD] hover:bg-gray-300"
-                    }`}
-                  >
-                    {index + 1}
+                    onClick={handleNext}
+                    className="size-10 rounded-full bg-[#FF8906] text-white flex items-center justify-center hover:bg-[#e67a05] transition">
+                    →
                   </button>
-                ))}
-                <button
-                  onClick={handleNext}
-                  className="size-10 rounded-full bg-[#FF8906] text-white flex items-center justify-center hover:bg-[#e67a05] transition"
-                >
-                  →
-                </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </>
+      </DrawerFilterContext.Provider>
+    </SearchFilterContext>
   );
 }
 
