@@ -1,0 +1,62 @@
+[
+  {
+    "no": 1,
+    "name": "Caramel Machiato",
+    "sold": "300 Cup",
+    "revenue": "IDR 9.000.000"
+  },
+  {
+    "no": 2,
+    "name": "Hazelnut Latte",
+    "sold": "200 Cup",
+    "revenue": "IDR 8.000.000"
+  },
+  {
+    "no": 3,
+    "name": "Kopi Susu",
+    "sold": "100 Cup",
+    "revenue": "IDR 7.000.000"
+  },
+  {
+    "no": 4,
+    "name": "Espresso Supreme",
+    "sold": "90 Cup",
+    "revenue": "IDR 6.000.000"
+  },
+  {
+    "no": 5,
+    "name": "Caramel Velvet Latte",
+    "sold": "80 Cup",
+    "revenue": "IDR 5.000.000"
+  },
+  {
+    "no": 6,
+    "name": "Hazelnut Dream Brew",
+    "sold": "70 Cup",
+    "revenue": "IDR 4.000.000"
+  },
+  {
+    "no": 7,
+    "name": "Vanilla Silk Mocha",
+    "sold": "60 Cup",
+    "revenue": "IDR 3.000.000"
+  },
+  {
+    "no": 8,
+    "name": "Dark Roast Delight",
+    "sold": "50 Cup",
+    "revenue": "IDR 2.000.000"
+  },
+  {
+    "no": 9,
+    "name": "Ethiopian Yirgacheffe Euphoria",
+    "sold": "40 Cup",
+    "revenue": "IDR 1.000.000"
+  },
+  {
+    "no": 10,
+    "name": "Indonesian Sumatra Reserve",
+    "sold": "30 Cup",
+    "revenue": "IDR 500.000"
+  }
+]
