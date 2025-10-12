@@ -130,7 +130,7 @@ function Navbar() {
 
                 {/* Dropdown Menu */}
                 {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                  <div className="absolute right-0 z-50 w-48 py-2 mt-2 bg-white rounded-lg shadow-lg">
                     <div className="px-4 py-2 border-b border-gray-200">
                       <p className="text-sm font-semibold text-[#0B132A]">
                         {userLogin.fullName}
@@ -149,7 +149,7 @@ function Navbar() {
                     </button>
                     <button
                       onClick={handleLogout}
-                      className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-gray-100 transition">
+                      className="w-full px-4 py-2 text-sm text-left text-red-500 transition hover:bg-gray-100">
                       Logout
                     </button>
                   </div>
@@ -159,7 +159,7 @@ function Navbar() {
               <>
                 <Button
                   onClick={() => navigate("/auth/login")}
-                  className="px-3 text-sm text-whitel border border-white lg:px-4 whitespace-nowrap lg:text-base">
+                  className="px-3 text-sm border border-white text-whitel lg:px-4 whitespace-nowrap lg:text-base">
                   Sign In
                 </Button>
                 <Button
@@ -187,10 +187,7 @@ function Navbar() {
             <button
               onClick={() => setShowDrawer(!showDrawer)}
               className="flex flex-col items-center justify-center w-6 h-6 gap-1 cursor-pointer">
-              <img
-                src="/public/icon/icon-hamburger-menu.svg"
-                alt="Hamburger Menu"
-              />
+              <img src="/icon/icon-hamburger-menu.svg" alt="Hamburger Menu" />
             </button>
           </div>
         </nav>
@@ -221,7 +218,7 @@ const Sidebar = ({ userLogin, handleLogout }) => {
     <div className="flex flex-col justify-between h-full px-2">
       <div className="flex flex-col w-full gap-5">
         <div className="flex items-center justify-between">
-          <img src="/public/icon/logo-original.svg" alt="Logo HIFI" />
+          <img src="/icon/logo-original.svg" alt="Logo HIFI" />
           <button
             onClick={() => setShowDrawer(false)}
             className="text-xs font-bold text-red-500 border-2 border-red-500 rounded-full size-5">
@@ -248,7 +245,7 @@ const Sidebar = ({ userLogin, handleLogout }) => {
         {userLogin ? (
           <>
             <div className="flex items-center gap-3 p-3 border border-[#E8E8E8] rounded-lg">
-              <div className="w-12 h-12 overflow-hidden rounded-full flex-shrink-0">
+              <div className="flex-shrink-0 w-12 h-12 overflow-hidden rounded-full">
                 <img
                   className="object-cover w-full h-full"
                   src={userLogin.profileImage || "/img-menus/image1.png"}
@@ -274,7 +271,7 @@ const Sidebar = ({ userLogin, handleLogout }) => {
                 handleLogout();
                 setShowDrawer(false);
               }}
-              className="px-3 lg:px-4 bg-red-500 text-white whitespace-nowrap text-sm lg:text-base">
+              className="px-3 text-sm text-white bg-red-500 lg:px-4 whitespace-nowrap lg:text-base">
               Logout
             </Button>
           </>

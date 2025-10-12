@@ -3,6 +3,9 @@ import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import Dashboard from "./admin-pages/Dashboard";
+import OrderList from "./admin-pages/OrderList";
+import ProductList from "./admin-pages/ProductList";
+import UsersList from "./admin-pages/UsersList";
 import { AuthContext } from "./context/AuthContext";
 import AdminLayout from "./layouts/AdminLayout";
 import AuthLayout from "./layouts/AuthLayout";
@@ -76,6 +79,18 @@ const router = createBrowserRouter([
       {
         path: "/admin/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/admin/product",
+        element: <ProductList />,
+      },
+      {
+        path: "/admin/order",
+        element: <OrderList />,
+      },
+      {
+        path: "/admin/users",
+        element: <UsersList />,
       },
     ],
   },
