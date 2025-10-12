@@ -17,7 +17,8 @@ function Navbar() {
   const [showDropdown, setShowDropdown] = useState(false);
   const { userLogin, setUserLogin } = useContext(AuthContext);
 
-  const isNotHomePage = location.pathname !== "/";
+  const isHomePage = location.pathname === "/";
+  const isAdminPage = location.pathname.startsWith("/admin");
 
   const getNavLinkClass = ({ isActive }) =>
     `hover:font-bold py-1 transition duration-300 ${
@@ -30,31 +31,46 @@ function Navbar() {
     navigate("/");
   };
 
+  const navbarBgClass = isAdminPage
+    ? "bg-white"
+    : isHomePage
+    ? "bg-[#0B090921]"
+    : "bg-[#0B0909]";
+
+  const navTextColor = isAdminPage ? "text-[#0B132A]" : "text-white";
+
   return (
     <DrawerNavbarContext.Provider value={{ showDrawer, setShowDrawer }}>
       <header>
         <nav
-          className={`flex w-full fixed top-0 justify-between items-center px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 z-200 py-4 sm:py-5 ${
-            isNotHomePage ? "bg-[#0B0909]" : "bg-[#0B090921]"
+          className={`flex w-full fixed top-0 justify-between items-center px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 z-200 py-4 sm:py-5 ${navbarBgClass} ${
+            isAdminPage && "border-b border-b-[#E8E8E8]"
           }`}>
           <div className="flex items-center gap-4 sm:gap-5 md:gap-7 lg:gap-10">
             <div className="flex-shrink-0">
               <img
                 className="w-auto h-6 sm:h-7 md:h-8"
-                src="/icon/logo-white.svg"
+                src={
+                  isAdminPage
+                    ? "/icon/logo-original.svg"
+                    : "/icon/logo-white.svg"
+                }
                 alt="Logo white"
               />
             </div>
-            <div className="hidden md:block">
-              <ul className="flex items-center gap-6 text-sm text-white lg:gap-10 lg:text-base">
-                <NavLink to="/" className={getNavLinkClass}>
-                  <li>Home</li>
-                </NavLink>
-                <NavLink to="/product" className={getNavLinkClass}>
-                  <li>Product</li>
-                </NavLink>
-              </ul>
-            </div>
+            {!isAdminPage && (
+              <div className="hidden md:block">
+                <ul
+                  className={`flex items-center gap-6 text-sm lg:gap-10 lg:text-base ${navTextColor}`}>
+                  <NavLink to="/" className={getNavLinkClass}>
+                    <li>Home</li>
+                  </NavLink>
+                  <NavLink to="/product" className={getNavLinkClass}>
+                    <li>Product</li>
+                  </NavLink>
+                </ul>
+              </div>
+            )}
           </div>
 
           {/* Desktop Menu */}
@@ -62,7 +78,11 @@ function Navbar() {
             <button className="flex-shrink-0 w-5 h-5 cursor-pointer lg:h-6 lg:w-6">
               <img
                 className="w-full h-full"
-                src="/icon/icon-search.svg"
+                src={
+                  isAdminPage
+                    ? "/icon/icon-search-black.svg"
+                    : "/icon/icon-search.svg"
+                }
                 alt="Icon Search"
               />
             </button>
@@ -71,7 +91,11 @@ function Navbar() {
               className="flex-shrink-0 w-5 h-5 cursor-pointer lg:h-6 lg:w-6">
               <img
                 className="w-full h-full"
-                src="/icon/icon-cart.svg"
+                src={
+                  isAdminPage
+                    ? "/icon/icon-cart-black.svg"
+                    : "/icon/icon-cart.svg"
+                }
                 alt="Icon Cart"
               />
             </button>
@@ -89,7 +113,7 @@ function Navbar() {
                     />
                   </div>
                   <svg
-                    className={`w-4 h-4 text-white transition-transform ${
+                    className={`w-4 h-4 ${navTextColor} transition-transform ${
                       showDropdown ? "rotate-180" : ""
                     }`}
                     fill="none"
@@ -135,7 +159,7 @@ function Navbar() {
               <>
                 <Button
                   onClick={() => navigate("/auth/login")}
-                  className="px-3 text-sm text-white border border-white lg:px-4 whitespace-nowrap lg:text-base">
+                  className="px-3 text-sm text-whitel border border-white lg:px-4 whitespace-nowrap lg:text-base">
                   Sign In
                 </Button>
                 <Button
