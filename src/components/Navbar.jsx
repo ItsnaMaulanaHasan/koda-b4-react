@@ -28,7 +28,7 @@ function Navbar() {
   const handleLogout = () => {
     setUserLogin(null);
     setShowDropdown(false);
-    navigate("/");
+    navigate("/auth/login");
   };
 
   const navbarBgClass = isAdminPage
