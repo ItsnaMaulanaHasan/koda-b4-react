@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
+import Dashboard from "./admin-pages/Dashboard";
 import { AuthContext } from "./context/AuthContext";
+import AdminLayout from "./layouts/AdminLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import MainLayout from "./layouts/MainLayout";
 import CartPage from "./pages/CartPage";
@@ -19,11 +21,10 @@ import { persistor, store } from "./redux/store";
 
 const router = createBrowserRouter([
   {
-    path: "/",
     element: <MainLayout />,
     children: [
       {
-        path: "",
+        path: "/",
         element: <HomePage />,
       },
       {
@@ -68,6 +69,15 @@ const router = createBrowserRouter([
   {
     path: "/forgot-password",
     element: <ForgotPasswordPage />,
+  },
+  {
+    element: <AdminLayout />,
+    children: [
+      {
+        path: "/admin/dashboard",
+        element: <Dashboard />,
+      },
+    ],
   },
 ]);
 
