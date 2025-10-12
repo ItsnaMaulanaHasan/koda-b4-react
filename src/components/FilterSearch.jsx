@@ -96,7 +96,7 @@ function FilterSearch({ isMobile = false }) {
           onSubmit={handleSubmit(onFilter)}
           className="flex items-center w-full gap-4">
           <div className="flex border rounded-md py-3 px-4 border-[#DEDEDE] w-full gap-4">
-            <img src="/public/icon/icon-search-black.svg" alt="Icon Search" />
+            <img src="/icon/icon-search-black.svg" alt="Icon Search" />
             <input
               type="text"
               placeholder="Find Product"
@@ -111,7 +111,7 @@ function FilterSearch({ isMobile = false }) {
             className="bg-[#FF8906] p-4 rounded cursor-pointer">
             <img
               className="size-full"
-              src="/public/icon/icon-filter.svg"
+              src="/icon/icon-filter.svg"
               alt="Icon Filter"
             />
           </button>

@@ -157,7 +157,7 @@ function HistoryPage() {
         </div>
         <div className="flex flex-col gap-3 border p-5 border-[#E8E8E8] h-max">
           <div>
-            <img src="/public/icon/icon-message.svg" alt="Icon Message" />
+            <img src="/icon/icon-message.svg" alt="Icon Message" />
           </div>
           <h2 className="font-semibold text-[#4F5665] text-lg">
             Send Us Message
