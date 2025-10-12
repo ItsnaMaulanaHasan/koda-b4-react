@@ -9,3 +9,8 @@ export const DrawerFilterContext = createContext({
   showDrawer: false,
   setShowDrawer: function () {},
 });
+
+export const DrawerAdminContext = createContext({
+  showDrawer: false,
+  setShowDrawer: function () {},
+});

@@ -1,7 +1,29 @@
-function Drawer({ drawerCtx, bg, textColor, children }) {
+function Drawer({
+  drawerCtx,
+  bg,
+  textColor,
+  children,
+  direction = "left",
+  width = "w-80",
+}) {
   if (!drawerCtx.showDrawer) {
     return null;
   }
+
+  const getDrawerConfig = () => {
+    if (direction === "right") {
+      return {
+        position: "top-0 right-0",
+        translate: drawerCtx.showDrawer ? "translate-x-0" : "translate-x-full",
+      };
+    }
+    return {
+      position: "top-0 left-0",
+      translate: drawerCtx.showDrawer ? "translate-x-0" : "-translate-x-full",
+    };
+  };
+
+  const { position, translate } = getDrawerConfig();
 
   return (
     <>
@@ -14,9 +36,7 @@ function Drawer({ drawerCtx, bg, textColor, children }) {
 
         {/* Drawer */}
         <div
-          className={`fixed top-0 left-0 z-2002 h-screen p-4 overflow-y-auto transition-transform ${bg} ${textColor}  w-80 ${
-            drawerCtx.showDrawer ? "translate-x-0" : "-translate-x-full"
-          }`}
+          className={`fixed ${position} z-2002 h-screen p-4 overflow-y-auto transition-transform ${bg} ${textColor} ${width} ${translate}`}
           tabIndex="-1">
           {children}
         </div>
