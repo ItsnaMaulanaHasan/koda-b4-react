@@ -35,8 +35,38 @@ function LoginPage() {
   const onSubmit = async (data) => {
     try {
       const { email, password } = data;
-      const usersData = JSON.parse(localStorage.getItem("users") || "[]");
 
+      const adminCredentials = {
+        email: "admin@hifi.com",
+        password: "admin123",
+        fullName: "Administrator",
+        role: "admin",
+        id: 0,
+      };
+
+      if (
+        email === adminCredentials.email &&
+        password === adminCredentials.password
+      ) {
+        const adminDataToStore = {
+          id: adminCredentials.id,
+          email: adminCredentials.email,
+          fullName: adminCredentials.fullName,
+          role: adminCredentials.role,
+        };
+        setUserLogin(adminDataToStore);
+        setAlertStatus({
+          type: "success",
+          message: "Login successful as Admin!",
+        });
+
+        setTimeout(() => {
+          navigate("/admin/dashboard");
+        }, 1500);
+        return;
+      }
+
+      const usersData = JSON.parse(localStorage.getItem("users") || "[]");
       const user = usersData.find((user) => user.email === email);
 
       // cek email
@@ -56,6 +86,7 @@ function LoginPage() {
           id: user.id,
           email: user.email,
           fullName: user.fullName,
+          role: user.role,
         };
 
         setUserLogin(userDataToStore);

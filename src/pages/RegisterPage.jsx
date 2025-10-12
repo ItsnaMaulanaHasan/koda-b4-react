@@ -44,10 +44,15 @@ function RegisterPage() {
       const hashedPassword = await bcrypt.hash(data.password, salt);
 
       const registerData = {
+        id: Date.now(),
         fullname: data.fullName,
         email: data.email,
+        role: "customer",
         password: hashedPassword,
-        id: Date.now(),
+        joinDate: new Date().toISOString(),
+        phone: "",
+        address: "",
+        profileImage: "",
       };
 
       const existingData = JSON.parse(localStorage.getItem("users") || "[]");
