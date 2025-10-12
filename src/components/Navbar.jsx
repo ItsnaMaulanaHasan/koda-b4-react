@@ -25,7 +25,7 @@ function Navbar() {
     <DrawerNavbarContext.Provider value={{ showDrawer, setShowDrawer }}>
       <header>
         <nav
-          className={`flex w-full fixed top-0 justify-between items-center px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 z-50 py-4 sm:py-5 ${
+          className={`flex w-full fixed top-0 justify-between items-center px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 z-200 py-4 sm:py-5 ${
             isNotHomePage ? "bg-[#0B0909]" : "bg-[#0B090921]"
           }`}>
           <div className="flex items-center gap-4 sm:gap-5 md:gap-7 lg:gap-10">
