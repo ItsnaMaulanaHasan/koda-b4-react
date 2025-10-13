@@ -22,6 +22,7 @@ const LoginFormSchema = yup.object({
 
 function LoginPage() {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  const [isLogginIn, setIsLogginIn] = useState(false);
   const navigate = useNavigate();
   const { setUserLogin } = useContext(AuthContext);
   const {
@@ -34,8 +35,10 @@ function LoginPage() {
 
   const onSubmit = async (data) => {
     try {
+      setIsLogginIn(true);
       const { email, password } = data;
 
+      // set admin credential
       const adminCredentials = {
         email: "admin@hifi.com",
         password: "admin123",
@@ -44,6 +47,7 @@ function LoginPage() {
         id: 0,
       };
 
+      // cek login admin
       if (
         email === adminCredentials.email &&
         password === adminCredentials.password
@@ -54,14 +58,16 @@ function LoginPage() {
           fullName: adminCredentials.fullName,
           role: adminCredentials.role,
         };
-        setUserLogin(adminDataToStore);
+
         setAlertStatus({
           type: "success",
           message: "Login successful as Admin!",
         });
 
         setTimeout(() => {
+          setUserLogin(adminDataToStore);
           navigate("/admin/dashboard");
+          setIsLogginIn(false);
         }, 1500);
         return;
       }
@@ -75,6 +81,7 @@ function LoginPage() {
           type: "error",
           message: "Incorrect email or password",
         });
+        setIsLogginIn(false);
         return;
       }
 
@@ -89,23 +96,26 @@ function LoginPage() {
           role: user.role,
         };
 
-        setUserLogin(userDataToStore);
         setAlertStatus({ type: "success", message: "Login successful!" });
 
         setTimeout(() => {
+          setUserLogin(userDataToStore);
           navigate("/");
+          setIsLogginIn(false);
         }, 1500);
       } else {
         setAlertStatus({
           type: "error",
           message: "Incorrect email or password",
         });
+        setIsLogginIn(false);
       }
     } catch (error) {
       setAlertStatus({
         type: "error",
         message: `An error occurred while process the data. Please try again: ${error}`,
       });
+      setIsLogginIn(false);
     }
   };
   return (
@@ -137,6 +147,7 @@ function LoginPage() {
               type="email"
               label="Email"
               placeholder="Enter Your Email"
+              disabled={isLogginIn}
             />
             <Input
               {...register("password")}
@@ -145,6 +156,7 @@ function LoginPage() {
               type="password"
               label="Password"
               placeholder="Enter Your Password"
+              disabled={isLogginIn}
             />
             <Link
               className="text-sm text-[#FF8906] w-max self-end"
@@ -152,7 +164,7 @@ function LoginPage() {
               Forgot Password?
             </Link>
             <Button type="submit" className="bg-[#FF8906]">
-              Login
+              {!isLogginIn ? "Login" : "Logging In..."}
             </Button>
           </div>
         </form>

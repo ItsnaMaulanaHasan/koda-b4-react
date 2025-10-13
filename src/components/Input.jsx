@@ -19,6 +19,7 @@ function Input({
   placeholder,
   error = {},
   passwordInProfile = false,
+  disabled = false,
   ...register
 }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -83,6 +84,7 @@ function Input({
               id={id}
               type={type}
               placeholder={placeholder}
+              disabled={disabled}
               className="w-full text-xs focus:outline-none sm:text-sm placeholder:text-xs sm:placeholder:text-sm"
             />
           </div>
@@ -101,11 +103,13 @@ function Input({
               id={id}
               type={!showPassword ? type : "text"}
               placeholder={placeholder}
+              disabled={disabled}
               className="w-full text-xs focus:outline-none sm:text-sm placeholder:text-xs sm:placeholder:text-sm"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
+              disabled={disabled}
               className="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5">
               {!showPassword ? (
                 <img
