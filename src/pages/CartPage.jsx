@@ -152,12 +152,12 @@ function CartPage() {
           <div className="flex flex-col gap-4 sm:gap-5">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-medium sm:text-xl">Your Order</h2>
-              <button
+              <Button
                 type="button"
                 onClick={() => navigate("/product")}
-                className="bg-[#FF8906] text-[#0B0909] py-2 px-3 sm:px-4 rounded hover:bg-[#e67a05] transition text-sm sm:text-base">
+                className="bg-[#FF8906] w-max py-2 px-3 sm:px-4 hover:bg-[#e67a05] transition text-sm sm:text-base">
                 + Add Menu
-              </button>
+              </Button>
             </div>
             <div className="flex flex-col gap-3 sm:gap-4">
               {dataCarts.length === 0 ? (
@@ -218,7 +218,7 @@ function CartPage() {
               <Button
                 type="submit"
                 disabled={dataCarts.length === 0}
-                className="w-full bg-[#FF8906] text-[#0B0909] py-3 sm:py-4 rounded-lg hover:bg-[#e67a05] transition disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base font-medium">
+                className="bg-[#FF8906] py-3 sm:py-4 hover:bg-[#e67a05] transition disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base font-medium">
                 Checkout
               </Button>
 
@@ -307,36 +307,36 @@ function CartPage() {
                 Delivery Method
               </h3>
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShipping("Dine In")}
                   className={`py-2 sm:py-3 border-2 ${
                     shipping === "Dine In"
                       ? "border-[#FF8906]"
                       : "border-[#E8E8E8]"
-                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition text-xs sm:text-sm md:text-base`}>
+                  } hover:bg-[#FF8906] hover:text-white transition text-xs sm:text-sm md:text-base`}>
                   Dine In
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
                   onClick={() => setShipping("Door Delivery")}
                   className={`py-2 sm:py-3 border-2 ${
                     shipping === "Door Delivery"
                       ? "border-[#FF8906]"
                       : "border-[#E8E8E8]"
-                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition text-xs sm:text-sm md:text-base`}>
+                  } hover:bg-[#FF8906] hover:text-white transition text-xs sm:text-sm md:text-base`}>
                   Door Delivery
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
                   onClick={() => setShipping("Pick Up")}
                   className={`py-2 sm:py-3 border-2 ${
                     shipping === "Pick Up"
                       ? "border-[#FF8906]"
                       : "border-[#E8E8E8]"
-                  } text-[#0B0909] hover:bg-[#FF8906] rounded hover:text-white transition text-xs sm:text-sm md:text-base`}>
+                  } hover:bg-[#FF8906] hover:text-white transition text-xs sm:text-sm md:text-base`}>
                   Pick Up
-                </button>
+                </Button>
               </div>
             </div>
           </div>

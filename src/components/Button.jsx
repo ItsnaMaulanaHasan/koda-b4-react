@@ -13,7 +13,7 @@ function Button({ type, className, children, onClick, disabled = false }) {
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`w-full py-2 rounded-md cursor-pointer font-medium text-[#0B132A] ${className}`}>
+      className={`w-full py-2 rounded cursor-pointer font-medium text-[#0B132A] ${className}`}>
       {children}
     </button>
   );

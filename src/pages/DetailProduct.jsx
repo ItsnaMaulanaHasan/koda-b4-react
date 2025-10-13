@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Alert from "../components/Alert";
+import Button from "../components/Button";
 import CardMenu from "../components/CardMenu";
 import StarRating from "../components/StarRating";
 import { useFetchData } from "../hooks/useFetchData";
@@ -176,47 +177,47 @@ function DetailProduct() {
 
           {/* Counter */}
           <div className="flex items-center border w-max rounded border-[#E8E8E8]">
-            <button
+            <Button
               onClick={() => setAmount((prev) => prev - 1)}
               disabled={amount <= 1}
-              className="size-6 sm:size-7 border-2 border-[#FF8906] text-[#0B132A] rounded flex items-center justify-center hover:bg-[#FF8906] hover:text-white transition text-sm sm:text-base">
+              className="size-6 sm:size-7 border-2 border-[#FF8906] flex items-center justify-center hover:bg-[#FF8906] hover:text-white transition text-sm sm:text-base">
               -
-            </button>
+            </Button>
             <span className="w-10 text-xs font-medium text-center sm:w-12 sm:text-sm">
               {amount}
             </span>
-            <button
+            <Button
               onClick={() => setAmount((prev) => prev + 1)}
-              className="size-6 sm:size-7 bg-[#FF8906] text-[#0B132A] rounded flex items-center justify-center hover:bg-[#e67a05] transition text-sm sm:text-base">
+              className="size-6 sm:size-7 bg-[#FF8906] flex items-center justify-center hover:bg-[#e67a05] transition text-sm sm:text-base">
               +
-            </button>
+            </Button>
           </div>
 
           {/* Choose Size */}
           <div className="flex flex-col gap-2 sm:gap-3">
             <h3 className="font-semibold">Choose Size</h3>
             <div className="grid grid-cols-3 gap-2 sm:gap-3">
-              <button
+              <Button
                 onClick={() => setSize("Reguler")}
                 className={`py-3 border-2 ${
                   size === "Reguler" ? "border-[#FF8906]" : "border-[#E8E8E8]"
-                } text-[#0B0909] hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base rounded`}>
+                } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
                 Regular
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setSize("Medium")}
                 className={`py-3 border-2 ${
                   size === "Medium" ? "border-[#FF8906]" : "border-[#E8E8E8]"
-                } text-[#0B0909] hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base rounded`}>
+                } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
                 Medium
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setSize("Large")}
                 className={`py-3 border-2 ${
                   size === "Large" ? "border-[#FF8906]" : "border-[#E8E8E8]"
-                } text-[#0B0909] hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base rounded`}>
+                } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
                 Large
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -224,40 +225,40 @@ function DetailProduct() {
           <div className="flex flex-col gap-2 sm:gap-3">
             <h3 className="font-semibold">Hot/Ice?</h3>
             <div className="grid grid-cols-2 gap-2 sm:gap-3">
-              <button
+              <Button
                 onClick={() => setHotIce("Ice")}
                 className={`py-3 border-2 ${
                   hotIce === "Ice" ? "border-[#FF8906]" : "border-[#E8E8E8]"
-                } text-[#0B0909] hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base rounded-lg`}>
+                } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
                 Ice
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setHotIce("Hot")}
                 className={`py-3 border-2 ${
                   hotIce === "Hot" ? "border-[#FF8906]" : "border-[#E8E8E8]"
-                } text-[#0B0909] hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base rounded-lg`}>
+                } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
                 Hot
-              </button>
+              </Button>
             </div>
           </div>
 
           {/* Action Buttons */}
           <div className="grid grid-cols-1 gap-2 mt-3 sm:gap-3 sm:mt-4 md:grid-cols-2 md:mt-5">
-            <button
+            <Button
               onClick={handleBuy}
-              className="py-3 sm:py-4 bg-[#FF8906] text-[#0B132A] rounded-lg hover:bg-[#e67a05] transition font-medium">
+              className="py-3 sm:py-4 bg-[#FF8906] hover:bg-[#e67a05] transition font-medium">
               Buy
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={handleAddToCart}
-              className="py-3 sm:py-4 border-2 border-[#FF8906] text-[#FF8906] rounded-lg hover:bg-[#f9eeee] transition flex items-center justify-center gap-2 font-medium">
+              className="py-3 sm:py-4 border-2 border-[#FF8906] text-[#FF8906] hover:bg-[#f9eeee] transition flex items-center justify-center gap-2 font-medium">
               <img
                 className="size-5"
                 src="/icon/icon-cart-orange.svg"
                 alt="Icon Cart"
               />
               add to cart
-            </button>
+            </Button>
           </div>
         </div>
       </div>
