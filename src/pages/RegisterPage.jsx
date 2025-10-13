@@ -29,6 +29,7 @@ const RegisterFormSchema = yup.object({
 
 function RegisterPage() {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  const [isRegister, setIsRegister] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -40,6 +41,7 @@ function RegisterPage() {
 
   const onSubmit = async (data) => {
     try {
+      setIsRegister(true);
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(data.password, salt);
 
@@ -65,6 +67,7 @@ function RegisterPage() {
           type: "error",
           message: "Email already registered!",
         });
+        setIsRegister(false);
         return;
       }
 
@@ -75,12 +78,14 @@ function RegisterPage() {
 
       setTimeout(() => {
         navigate("/auth/login");
+        setIsRegister(false);
       }, 1500);
     } catch (error) {
       setAlertStatus({
         type: "error",
         message: `An error occurred while saving the data. Please try again: ${error}`,
       });
+      setIsRegister(false);
     }
   };
   return (
@@ -111,6 +116,7 @@ function RegisterPage() {
               id="fullName"
               type="text"
               label="Full Name"
+              disabled={isRegister}
               placeholder="Enter Your Full Name"
             />
             <Input
@@ -119,6 +125,7 @@ function RegisterPage() {
               id="email"
               type="email"
               label="Email"
+              disabled={isRegister}
               placeholder="Enter Your Email"
             />
             <Input
@@ -127,6 +134,7 @@ function RegisterPage() {
               id="password"
               type="password"
               label="Password"
+              disabled={isRegister}
               placeholder="Enter Your Password"
             />
             <Input
@@ -135,10 +143,14 @@ function RegisterPage() {
               id="confirmPassword"
               type="password"
               label="Confirm Password"
+              disabled={isRegister}
               placeholder="Enter Your Full Password Again"
             />
-            <Button type="submit" className="bg-[#FF8906]">
-              Register
+            <Button
+              disabled={isRegister}
+              type="submit"
+              className="bg-[#FF8906]">
+              {isRegister ? "Register..." : "Register"}
             </Button>
           </div>
         </form>

@@ -163,7 +163,10 @@ function LoginPage() {
               to="/forgot-password">
               Forgot Password?
             </Link>
-            <Button type="submit" className="bg-[#FF8906]">
+            <Button
+              disabled={isLogginIn}
+              type="submit"
+              className="bg-[#FF8906]">
               {!isLogginIn ? "Login" : "Logging In..."}
             </Button>
           </div>

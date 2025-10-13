@@ -7,13 +7,13 @@
  * @param {Function} [props.onClick] - Callback function when button is clicked
  * @returns {JSX.Element} Button component
  */
-function Button({ type, className, children, onClick }) {
+function Button({ type, className, children, onClick, disabled = false }) {
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`w-full py-2 rounded-md cursor-pointer font-medium text-[#0B132A] ${className}`}
-    >
+      disabled={disabled}
+      className={`w-full py-2 rounded-md cursor-pointer font-medium text-[#0B132A] ${className}`}>
       {children}
     </button>
   );
