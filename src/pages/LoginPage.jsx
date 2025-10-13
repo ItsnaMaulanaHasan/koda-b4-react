@@ -94,6 +94,7 @@ function LoginPage() {
           email: user.email,
           fullName: user.fullName,
           role: user.role,
+          joinDate: user.joinDate,
         };
 
         setAlertStatus({ type: "success", message: "Login successful!" });

@@ -242,10 +242,10 @@ function DetailProduct() {
           </div>
 
           {/* Action Buttons */}
-          <div
-            onClick={handleBuy}
-            className="grid grid-cols-1 gap-2 mt-3 sm:gap-3 sm:mt-4 md:grid-cols-2 md:mt-5">
-            <button className="py-3 sm:py-4 bg-[#FF8906] text-[#0B132A] rounded-lg hover:bg-[#e67a05] transition font-medium">
+          <div className="grid grid-cols-1 gap-2 mt-3 sm:gap-3 sm:mt-4 md:grid-cols-2 md:mt-5">
+            <button
+              onClick={handleBuy}
+              className="py-3 sm:py-4 bg-[#FF8906] text-[#0B132A] rounded-lg hover:bg-[#e67a05] transition font-medium">
               Buy
             </button>
             <button

@@ -47,7 +47,7 @@ function RegisterPage() {
 
       const registerData = {
         id: Date.now(),
-        fullname: data.fullName,
+        fullName: data.fullName,
         email: data.email,
         role: "customer",
         password: hashedPassword,

@@ -40,8 +40,6 @@ function CardOrder({ order, onRemove, remove = true }) {
           <span>{order.size}</span>
           <span>|</span>
           <span>{order.hotIce}</span>
-          <span className="hidden sm:inline">|</span>
-          <span className="hidden sm:inline">Dine In</span>
         </p>
 
         <div className="flex items-center gap-2 sm:gap-3">
