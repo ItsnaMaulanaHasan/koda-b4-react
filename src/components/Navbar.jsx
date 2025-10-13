@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { DrawerNavbarContext } from "../context/DrawerContext";
 import Button from "./Button";
 import Drawer from "./Drawer";
+import ModalConfirmation from "./ModalConfirmation";
 import SearchDesktopDropdown from "./SearchDesktopDropdown";
 import SidebarMobile from "./SidebarMobile";
 
@@ -14,10 +15,11 @@ import SidebarMobile from "./SidebarMobile";
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [showModal, setShowModal] = useState(false);
   const [showDrawer, setShowDrawer] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const { userLogin, setUserLogin } = useContext(AuthContext);
   const [showSearchDesktop, setShowSearchDesktop] = useState(false);
+  const { userLogin, setUserLogin } = useContext(AuthContext);
 
   const isHomePage = location.pathname === "/";
   const isAdminPage = location.pathname.startsWith("/admin");
@@ -43,6 +45,16 @@ function Navbar() {
 
   return (
     <DrawerNavbarContext.Provider value={{ showDrawer, setShowDrawer }}>
+      <ModalConfirmation
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={handleLogout}
+        title="Confirm Logout"
+        message="Are you sure you want to logout?"
+        confirmText="Logout"
+        cancelText="Cancel"
+        type="warning"
+      />
       <header>
         <nav
           className={`flex w-full fixed top-0 justify-between items-center px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 z-200 py-4 sm:py-5 ${navbarBgClass} ${
@@ -161,7 +173,7 @@ function Navbar() {
                       Profile
                     </button>
                     <button
-                      onClick={handleLogout}
+                      onClick={() => setShowModal(true)}
                       className="w-full px-4 py-2 text-sm text-left text-red-500 transition hover:bg-gray-100">
                       Logout
                     </button>
@@ -208,7 +220,10 @@ function Navbar() {
           drawerCtx={{ showDrawer, setShowDrawer }}
           bg="bg-white"
           textColor="text-[#0B132A]">
-          <SidebarMobile userLogin={userLogin} handleLogout={handleLogout} />
+          <SidebarMobile
+            userLogin={userLogin}
+            handleLogout={() => setShowModal(true)}
+          />
         </Drawer>
       </header>
     </DrawerNavbarContext.Provider>

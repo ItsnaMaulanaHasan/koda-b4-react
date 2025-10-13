@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 function SidebarAdmin({ children }) {
+  const [showModal, setShowModal] = useState(false);
   const { setUserLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -16,6 +17,16 @@ function SidebarAdmin({ children }) {
     }`;
   return (
     <div className="min-h-screen bg-gray-50">
+      <ModalConfirmation
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={handleLogout}
+        title="Confirm Logout"
+        message="Are you sure you want to logout?"
+        confirmText="Logout"
+        cancelText="Cancel"
+        type="warning"
+      />
       <aside className="fixed left-0 w-56 h-screen bg-white border-r border-gray-200 top-20">
         <div className="p-4">
           <nav className="space-y-2">
@@ -52,7 +63,7 @@ function SidebarAdmin({ children }) {
               User
             </NavLink>
             <button
-              onClick={handleLogout}
+              onClick={() => setShowModal(true)}
               className="flex items-center w-full gap-3 px-4 py-3 font-medium text-gray-700 rounded-lg hover:bg-gray-100">
               <img
                 className="size-5"
