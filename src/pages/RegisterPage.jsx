@@ -149,7 +149,7 @@ function RegisterPage() {
             <Button
               disabled={isRegister}
               type="submit"
-              className="bg-[#FF8906]">
+              className="bg-[#FF8906] disabled:opacity-50 disabled:cursor-not-allowed">
               {isRegister ? "Register..." : "Register"}
             </Button>
           </div>

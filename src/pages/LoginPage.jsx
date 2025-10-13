@@ -167,7 +167,7 @@ function LoginPage() {
             <Button
               disabled={isLogginIn}
               type="submit"
-              className="bg-[#FF8906]">
+              className="bg-[#FF8906] disabled:opacity-50 disabled:cursor-not-allowed">
               {!isLogginIn ? "Login" : "Logging In..."}
             </Button>
           </div>
