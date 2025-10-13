@@ -1,4 +1,5 @@
 import { X } from "lucide-react";
+import Button from "../components/Button";
 
 /**
  * ModalConfirmation component for displaying confirmation dialogs
@@ -48,7 +49,7 @@ function ModalConfirmation({
         {/* Icon */}
         <div className="flex justify-center mb-4">
           <div
-            className={`w-16 h-16 rounded-full flex items-center justify-center ${
+            className={`w-16 h-16 rounded-full flex align-middle items-center justify-center ${
               type === "warning"
                 ? "bg-yellow-100"
                 : type === "danger"
@@ -56,7 +57,7 @@ function ModalConfirmation({
                 : "bg-blue-100"
             }`}>
             <span className={`text-3xl ${iconStyles[type]}`}>
-              {type === "warning" ? "⚠️" : type === "danger" ? "🗑️" : "ℹ️"}
+              {type === "warning" ? "⚠️" : type === "danger" ? "💀" : "ℹ️"}
             </span>
           </div>
         </div>
@@ -68,16 +69,16 @@ function ModalConfirmation({
         <p className="text-center text-gray-600 mb-6">{message}</p>
         {/* Actions */}
         <div className="flex gap-3">
-          <button
+          <Button
             onClick={onClose}
-            className="flex-1 py-3 px-4 border-2 border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition">
+            className="flex-1 py-3 px-4 border-2 border-gray-300 font-medium hover:bg-gray-50 transition">
             {cancelText}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onConfirm}
-            className={`flex-1 py-3 px-4 rounded-lg font-medium transition ${confirmClassName}`}>
+            className={`flex-1 py-3 px-4 font-medium transition ${confirmClassName}`}>
             {confirmText}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
