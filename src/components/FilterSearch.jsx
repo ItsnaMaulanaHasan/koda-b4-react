@@ -75,7 +75,6 @@ function FilterSearch({ isMobile = false }) {
       const params = new URLSearchParams();
 
       if (data.search) params.set("search", data.search);
-      if (data.searchMobile) params.set("searchMobile", data.searchMobile);
       if (data.categoryFilter.length > 0)
         params.set("category", data.categoryFilter.join(","));
       if (data.sortByFilter.length > 0)

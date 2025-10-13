@@ -22,7 +22,6 @@ function ProductPage() {
   // get data filter dari query params
   const getFiltersFromParams = () => {
     const search = searchParams.get("search") || "";
-    const searchMobile = searchParams.get("searchMobile") || "";
     const categoryFilter = searchParams.get("category")
       ? searchParams.get("category").split(",")
       : [];
@@ -34,7 +33,6 @@ function ProductPage() {
 
     return {
       search,
-      searchMobile,
       categoryFilter,
       sortByFilter,
       priceRange: { minPrice, maxPrice },
@@ -60,12 +58,6 @@ function ProductPage() {
           !searchFilter.search ||
           menu.name.toLowerCase().includes(searchFilter.search.toLowerCase());
 
-        const matchSearchMobile =
-          !searchFilter.searchMobile ||
-          menu.name
-            .toLowerCase()
-            .includes(searchFilter.searchMobile.toLowerCase());
-
         // Filter category
         const matchCategory =
           searchFilter.categoryFilter.length === 0 ||
@@ -84,13 +76,7 @@ function ProductPage() {
           price >= searchFilter.priceRange.minPrice &&
           price <= searchFilter.priceRange.maxPrice;
 
-        return (
-          matchSearch &&
-          matchSearchMobile &&
-          matchCategory &&
-          matchSortBy &&
-          matchPrice
-        );
+        return matchSearch && matchCategory && matchSortBy && matchPrice;
       })
     );
   }, [dataMenu, searchFilter]);
