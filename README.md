@@ -1,16 +1,55 @@
-# React + Vite
+# Hifi Coffee Shop ☕
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application for coffee shops built with React and Vite, providing a seamless ordering experience with an intuitive and responsive interface.
 
-Currently, two official plugins are available:
+## 🚀 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Frontend Framework**: React 19.1.1
+- **Build Tool**: Vite 7.1.7
+- **State Management**: Redux Toolkit & Redux Persist
+- **Routing**: React Router DOM 7.9.3
+- **Styling**: Tailwind CSS 4.1.14
+- **Form Management**: React Hook Form with Yup validation
+- **Charts**: ApexCharts & React ApexCharts
+- **Icons**: Lucide React
+- **Date Picker**: React Multi Date Picker
+- **Security**: bcryptjs for password hashing
+- **Code Quality**: ESLint
 
-## React Compiler
+## ✨ Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🎨 **Modern UI/UX**: Attractive and user-friendly interface with Tailwind CSS
+- 🔐 **Authentication**: Login and registration system with password encryption
+- 🛒 **Shopping Cart**: Dynamic shopping cart management
+- 📊 **Admin Dashboard**: Admin panel with data visualization using charts
+- 📱 **Responsive Design**: Optimal display on all devices
+- 🔄 **State Persistence**: Data persists with Redux Persist
+- ✅ **Form Validation**: Robust form validation with Yup
+- 📅 **Date Management**: Date handling with Moment.js
+- 🎯 **Component Based**: Modular and maintainable architecture
 
-## Expanding the ESLint configuration
+## 🎨 Styling
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The project uses Tailwind CSS v4 for styling. You can modify the configuration in the Tailwind config file or use utility classes directly in components.
+
+## 📊 Admin Dashboard
+
+The admin dashboard includes:
+
+- Data visualization with ApexCharts
+- Coffee product management
+- Order management
+- Analytics and reports
+- User management
+
+## 🔐 Security
+
+- Passwords are hashed using bcryptjs
+- Protected routes for admin pages
+- Form validation to prevent invalid input
+
+## 👨‍💻 Developer
+
+**Itsna Maulana Hasan**
+
+- GitHub: [@ItsnaMaulanaHasan](https://github.com/ItsnaMaulanaHasan)
