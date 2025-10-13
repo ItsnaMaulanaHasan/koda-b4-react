@@ -132,7 +132,7 @@ function Navbar() {
                   className="flex items-center gap-2 lg:gap-3">
                   <div className="w-8 h-8 overflow-hidden rounded-full lg:w-10 lg:h-10">
                     <img
-                      className="object-cover w-full h-full"
+                      className="object-contain w-full h-full"
                       src={
                         userLogin.profileImage ||
                         "/img/empty-photo-profile.jpeg"

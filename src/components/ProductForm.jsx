@@ -142,8 +142,6 @@ const ProductForm = ({ product = null, mode = "add" }) => {
               Photo Product
             </label>
 
-            {/* Image Preview Grid */}
-
             {/* Upload Button */}
             <div className="flex flex-col items-start gap-3">
               {images.length > 0 ? (
