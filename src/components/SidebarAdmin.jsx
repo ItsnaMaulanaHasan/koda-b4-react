@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import ModalConfirmation from "./ModalConfirmation";
 
 function SidebarAdmin({ children }) {
   const [showModal, setShowModal] = useState(false);

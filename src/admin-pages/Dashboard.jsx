@@ -1,43 +1,61 @@
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import DatePicker from "react-multi-date-picker";
 import { useFetchData } from "../hooks/useFetchData";
+
 function Dashboard() {
   const { data, isLoading, error } = useFetchData("/data/order-report.json");
   const [dateRange, setDateRange] = useState([
-    new Date(2023, 0, 16),
-    new Date(2023, 0, 23),
+    moment().toDate(),
+    moment().add(7, "days").toDate(),
   ]);
+  const [listDateRange, setListDateRange] = useState([]);
 
-  const formatDateRange = (dates) => {
-    if (!dates || dates.length !== 2) return "16 - 23 January 2023";
+  const formatDateRange = () => {
+    if (!dateRange || dateRange.length !== 2) {
+      return "Select range dates";
+    }
 
-    const start = dates[0];
-    const end = dates[1];
+    const startDate = moment(dateRange[0]);
+    const endDate = moment(dateRange[1]);
 
-    const startMoment = moment(start);
-    const endMoment = moment(end);
-
-    const startDay = startMoment.format("D");
-    const endDay = endMoment.format("D");
-    const month = startMoment.format("MMMM");
-    const year = startMoment.format("YYYY");
+    const startDay = startDate.format("D");
+    const endDay = endDate.format("D");
+    const month = startDate.format("MMMM");
+    const year = startDate.format("YYYY");
 
     return `${startDay} - ${endDay} ${month} ${year}`;
   };
 
-  // Generate 7 hari dari tanggal awal
-  const generateChartDates = () => {
-    const startDate = moment(dateRange[0]);
-    const dates = [];
+  useEffect(() => {
+    // Generate 7 hari dari tanggal awal
+    const generateChartDates = () => {
+      if (!dateRange || dateRange.length !== 2) {
+        // fallback ke default
+        const startDate = moment();
+        const dates = [];
+        for (let i = 0; i < 7; i++) {
+          dates.push(startDate.clone().add(i, "days").format("D MMM"));
+        }
+        return dates;
+      }
 
-    for (let i = 0; i < 7; i++) {
-      dates.push(startDate.clone().add(i, "days").format("D MMM"));
-    }
+      const startDate = moment(dateRange[0]);
+      const endDate = moment(dateRange[1]);
+      const daysDiff = endDate.diff(startDate, "days") + 1;
+      const dates = [];
 
-    return dates;
-  };
+      // Generate tanggal sesuai range yang dipilih (max 7 hari)
+      const daysToShow = Math.min(daysDiff, 7);
+      for (let i = 0; i < daysToShow; i++) {
+        dates.push(startDate.clone().add(i, "days").format("D MMM"));
+      }
+
+      return dates;
+    };
+    setListDateRange(generateChartDates());
+  }, [dateRange]);
 
   // ApexCharts Configuration
   const chartOptions = {
@@ -63,7 +81,7 @@ function Dashboard() {
       colors: ["#00A700"],
     },
     xaxis: {
-      categories: generateChartDates(),
+      categories: listDateRange,
       labels: {
         style: {
           colors: "#9ca3af",
@@ -237,14 +255,18 @@ function Dashboard() {
               Total Penjualan
             </h2>
             <p className="text-sm text-gray-500">
-              1000 cup (16 - 23 January 2023)
+              1000 cup {formatDateRange()}
             </p>
           </div>
           {/* DatePicker with custom styling */}
           <div className="date-picker-wrapper">
             <DatePicker
               value={dateRange}
-              onChange={setDateRange}
+              onChange={(dates) => {
+                if (dates && dates.length === 2) {
+                  setDateRange([dates[0].toDate(), dates[1].toDate()]);
+                }
+              }}
               range
               rangeHover
               format="DD MMMM YYYY"
@@ -268,9 +290,7 @@ function Dashboard() {
                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                       />
                     </svg>
-                    <span className="text-gray-700">
-                      {formatDateRange(dateRange)}
-                    </span>
+                    <span className="text-gray-700">{formatDateRange()}</span>
                     <svg
                       className="w-4 h-4 text-gray-600"
                       fill="none"
@@ -333,9 +353,7 @@ function Dashboard() {
                       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                     />
                   </svg>
-                  <span className="text-gray-700">
-                    {formatDateRange(dateRange)}
-                  </span>
+                  <span className="text-gray-700">{formatDateRange()}</span>
                   <svg
                     className="w-4 h-4 text-gray-600"
                     fill="none"
@@ -388,7 +406,7 @@ function Dashboard() {
                     {product.sold}
                   </td>
                   <td className="px-4 py-4 text-sm font-medium text-green-600">
-                    {product.revenue}
+                    IDR {product.revenue.toLocaleString("id")}
                   </td>
                 </tr>
               ))}
