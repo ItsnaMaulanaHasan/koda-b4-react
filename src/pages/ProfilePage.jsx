@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import bcrypt from "bcryptjs";
+import moment from "moment";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -25,7 +26,7 @@ function ProfilePage() {
   const { userLogin, setUserLogin } = useContext(AuthContext);
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
   const [profileImage, setProfileImage] = useState(
-    userLogin?.profileImage || "/img-menus/image1.png"
+    userLogin?.profileImage || "/img/empty-photo-profile.jpeg"
   );
   const profileImg = useRef();
 
@@ -117,7 +118,7 @@ function ProfilePage() {
         updatedPassword = await bcrypt.hash(data.password, salt);
       }
 
-      // Update hanya field yang diisi (fallback ke data lama jika kosong)
+      // Update hanya field yang diisi
       const updatedUser = {
         ...currentUser,
         fullName: data.fullName || currentUser.fullName,
@@ -198,7 +199,7 @@ function ProfilePage() {
           <div>
             Since{" "}
             <span className="font-semibold text-[#4F5665]">
-              {userLogin?.joinDate || "20 January 2022"}
+              {moment(userLogin?.joinDate).format("DD MMMM YYYY") || ""}
             </span>
           </div>
         </div>
@@ -212,7 +213,7 @@ function ProfilePage() {
               id="fullName"
               type="text"
               label="Full Name"
-              placeholder="Itsna Maulanana"
+              placeholder="Complete Your Full Name"
             />
             <Input
               {...register("email")}
@@ -220,15 +221,15 @@ function ProfilePage() {
               id="email"
               type="email"
               label="Email"
-              placeholder="hasanmaulana453@gmail.com"
+              placeholder="Complete Your Email"
             />
             <Input
               {...register("phone")}
               error={errors}
               id="phone"
-              type="number"
+              type="text"
               label="Phone"
-              placeholder="0987654"
+              placeholder="Complete Your Number"
             />
             <Input
               {...register("password")}
@@ -245,7 +246,7 @@ function ProfilePage() {
               id="address"
               type="text"
               label="Address"
-              placeholder="Pati semarang"
+              placeholder="Complete Your Address"
             />
             <Button
               type="submit"

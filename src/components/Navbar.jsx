@@ -133,7 +133,10 @@ function Navbar() {
                   <div className="w-8 h-8 overflow-hidden rounded-full lg:w-10 lg:h-10">
                     <img
                       className="object-cover w-full h-full"
-                      src={userLogin.profileImage || "/img-menus/image1.png"}
+                      src={
+                        userLogin.profileImage ||
+                        "/img/empty-photo-profile.jpeg"
+                      }
                       alt="Profile"
                     />
                   </div>

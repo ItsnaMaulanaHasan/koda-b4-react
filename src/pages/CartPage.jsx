@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import Button from "../components/Button";
 import CardOrder from "../components/CardOrder";
 import Input from "../components/Input";
 import ModalConfirmation from "../components/ModalConfirmation";
+import { AuthContext } from "../context/AuthContext";
 import { clearDataCart, removeDataCart } from "../redux/reducers/cart";
 import { addDataOrder } from "../redux/reducers/order";
 
@@ -21,6 +22,7 @@ const PaymentFormSchema = yup.object({
     .string()
     .required("Name is required")
     .min(3, "Name must be at least 3 characters"),
+  phone: yup.string().min(10, "Phone must be at least 10 digits"),
   address: yup
     .string()
     .required("Address is required")
@@ -29,12 +31,13 @@ const PaymentFormSchema = yup.object({
 
 function CartPage() {
   const navigate = useNavigate();
-  const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState(null);
   const [shipping, setShipping] = useState("Dine In");
   const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState(null);
+  const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
   const dataCarts = useSelector((state) => state.cart.dataCarts);
-  const dispatch = useDispatch();
+  const { userLogin } = useContext(AuthContext);
 
   // delete cart
   const handleRemoveItem = (cartId) => {
@@ -58,9 +61,19 @@ function CartPage() {
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
   } = useForm({
     resolver: yupResolver(PaymentFormSchema),
   });
+
+  useEffect(() => {
+    if (userLogin) {
+      setValue("fullName", userLogin.fullName || "");
+      setValue("email", userLogin.email || "");
+      setValue("phone", userLogin.phone || "");
+      setValue("address", userLogin.address || "");
+    }
+  }, [userLogin, setValue]);
 
   // handle submit form order
   const onSubmit = (data) => {
@@ -273,6 +286,14 @@ function CartPage() {
                 type="text"
                 label="Full Name"
                 placeholder="Enter Your Full Name"
+              />
+              <Input
+                {...register("phone")}
+                error={errors}
+                id="phone"
+                type="text"
+                label="Phone"
+                placeholder="Enter Your Number"
               />
               <Input
                 {...register("address")}
