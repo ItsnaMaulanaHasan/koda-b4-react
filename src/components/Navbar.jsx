@@ -1,5 +1,11 @@
-import { useContext, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import {
+  NavLink,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { DrawerNavbarContext } from "../context/DrawerContext";
 import Button from "./Button";
@@ -203,12 +209,31 @@ function Navbar() {
 }
 
 const Sidebar = ({ userLogin, handleLogout }) => {
-  const navigate = useNavigate();
   const { setShowDrawer } = useContext(DrawerNavbarContext);
+  const navigate = useNavigate();
+  const { register, handleSubmit, setValue } = useForm();
+  const [searchParams] = useSearchParams();
   const getNavLinkClass = ({ isActive }) =>
     `hover:font-bold w-full py-3 transition duration-300 border-b ${
       isActive ? "border-b-[#FF8906]" : "border-b-[#E8E8E8]"
     }`;
+
+  useEffect(() => {
+    const search = searchParams.get("search") || "";
+    const searchMobile = searchParams.get("searchMobile") || "";
+    setValue("search", search || searchMobile);
+  }, [searchParams, setValue]);
+
+  const onSearch = (data) => {
+    try {
+      const params = new URLSearchParams();
+      if (data.search) params.set("search", data.search);
+      setShowDrawer(false);
+      navigate(`/product?${params.toString()}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -225,17 +250,27 @@ const Sidebar = ({ userLogin, handleLogout }) => {
             ✕
           </button>
         </div>
-        <Input
-          id="search"
-          type="search"
-          label="Search Product"
-          placeholder="Find Product"
-        />
+        <form onSubmit={handleSubmit(onSearch)}>
+          <Input
+            {...register("search")}
+            id="search"
+            type="search"
+            label="Search Product"
+            placeholder="Find Product"
+          />
+          <button type="submit" className="hidden"></button>
+        </form>
         <ul className="flex flex-col w-full items-center gap-3 text-sm text-[#0B132A] lg:gap-10 lg:text-base">
-          <NavLink to="/" className={getNavLinkClass}>
+          <NavLink
+            to="/"
+            className={getNavLinkClass}
+            onClick={() => setShowDrawer(false)}>
             <li>Home</li>
           </NavLink>
-          <NavLink to="/product" className={getNavLinkClass}>
+          <NavLink
+            to="/product"
+            className={getNavLinkClass}
+            onClick={() => setShowDrawer(false)}>
             <li>Product</li>
           </NavLink>
         </ul>

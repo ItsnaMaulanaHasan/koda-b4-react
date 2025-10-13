@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 import Checkbox from "../components/Checkbox";
@@ -10,13 +10,12 @@ import Button from "./Button";
 function FilterSearch({ isMobile = false }) {
   const { showDrawer, setShowDrawer } = useContext(DrawerFilterContext);
   // state data filter
-  const { setSearchFilter } = useContext(SearchFilterContext);
+  const { searchFilter, setSearchFilter } = useContext(SearchFilterContext);
   // inisialisasi search params untuk filter
   const [searchParams, setSearchParams] = useSearchParams();
   // get data filter dari query params
   const getFiltersFromParams = () => {
     const search = searchParams.get("search") || "";
-    const searchMobile = searchParams.get("searchMobile") || "";
     const categoryFilter = searchParams.get("category")
       ? searchParams.get("category").split(",")
       : [];
@@ -28,7 +27,6 @@ function FilterSearch({ isMobile = false }) {
 
     return {
       search,
-      searchMobile,
       categoryFilter,
       sortByFilter,
       priceRange: { minPrice, maxPrice },
@@ -38,6 +36,10 @@ function FilterSearch({ isMobile = false }) {
   const { register, handleSubmit, setValue, reset } = useForm({
     defaultValues: getFiltersFromParams(),
   });
+
+  useEffect(() => {
+    setValue("search", searchFilter.search);
+  }, [searchFilter.search, setValue]);
   // handle input checkbox
   const [categoryFilter, setCategoryFilter] = useState(
     getFiltersFromParams().categoryFilter
@@ -93,14 +95,14 @@ function FilterSearch({ isMobile = false }) {
     <>
       {isMobile ? (
         <form
-          onSubmit={handleSubmit(onFilter)}
+          onChange={handleSubmit(onFilter)}
           className="flex items-center w-full gap-4">
           <div className="flex border rounded-md py-3 px-4 border-[#DEDEDE] w-full gap-4">
             <img src="/icon/icon-search-black.svg" alt="Icon Search" />
             <input
-              type="text"
+              type="search"
               placeholder="Find Product"
-              {...register("searchMobile")}
+              {...register("search")}
               className="focus:outline-none w-full text-sm placeholder:text-[#4F5665]"
             />
           </div>
@@ -144,7 +146,7 @@ function FilterSearch({ isMobile = false }) {
             </label>
             <input
               className="p-3 rounded-sm bg-[#FCFDFE] placeholder:text-[#696F79] placeholder:text-sm text-black"
-              type="text"
+              type="search"
               id="search"
               placeholder="Search Your Product"
               {...register("search")}
