@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Alert from "../components/Alert";
 import CardMenu from "../components/CardMenu";
 import StarRating from "../components/StarRating";
 import { useFetchData } from "../hooks/useFetchData";
@@ -9,6 +10,8 @@ import { addDataCart } from "../redux/reducers/cart";
 function DetailProduct() {
   // fetch data menu
   const { data, isLoading, error } = useFetchData("/data/menu.json");
+  const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  const navigate = useNavigate();
   const { id: idMenu } = useParams();
   const menu = data.find((menu) => menu.id === parseInt(idMenu));
   const dispatch = useDispatch();
@@ -51,12 +54,34 @@ function DetailProduct() {
     };
 
     dispatch(addDataCart(cartItem));
-    alert(`${menu.name} berhasil ditambahkan ke cart!`);
+    setAlertStatus({ type: "success", message: "Successfully added to cart" });
 
     // Reset ke default
     setAmount(1);
     setSize("Reguler");
     setHotIce("Ice");
+  };
+
+  const handleBuy = () => {
+    const cartItem = {
+      menuId: menu.id,
+      name: menu.name,
+      image: menu.image,
+      price: menu.discountPrice || menu.price,
+      originalPrice: menu.price,
+      size: size,
+      hotIce: hotIce,
+      quantity: amount,
+    };
+
+    dispatch(addDataCart(cartItem));
+
+    // Reset ke default
+    setAmount(1);
+    setSize("Reguler");
+    setHotIce("Ice");
+
+    navigate("/cart");
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -67,6 +92,13 @@ function DetailProduct() {
 
   return (
     <div className="flex flex-col gap-10 px-4 py-6 mt-16 sm:gap-12 sm:px-6 sm:py-8 sm:mt-20 md:gap-16 md:px-10 md:py-10 lg:gap-20 lg:px-16 xl:px-20">
+      <Alert
+        type={alertStatus.type}
+        message={alertStatus.message}
+        onClose={() => {
+          setAlertStatus({ type: "", message: "" });
+        }}
+      />
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:gap-10">
         {/* Kolom Gambar */}
         <div className="flex flex-col gap-3 sm:gap-4 md:gap-5">
@@ -210,7 +242,9 @@ function DetailProduct() {
           </div>
 
           {/* Action Buttons */}
-          <div className="grid grid-cols-1 gap-2 mt-3 sm:gap-3 sm:mt-4 md:grid-cols-2 md:mt-5">
+          <div
+            onClick={handleBuy}
+            className="grid grid-cols-1 gap-2 mt-3 sm:gap-3 sm:mt-4 md:grid-cols-2 md:mt-5">
             <button className="py-3 sm:py-4 bg-[#FF8906] text-[#0B132A] rounded-lg hover:bg-[#e67a05] transition font-medium">
               Buy
             </button>
