@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 function Drawer({
   drawerCtx,
   bg,
@@ -6,6 +8,17 @@ function Drawer({
   direction = "left",
   width = "w-80",
 }) {
+  useEffect(() => {
+    if (drawerCtx.showDrawer) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [drawerCtx.showDrawer]);
+
   if (!drawerCtx.showDrawer) {
     return null;
   }
@@ -36,7 +49,7 @@ function Drawer({
 
         {/* Drawer */}
         <div
-          className={`fixed ${position} z-2002 h-screen p-4 overflow-y-auto transition-transform ${bg} ${textColor} ${width} ${translate}`}
+          className={`fixed ${position} z-2002 h-dvh p-4 overflow-y-auto transition-transform ${bg} ${textColor} ${width} ${translate}`}
           tabIndex="-1">
           {children}
         </div>
