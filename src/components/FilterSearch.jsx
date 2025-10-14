@@ -139,7 +139,7 @@ function FilterSearch({ isMobile = false }) {
               Reset Filter
             </button>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="hidden md:flex flex-col gap-2">
             <label className="font-semibold" htmlFor="search">
               Search
             </label>
