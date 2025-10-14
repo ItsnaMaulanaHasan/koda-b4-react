@@ -28,19 +28,19 @@ function HomePage() {
               Get Started
             </Button>
             <div className="flex gap-10 mt-5">
-              <div className="flex-1 pr-10 border-r border-r-white">
+              <div className="flex-1 border-r border-r-white">
                 <div className="font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#FF8906] mb-5">
                   90+
                 </div>
                 <span className="text-white">Staff</span>
               </div>
-              <div className="flex-1 pr-10 border-r border-r-white">
+              <div className="flex-1 border-r border-r-white">
                 <div className="font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#FF8906] mb-5">
                   30+
                 </div>
                 <span className="text-white">Stores</span>
               </div>
-              <div className="flex-1 pr-10">
+              <div className="flex-1">
                 <div className="font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#FF8906] mb-5">
                   800+
                 </div>
