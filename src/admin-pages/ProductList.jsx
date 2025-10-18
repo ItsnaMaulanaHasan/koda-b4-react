@@ -1,57 +1,23 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import Drawer from "../components/Drawer";
+import Input from "../components/Input";
 import ProductForm from "../components/ProductForm";
 import { DrawerAdminContext } from "../context/DrawerContext";
-
-const products = [
-  {
-    id: 1,
-    image: "/img-menus/image1.png",
-    name: "Caramel Machiato",
-    price: 40000,
-    desc: "Cold brewing is a method of brewing that...",
-    size: "R,L,XL,250gr",
-    method: "Deliver, Dine In",
-    stock: 200,
-  },
-  {
-    id: 2,
-    image: "/img-menus/image2.png",
-    name: "Hazelnut Latte",
-    price: 40000,
-    desc: "Cold brewing is a method of brewing that...",
-    size: "R,L,XL,250gr",
-    method: "Deliver, Dine In",
-    stock: 200,
-  },
-  {
-    id: 3,
-    image: "/img-menus/image3.png",
-    name: "Kopi Susu",
-    price: 40000,
-    desc: "Cold brewing is a method of brewing that...",
-    size: "R,L,XL,250gr",
-    method: "Dine In",
-    stock: 200,
-  },
-  {
-    id: 4,
-    image: "/img-menus/image4.png",
-    name: "Espresso Supreme",
-    price: 40000,
-    desc: "Cold brewing is a method of brewing that...",
-    size: "R,L,XL,250gr",
-    method: "Deliver",
-    stock: 200,
-  },
-];
+import { useFetchData } from "../hooks/useFetchData";
 
 function ProductList() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [formMode, setFormMode] = useState("add");
+  const { data: products, isLoading, error } = useFetchData("/data/menu.json");
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [filteredMenu, setFilteredMenu] = useState([]);
+
+  const [formMode, setFormMode] = useState("add");
   const drawerCtx = useContext(DrawerAdminContext);
+
+  useEffect(() => {
+    if (!products) return;
+    setFilteredMenu(products);
+  }, [products]);
 
   // Handler untuk Add Product
   const handleAddProduct = () => {
@@ -67,6 +33,43 @@ function ProductList() {
     drawerCtx.setShowDrawer(true);
   };
 
+  const { register, handleSubmit } = useForm();
+
+  const onSearch = (data) => {
+    setFilteredMenu(
+      products.filter((menu) => {
+        const matchSearch =
+          !data.search ||
+          menu.name.toLowerCase().includes(data.search.toLowerCase());
+
+        return matchSearch;
+      })
+    );
+  };
+
+  // handle pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+  const totalPages = Math.ceil(filteredMenu.length / itemsPerPage) || 1;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentData = filteredMenu.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePrev = () => {
+    setCurrentPage((prev) => (prev === 1 ? totalPages : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prev) => (prev === totalPages ? 1 : prev + 1));
+  };
+
+  const goToPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>Error: {error}</div>;
   return (
     <div className="relative p-6">
       <Drawer
@@ -100,32 +103,15 @@ function ProductList() {
         </button>
 
         <div className="flex items-center gap-3">
-          <div>
-            <label className="block mb-2 text-sm text-gray-600">
-              Search Product
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Enter Product Name"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-80 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8906]"
-              />
-              <svg
-                className="absolute w-5 h-5 text-gray-400 -translate-y-1/2 right-3 top-1/2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
-          </div>
+          <form onChange={handleSubmit(onSearch)}>
+            <Input
+              {...register("search")}
+              id="search"
+              type="search"
+              label="Search Product"
+              placeholder="Find Product"
+            />
+          </form>
 
           <div className="mt-7">
             <button className="flex items-center gap-2 bg-[#FF8906] px-6 py-2 rounded-lg hover:bg-[#e57a05] transition">
@@ -185,7 +171,7 @@ function ProductList() {
             </tr>
           </thead>
           <tbody>
-            {products.map((product, index) => (
+            {currentData.map((product, index) => (
               <tr
                 key={product.id}
                 className={index % 2 === 0 && "bg-[#E8E8E84D]"}>
@@ -209,7 +195,7 @@ function ProductList() {
                   {product.price}
                 </td>
                 <td className="max-w-xs px-4 py-4 text-sm text-gray-600 truncate">
-                  {product.desc}
+                  {product.description}
                 </td>
                 <td className="px-4 py-4 text-sm text-gray-800">
                   {product.size}
@@ -251,22 +237,26 @@ function ProductList() {
             Show 5 product of 100 product
           </div>
           <div className="flex items-center gap-2">
-            <button className="px-3 py-1 text-sm text-gray-600 rounded hover:bg-gray-100">
+            <button
+              onClick={handlePrev}
+              className="px-3 py-1 text-sm text-gray-600 rounded hover:bg-gray-100">
               Prev
             </button>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((page) => (
+            {Array.from({ length: totalPages }, (_, index) => (
               <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
+                key={index + 1}
+                onClick={() => goToPage(index + 1)}
                 className={`px-3 py-1 text-sm rounded ${
-                  currentPage === page
+                  currentPage === index + 1
                     ? "text-[#FF8906]"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}>
-                {page}
+                {index + 1}
               </button>
             ))}
-            <button className="px-3 py-1 text-sm text-gray-600 rounded hover:bg-gray-100">
+            <button
+              onClick={handleNext}
+              className="px-3 py-1 text-sm text-gray-600 rounded hover:bg-gray-100">
               Next
             </button>
           </div>

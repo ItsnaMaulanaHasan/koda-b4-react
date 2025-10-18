@@ -48,7 +48,7 @@ const ProductForm = ({ product = null, mode = "add" }) => {
     if (mode === "edit" && product) {
       setValue("name", product.name);
       setValue("price", product.price);
-      setValue("description", product.description || product.desc);
+      setValue("description", product.description);
       setValue("stock", product.stock);
 
       // Set images jika ada
