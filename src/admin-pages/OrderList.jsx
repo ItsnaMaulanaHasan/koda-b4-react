@@ -2,66 +2,10 @@ import { useContext, useState } from "react";
 import Drawer from "../components/Drawer";
 import OrderDetail from "../components/OrderDetail";
 import { DrawerAdminContext } from "../context/DrawerContext";
-
-const orders = [
-  {
-    id: 1,
-    orderNo: "#12354-09893",
-    date: "26 January 2023",
-    items: [
-      { name: "Hazelnut Latte", size: "R", qty: 1 },
-      { name: "Caramel Machiato", size: "L", qty: 1 },
-    ],
-    status: "Done",
-    total: "IDR 40.000",
-  },
-  {
-    id: 2,
-    orderNo: "#12354-09893",
-    date: "26 January 2023",
-    items: [
-      { name: "Hazelnut Latte", qty: 1 },
-      { name: "Caramel Machiato", qty: 1 },
-    ],
-    status: "Pending",
-    total: "IDR 40.000",
-  },
-  {
-    id: 3,
-    orderNo: "#12354-09893",
-    date: "26 January 2023",
-    items: [
-      { name: "Hazelnut Latte", qty: 1 },
-      { name: "Caramel Machiato", qty: 1 },
-    ],
-    status: "On Progress",
-    total: "IDR 40.000",
-  },
-  {
-    id: 4,
-    orderNo: "#12354-09893",
-    date: "26 January 2023",
-    items: [
-      { name: "Hazelnut Latte", qty: 1 },
-      { name: "Caramel Machiato", qty: 1 },
-    ],
-    status: "Waiting",
-    total: "IDR 40.000",
-  },
-  {
-    id: 5,
-    orderNo: "#12354-09893",
-    date: "26 January 2023",
-    items: [
-      { name: "Hazelnut Latte", qty: 1 },
-      { name: "Caramel Machiato", qty: 1 },
-    ],
-    status: "On Progress",
-    total: "IDR 40.000",
-  },
-];
+import { useFetchData } from "../hooks/useFetchData";
 
 function OrderList() {
+  const { data: orders, isLoading, error } = useFetchData("/data/order.json");
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
@@ -88,6 +32,10 @@ function OrderList() {
         return "bg-gray-100 text-gray-700";
     }
   };
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="p-6">
@@ -213,7 +161,7 @@ function OrderList() {
           <tbody>
             {orders.map((order, index) => (
               <tr
-                key={order.id}
+                key={order.noOrder}
                 className={index % 2 === 0 && "bg-[#E8E8E84D]"}>
                 <td className="px-4 py-4">
                   <input
@@ -222,17 +170,17 @@ function OrderList() {
                   />
                 </td>
                 <td className="px-4 py-4 text-sm text-gray-800">
-                  {order.orderNo}
+                  {order.noOrder}
                 </td>
                 <td className="px-4 py-4 text-sm text-gray-800">
-                  {order.date}
+                  {order.dateOrder}
                 </td>
                 <td className="px-4 py-4">
                   <ul className="text-sm text-gray-800">
-                    {order.items.map((item, idx) => (
+                    {order.listOrders.map((item, idx) => (
                       <li key={idx} className="flex items-center gap-1">
                         <span className="w-1.5 h-1.5 bg-gray-800 rounded-full"></span>
-                        {item.name} {item.size || ""} {item.qty}x
+                        {item.name} {item.size || ""} {item.quantity}x
                       </li>
                     ))}
                   </ul>

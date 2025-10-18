@@ -1,0 +1,342 @@
+[
+  {
+    "noOrder": "ORD-18102025-0048",
+    "dateOrder": "2025-10-18T11:19:41.336Z",
+    "fullName": "Itsna Maulana Hasan",
+    "email": "hasan@gmail.com",
+    "address": "Jl. Sadewa 3",
+    "phone": "081234567890",
+    "paymentMethod": "Cash",
+    "shipping": "Door Delivery",
+    "status": "On Progress",
+    "totalTransaction": 55000,
+    "listOrders": [
+      {
+        "menuId": 1,
+        "name": "Hazelnut Latte",
+        "image": "/img-menus/image1.png",
+        "price": 20000,
+        "originalPrice": 20000,
+        "size": "Reguler",
+        "hotIce": "Ice",
+        "quantity": 1,
+        "isFlashSale": false,
+        "cartId": 1760785534938
+      },
+      {
+        "menuId": 2,
+        "name": "Hazelnut Latte",
+        "image": "/img-menus/image2.png",
+        "price": 20000,
+        "originalPrice": 20000,
+        "size": "Reguler",
+        "hotIce": "Ice",
+        "quantity": 1,
+        "isFlashSale": false,
+        "cartId": 1760785536717
+      },
+      {
+        "menuId": 3,
+        "name": "Grilled Sandwich",
+        "image": "/img-menus/image3.png",
+        "price": 10000,
+        "originalPrice": 20000,
+        "size": "Medium",
+        "hotIce": "Hot",
+        "quantity": 1,
+        "isFlashSale": true,
+        "cartId": 1760785550906
+      }
+    ],
+    "orderTotal": 50000,
+    "deliveryFee": 0,
+    "tax": 5000
+  },
+  {
+    "noOrder": "ORD-17102025-8921",
+    "dateOrder": "2025-10-17T09:30:22.145Z",
+    "fullName": "Budi Santoso",
+    "email": "budi@gmail.com",
+    "address": "Jl. Merdeka No. 45",
+    "phone": "082345678901",
+    "paymentMethod": "E-Wallet",
+    "shipping": "Dine In",
+    "status": "Done",
+    "totalTransaction": 75000,
+    "listOrders": [
+      {
+        "menuId": 5,
+        "name": "Cappuccino",
+        "image": "/img-menus/image5.png",
+        "price": 25000,
+        "originalPrice": 25000,
+        "size": "Large",
+        "hotIce": "Hot",
+        "quantity": 2,
+        "isFlashSale": false,
+        "cartId": 1760685234567
+      },
+      {
+        "menuId": 8,
+        "name": "Chicken Wings",
+        "image": "/img-menus/image8.png",
+        "price": 25000,
+        "originalPrice": 30000,
+        "size": "Large",
+        "hotIce": "Hot",
+        "quantity": 1,
+        "isFlashSale": true,
+        "cartId": 1760685345678
+      }
+    ],
+    "orderTotal": 70000,
+    "deliveryFee": 0,
+    "tax": 5000
+  },
+  {
+    "noOrder": "ORD-16102025-3456",
+    "dateOrder": "2025-10-16T14:45:30.890Z",
+    "fullName": "Siti Nurhaliza",
+    "email": "siti@gmail.com",
+    "address": "Jl. Kenanga Raya No. 12",
+    "phone": "083456789012",
+    "paymentMethod": "Card",
+    "shipping": "Door Delivery",
+    "status": "Shipping",
+    "totalTransaction": 92000,
+    "listOrders": [
+      {
+        "menuId": 4,
+        "name": "Green Tea Latte",
+        "image": "/img-menus/image4.png",
+        "price": 22000,
+        "originalPrice": 22000,
+        "size": "Reguler",
+        "hotIce": "Ice",
+        "quantity": 2,
+        "isFlashSale": false,
+        "cartId": 1760585123456
+      },
+      {
+        "menuId": 6,
+        "name": "Chocolate Cake",
+        "image": "/img-menus/image6.png",
+        "price": 35000,
+        "originalPrice": 35000,
+        "size": "Medium",
+        "hotIce": "Hot",
+        "quantity": 1,
+        "isFlashSale": false,
+        "cartId": 1760585234567
+      },
+      {
+        "menuId": 7,
+        "name": "Croissant",
+        "image": "/img-menus/image7.png",
+        "price": 15000,
+        "originalPrice": 18000,
+        "size": "Small",
+        "hotIce": "Hot",
+        "quantity": 1,
+        "isFlashSale": true,
+        "cartId": 1760585345678
+      }
+    ],
+    "orderTotal": 87000,
+    "deliveryFee": 0,
+    "tax": 5000
+  },
+  {
+    "noOrder": "ORD-15102025-7812",
+    "dateOrder": "2025-10-15T08:20:15.234Z",
+    "fullName": "Ahmad Fauzi",
+    "email": "ahmad@gmail.com",
+    "address": "Jl. Pahlawan No. 78",
+    "phone": "084567890123",
+    "paymentMethod": "Cash",
+    "shipping": "Pick Up",
+    "status": "Done",
+    "totalTransaction": 42000,
+    "listOrders": [
+      {
+        "menuId": 9,
+        "name": "Espresso",
+        "image": "/img-menus/image9.png",
+        "price": 18000,
+        "originalPrice": 18000,
+        "size": "Small",
+        "hotIce": "Hot",
+        "quantity": 2,
+        "isFlashSale": false,
+        "cartId": 1760485123456
+      }
+    ],
+    "orderTotal": 36000,
+    "deliveryFee": 0,
+    "tax": 6000
+  },
+  {
+    "noOrder": "ORD-13102025-4350",
+    "dateOrder": "2025-10-13T17:15:08.612Z",
+    "fullName": "Itsna Maulana Hasan",
+    "email": "hasan@gmail.com",
+    "address": "Pati Juwana 2",
+    "phone": "081234567890",
+    "paymentMethod": "Cash",
+    "shipping": "Door Delivery",
+    "status": "On Progress",
+    "totalTransaction": 22000,
+    "listOrders": [
+      {
+        "menuId": 1,
+        "name": "Hazelnut Latte",
+        "image": "/img-menus/image1.png",
+        "price": 20000,
+        "originalPrice": 20000,
+        "size": "Reguler",
+        "hotIce": "Ice",
+        "quantity": 1,
+        "isFlashSale": false,
+        "cartId": 1760289283595
+      }
+    ],
+    "orderTotal": 20000,
+    "deliveryFee": 0,
+    "tax": 2000
+  },
+  {
+    "noOrder": "ORD-12102025-9234",
+    "dateOrder": "2025-10-12T13:40:25.789Z",
+    "fullName": "Dewi Lestari",
+    "email": "dewi@gmail.com",
+    "address": "Jl. Melati No. 34",
+    "phone": "085678901234",
+    "paymentMethod": "E-Wallet",
+    "shipping": "Door Delivery",
+    "status": "Done",
+    "totalTransaction": 68000,
+    "listOrders": [
+      {
+        "menuId": 10,
+        "name": "Americano",
+        "image": "/img-menus/image10.png",
+        "price": 20000,
+        "originalPrice": 20000,
+        "size": "Reguler",
+        "hotIce": "Ice",
+        "quantity": 2,
+        "isFlashSale": false,
+        "cartId": 1760185123456
+      },
+      {
+        "menuId": 11,
+        "name": "Caesar Salad",
+        "image": "/img-menus/image11.png",
+        "price": 28000,
+        "originalPrice": 35000,
+        "size": "Large",
+        "hotIce": "Hot",
+        "quantity": 1,
+        "isFlashSale": true,
+        "cartId": 1760185234567
+      }
+    ],
+    "orderTotal": 63000,
+    "deliveryFee": 0,
+    "tax": 5000
+  },
+  {
+    "noOrder": "ORD-11102025-5623",
+    "dateOrder": "2025-10-11T10:25:40.456Z",
+    "fullName": "Rudi Hermawan",
+    "email": "rudi@gmail.com",
+    "address": "Jl. Sudirman No. 90",
+    "phone": "086789012345",
+    "paymentMethod": "Card",
+    "shipping": "Dine In",
+    "status": "Done",
+    "totalTransaction": 115000,
+    "listOrders": [
+      {
+        "menuId": 12,
+        "name": "Mocha Latte",
+        "image": "/img-menus/image12.png",
+        "price": 28000,
+        "originalPrice": 28000,
+        "size": "Large",
+        "hotIce": "Hot",
+        "quantity": 2,
+        "isFlashSale": false,
+        "cartId": 1760085123456
+      },
+      {
+        "menuId": 13,
+        "name": "Beef Burger",
+        "image": "/img-menus/image13.png",
+        "price": 45000,
+        "originalPrice": 45000,
+        "size": "Large",
+        "hotIce": "Hot",
+        "quantity": 1,
+        "isFlashSale": false,
+        "cartId": 1760085234567
+      },
+      {
+        "menuId": 14,
+        "name": "French Fries",
+        "image": "/img-menus/image14.png",
+        "price": 15000,
+        "originalPrice": 18000,
+        "size": "Medium",
+        "hotIce": "Hot",
+        "quantity": 1,
+        "isFlashSale": true,
+        "cartId": 1760085345678
+      }
+    ],
+    "orderTotal": 108000,
+    "deliveryFee": 0,
+    "tax": 7000
+  },
+  {
+    "noOrder": "ORD-10102025-8901",
+    "dateOrder": "2025-10-10T16:55:12.123Z",
+    "fullName": "Linda Wijaya",
+    "email": "linda@gmail.com",
+    "address": "Jl. Anggrek No. 56",
+    "phone": "087890123456",
+    "paymentMethod": "Cash",
+    "shipping": "Pick Up",
+    "status": "On Progress",
+    "totalTransaction": 35000,
+    "listOrders": [
+      {
+        "menuId": 15,
+        "name": "Vanilla Latte",
+        "image": "/img-menus/image15.png",
+        "price": 24000,
+        "originalPrice": 24000,
+        "size": "Reguler",
+        "hotIce": "Ice",
+        "quantity": 1,
+        "isFlashSale": false,
+        "cartId": 1759985123456
+      },
+      {
+        "menuId": 16,
+        "name": "Blueberry Muffin",
+        "image": "/img-menus/image16.png",
+        "price": 12000,
+        "originalPrice": 15000,
+        "size": "Small",
+        "hotIce": "Hot",
+        "quantity": 1,
+        "isFlashSale": true,
+        "cartId": 1759985234567
+      }
+    ],
+    "orderTotal": 33000,
+    "deliveryFee": 0,
+    "tax": 2000
+  }
+]
