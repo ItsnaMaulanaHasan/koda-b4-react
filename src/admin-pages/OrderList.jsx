@@ -1,16 +1,22 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import Drawer from "../components/Drawer";
+import Input from "../components/Input";
 import OrderDetail from "../components/OrderDetail";
 import { DrawerAdminContext } from "../context/DrawerContext";
 import { useFetchData } from "../hooks/useFetchData";
 
 function OrderList() {
   const { data: orders, isLoading, error } = useFetchData("/data/order.json");
-  const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [filteredOrder, setFilteredOrder] = useState([]);
   const drawerCtx = useContext(DrawerAdminContext);
+
+  useEffect(() => {
+    if (!orders) return;
+    setFilteredOrder(orders);
+  }, [orders]);
 
   // Handler untuk Edit Product
   const handleDetailOrder = (order) => {
@@ -31,6 +37,40 @@ function OrderList() {
       default:
         return "bg-gray-100 text-gray-700";
     }
+  };
+
+  const { register, handleSubmit } = useForm();
+
+  const onSearch = (data) => {
+    setFilteredOrder(
+      orders.filter((order) => {
+        const matchSearch =
+          !data.search ||
+          order.noOrder.toLowerCase().includes(data.search.toLowerCase());
+
+        return matchSearch;
+      })
+    );
+  };
+
+  // handle pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+  const totalPages = Math.ceil(filteredOrder.length / itemsPerPage) || 1;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentData = filteredOrder.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePrev = () => {
+    setCurrentPage((prev) => (prev === 1 ? totalPages : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prev) => (prev === totalPages ? 1 : prev + 1));
+  };
+
+  const goToPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -82,32 +122,15 @@ function OrderList() {
             </select>
           </div>
 
-          <div>
-            <label className="block mb-2 text-sm text-gray-600">
-              Search Order
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Enter Order Number"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8906]"
-              />
-              <svg
-                className="absolute w-5 h-5 text-gray-400 -translate-y-1/2 right-3 top-1/2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
-          </div>
+          <form onChange={handleSubmit(onSearch)}>
+            <Input
+              {...register("search")}
+              id="search"
+              type="search"
+              label="Search Order"
+              placeholder="Enter Order Number"
+            />
+          </form>
 
           <button className="flex items-center gap-2 bg-[#FF8906] px-6 py-2 rounded-lg hover:bg-[#e57a05] transition">
             <svg
@@ -159,7 +182,7 @@ function OrderList() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, index) => (
+            {currentData.map((order, index) => (
               <tr
                 key={order.noOrder}
                 className={index % 2 === 0 && "bg-[#E8E8E84D]"}>
@@ -232,22 +255,26 @@ function OrderList() {
         <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
           <div className="text-sm text-gray-600">Show 5 Order of 100 order</div>
           <div className="flex items-center gap-2">
-            <button className="px-3 py-1 text-sm text-gray-600 rounded hover:bg-gray-100">
+            <button
+              onClick={handlePrev}
+              className="px-3 py-1 text-sm text-gray-600 rounded hover:bg-gray-100">
               Prev
             </button>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((page) => (
+            {Array.from({ length: totalPages }, (_, index) => (
               <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
+                key={index + 1}
+                onClick={() => goToPage(index + 1)}
                 className={`px-3 py-1 text-sm rounded ${
-                  currentPage === page
+                  currentPage === index + 1
                     ? "text-[#FF8906]"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}>
-                {page}
+                {index + 1}
               </button>
             ))}
-            <button className="px-3 py-1 text-sm text-gray-600 rounded hover:bg-gray-100">
+            <button
+              onClick={handleNext}
+              className="px-3 py-1 text-sm text-gray-600 rounded hover:bg-gray-100">
               Next
             </button>
           </div>
