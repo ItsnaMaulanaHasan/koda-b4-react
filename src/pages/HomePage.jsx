@@ -1,17 +1,20 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import CardMenu from "../components/CardMenu";
+import Chat from "../components/Chat";
 import Testimoni from "../components/Testimoni";
 import { useFetchData } from "../hooks/useFetchData";
 
 function HomePage() {
   const { data, isLoading, error } = useFetchData("/data/menu.json");
+  const [showChat, setShowChat] = useState(false);
 
   if (isLoading) return <div>Loading...</div>;
 
   if (error) return <div>Error: {error}</div>;
   return (
-    <>
+    <div className="relative">
       {/* section 1 */}
       <div className="grid grid-cols-1 grid-rows-1 md:grid-cols-2 md:grid-rows-2">
         {/* konten atas */}
@@ -141,7 +144,19 @@ function HomePage() {
       <div className="px-4 py-10 mb-20 sm:px-8 md:px-12 lg:px-16 xl:px-20 bg-custom-gradient">
         <Testimoni />
       </div>
-    </>
+      <div className="fixed bottom-125 right-107 z-100">
+        <button
+          onClick={() => setShowChat(!showChat)}
+          className="fixed z-100 cursor-pointer bottom-5 right-5 w-16 h-16 p-2 bg-[#FF8906] rounded-full">
+          <img
+            className="size-full"
+            src="/public/icon/icon-chat.svg"
+            alt="Icon Chat"
+          />
+        </button>
+        <Chat isShow={showChat} />
+      </div>
+    </div>
   );
 }
 
