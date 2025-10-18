@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import { addDataCart } from "../redux/reducers/cart";
 import Alert from "./Alert";
 import Button from "./Button";
+import ModalConfirmation from "./ModalConfirmation";
 
 /**
  * CardMenu component for displaying menu item with add to cart functionality
@@ -19,23 +22,45 @@ import Button from "./Button";
  */
 function CardMenu({ dataMenu }) {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  const [showModal, setShowModal] = useState(false);
+  const { userLogin } = useContext(AuthContext);
+  const isAuthenticated = !!userLogin?.email;
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const redirectToLogin = (e) => {
+    e.preventDefault();
+    navigate("/auth/login");
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setShowModal(false);
+  };
+
   const handleAddToCart = (e) => {
     e.preventDefault();
-    const cartItem = {
-      menuId: dataMenu.id,
-      name: dataMenu.name,
-      image: dataMenu.image,
-      price: dataMenu.discountPrice || dataMenu.price,
-      originalPrice: dataMenu.price,
-      size: "Reguler",
-      hotIce: "Ice",
-      quantity: 1,
-      isFlashSale: dataMenu.isFlashSale,
-    };
+    if (isAuthenticated) {
+      const cartItem = {
+        menuId: dataMenu.id,
+        name: dataMenu.name,
+        image: dataMenu.image,
+        price: dataMenu.discountPrice || dataMenu.price,
+        originalPrice: dataMenu.price,
+        size: "Reguler",
+        hotIce: "Ice",
+        quantity: 1,
+        isFlashSale: dataMenu.isFlashSale,
+      };
 
-    dispatch(addDataCart(cartItem));
-    setAlertStatus({ type: "success", message: "Successfully added to cart" });
+      dispatch(addDataCart(cartItem));
+      setAlertStatus({
+        type: "success",
+        message: "Successfully added to cart",
+      });
+    } else {
+      setShowModal(true);
+    }
   };
   return (
     <div className="w-full h-full">
@@ -49,6 +74,16 @@ function CardMenu({ dataMenu }) {
         onClick={(e) => {
           e.preventDefault();
         }}
+      />
+      <ModalConfirmation
+        isOpen={showModal}
+        onClose={handleCancel}
+        onConfirm={redirectToLogin}
+        title="Confirm Login"
+        message="Please login to add to cart!"
+        confirmText="Login"
+        cancelText="Cancel"
+        type="info"
       />
       <div className="relative">
         <img className="size-full" src={dataMenu.image} alt={dataMenu.name} />

@@ -7,6 +7,7 @@ import OrderList from "./admin-pages/OrderList";
 import ProductList from "./admin-pages/ProductList";
 import UsersList from "./admin-pages/UsersList";
 import { AuthContext } from "./context/AuthContext";
+import ProtectedRoute from "./context/ProtectedRoute";
 import AdminLayout from "./layouts/AdminLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import MainLayout from "./layouts/MainLayout";
@@ -40,19 +41,35 @@ const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <CartPage />,
+        element: (
+          <ProtectedRoute>
+            <CartPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/order-history",
-        element: <HistoryPage />,
+        element: (
+          <ProtectedRoute>
+            <HistoryPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/order-history/:noOrder",
-        element: <DetailHistory />,
+        element: (
+          <ProtectedRoute>
+            <DetailHistory />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/profile",
-        element: <ProfilePage />,
+        element: (
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

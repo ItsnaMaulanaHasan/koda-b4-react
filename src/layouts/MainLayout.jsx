@@ -7,11 +7,9 @@ function MainLayout() {
   return (
     <>
       <Navbar />
-      <ProtectedRoute>
-        <main>
-          <Outlet />
-        </main>
-      </ProtectedRoute>
+      <main>
+        <Outlet />
+      </main>
       <Footer />
     </>
   );

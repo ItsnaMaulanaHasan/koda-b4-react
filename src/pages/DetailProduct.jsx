@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
 import CardMenu from "../components/CardMenu";
+import ModalConfirmation from "../components/ModalConfirmation";
 import StarRating from "../components/StarRating";
+import { AuthContext } from "../context/AuthContext";
 import { useFetchData } from "../hooks/useFetchData";
 import { addDataCart } from "../redux/reducers/cart";
 
@@ -12,6 +14,9 @@ function DetailProduct() {
   // fetch data menu
   const { data, isLoading, error } = useFetchData("/data/menu.json");
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  const [showModal, setShowModal] = useState(false);
+  const { userLogin } = useContext(AuthContext);
+  const isAuthenticated = !!userLogin?.email;
   const navigate = useNavigate();
   const { id: idMenu } = useParams();
   const menu = data.find((menu) => menu.id === parseInt(idMenu));
@@ -43,46 +48,57 @@ function DetailProduct() {
 
   // handle add to cart
   const handleAddToCart = () => {
-    const cartItem = {
-      menuId: menu.id,
-      name: menu.name,
-      image: menu.image,
-      price: menu.discountPrice || menu.price,
-      originalPrice: menu.price,
-      size: size,
-      hotIce: hotIce,
-      quantity: amount,
-    };
+    if (isAuthenticated) {
+      const cartItem = {
+        menuId: menu.id,
+        name: menu.name,
+        image: menu.image,
+        price: menu.discountPrice || menu.price,
+        originalPrice: menu.price,
+        size: size,
+        hotIce: hotIce,
+        quantity: amount,
+      };
 
-    dispatch(addDataCart(cartItem));
-    setAlertStatus({ type: "success", message: "Successfully added to cart" });
+      dispatch(addDataCart(cartItem));
+      setAlertStatus({
+        type: "success",
+        message: "Successfully added to cart",
+      });
 
-    // Reset ke default
-    setAmount(1);
-    setSize("Reguler");
-    setHotIce("Ice");
+      // Reset ke default
+      setAmount(1);
+      setSize("Reguler");
+      setHotIce("Ice");
+    } else {
+      setShowModal(true);
+    }
   };
 
   const handleBuy = () => {
-    const cartItem = {
-      menuId: menu.id,
-      name: menu.name,
-      image: menu.image,
-      price: menu.discountPrice || menu.price,
-      originalPrice: menu.price,
-      size: size,
-      hotIce: hotIce,
-      quantity: amount,
-    };
+    if (isAuthenticated) {
+      const cartItem = {
+        menuId: menu.id,
+        name: menu.name,
+        image: menu.image,
+        price: menu.discountPrice || menu.price,
+        originalPrice: menu.price,
+        size: size,
+        hotIce: hotIce,
+        quantity: amount,
+      };
 
-    dispatch(addDataCart(cartItem));
+      dispatch(addDataCart(cartItem));
 
-    // Reset ke default
-    setAmount(1);
-    setSize("Reguler");
-    setHotIce("Ice");
+      // Reset ke default
+      setAmount(1);
+      setSize("Reguler");
+      setHotIce("Ice");
 
-    navigate("/cart");
+      navigate("/cart");
+    } else {
+      setShowModal(true);
+    }
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -99,6 +115,16 @@ function DetailProduct() {
         onClose={() => {
           setAlertStatus({ type: "", message: "" });
         }}
+      />
+      <ModalConfirmation
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => navigate("/auth/login")}
+        title="Confirm Login"
+        message="Please log in first"
+        confirmText="Login"
+        cancelText="Cancel"
+        type="info"
       />
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:gap-10">
         {/* Kolom Gambar */}

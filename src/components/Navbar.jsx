@@ -187,12 +187,12 @@ function Navbar() {
               <>
                 <Button
                   onClick={() => navigate("/auth/login")}
-                  className="px-3 text-sm border border-white text-whitel lg:px-4 whitespace-nowrap lg:text-base">
+                  className="px-5 text-sm text-white border border-white lg:px-4 whitespace-nowrap lg:text-base">
                   Sign In
                 </Button>
                 <Button
                   onClick={() => navigate("/auth/register")}
-                  className="px-3 lg:px-4 bg-[#FF8906] whitespace-nowrap text-sm lg:text-base">
+                  className="px-5 lg:px-4 bg-[#FF8906] whitespace-nowrap text-sm lg:text-base">
                   Sign Up
                 </Button>
               </>
