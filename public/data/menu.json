@@ -9,7 +9,10 @@
     "rating": 4,
     "isFlashSale": false,
     "category": ["Coffe"],
-    "sortBy": []
+    "sortBy": [],
+    "size": "R,L,XL,250gr",
+    "stock": 2,
+    "method": "Deliver, Dine In"
   },
   {
     "id": 2,
@@ -21,7 +24,10 @@
     "rating": 3,
     "isFlashSale": false,
     "category": ["Coffe"],
-    "sortBy": []
+    "sortBy": [],
+    "size": "R,L,XL,250gr",
+    "stock": 2,
+    "method": "Deliver, Dine In"
   },
   {
     "id": 3,
@@ -33,7 +39,10 @@
     "rating": 5.0,
     "isFlashSale": true,
     "category": ["Foods", "FavoriteProduct"],
-    "sortBy": ["Flashsale", "Cheap"]
+    "sortBy": ["Flashsale", "Cheap"],
+    "size": "R,L,XL,250gr",
+    "stock": 2,
+    "method": "Deliver, Dine In"
   },
   {
     "id": 4,
@@ -45,7 +54,10 @@
     "rating": 5,
     "isFlashSale": true,
     "category": ["Coffe", "FavoriteProduct"],
-    "sortBy": ["Flashsale", "Cheap"]
+    "sortBy": ["Flashsale", "Cheap"],
+    "size": "R,L,XL,250gr",
+    "stock": 2,
+    "method": "Deliver, Dine In"
   },
   {
     "id": 5,
@@ -57,7 +69,10 @@
     "rating": 4,
     "isFlashSale": false,
     "category": ["Coffe"],
-    "sortBy": ["BuyGet1"]
+    "sortBy": ["BuyGet1"],
+    "size": "R,L,XL,250gr",
+    "stock": 2,
+    "method": "Deliver, Dine In, Pick Up"
   },
   {
     "id": 6,
@@ -69,7 +84,10 @@
     "rating": 5.0,
     "isFlashSale": true,
     "category": ["Foods", "FavoriteProduct"],
-    "sortBy": ["Flashsale", "Cheap", "BirthdayPackage"]
+    "sortBy": ["Flashsale", "Cheap", "BirthdayPackage"],
+    "size": "R,L,XL,250gr",
+    "stock": 2,
+    "method": "Deliver, Dine In, Pick Up"
   },
   {
     "id": 7,
@@ -81,7 +99,10 @@
     "rating": 5.0,
     "isFlashSale": true,
     "category": ["Coffe"],
-    "sortBy": ["Flashsale", "Cheap"]
+    "sortBy": ["Flashsale", "Cheap"],
+    "size": "R,L,XL,250gr",
+    "stock": 2,
+    "method": "Deliver, Dine In, Pick Up"
   },
   {
     "id": 8,
@@ -93,6 +114,9 @@
     "rating": 5.0,
     "isFlashSale": true,
     "category": ["Foods", "AddOn"],
-    "sortBy": ["Flashsale", "Cheap"]
+    "sortBy": ["Flashsale", "Cheap"],
+    "size": "R,L,XL,250gr",
+    "stock": 2,
+    "method": "Deliver, Dine In, Pick Up"
   }
 ]
