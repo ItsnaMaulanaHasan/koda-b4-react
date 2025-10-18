@@ -1,57 +1,23 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import Drawer from "../components/Drawer";
+import Input from "../components/Input";
 import UserForm from "../components/UserForm";
 import { DrawerAdminContext } from "../context/DrawerContext";
-
-const users = [
-  {
-    id: 1,
-    image: "/img-menus/image1.png",
-    fullName: "Eleanor Pena",
-    phone: "(205) 555-0100",
-    address: "3517 W. Gray St. Utica, Pennsylvania 57867",
-    email: "cikaracak@gmail.com",
-  },
-  {
-    id: 2,
-    image: "/img-menus/image1.png",
-    fullName: "Ronald Richards",
-    phone: "(205) 555-0100",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    email: "cikaracak@gmail.com",
-  },
-  {
-    id: 3,
-    image: "/img-menus/image1.png",
-    fullName: "Darlene Robertson",
-    phone: "(209) 555-0104",
-    address: "4140 Parker Rd. Allentown, New Mexico 31134",
-    email: "cikaracak@gmail.com",
-  },
-  {
-    id: 4,
-    image: "/img-menus/image1.png",
-    fullName: "Kristin Watson",
-    phone: "(252) 555-0126",
-    address: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
-    email: "cikaracak@gmail.com",
-  },
-  {
-    id: 5,
-    image: "/img-menus/image1.png",
-    fullName: "Dianne Russell",
-    phone: "(201) 555-0124",
-    address: "4517 Washington Ave. Manchester, Kentucky 39495",
-    email: "cikaracak@gmail.com",
-  },
-];
+import { useFetchData } from "../hooks/useFetchData";
 
 function UsersList() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [formMode, setFormMode] = useState("add");
+  const { data: users, isLoading, error } = useFetchData("/data/user.json");
   const [selectedUser, setSelectedUser] = useState(null);
+  const [filteredUser, setFilteredUser] = useState([]);
+
+  const [formMode, setFormMode] = useState("add");
   const drawerCtx = useContext(DrawerAdminContext);
+
+  useEffect(() => {
+    if (!users) return;
+    setFilteredUser(users);
+  }, [users]);
 
   // Handler untuk Add User
   const handleAddUser = () => {
@@ -66,6 +32,44 @@ function UsersList() {
     setSelectedUser(product);
     drawerCtx.setShowDrawer(true);
   };
+
+  const { register, handleSubmit } = useForm();
+
+  const onSearch = (data) => {
+    setFilteredUser(
+      users.filter((user) => {
+        const matchSearch =
+          !data.search ||
+          user.fullName.toLowerCase().includes(data.search.toLowerCase());
+
+        return matchSearch;
+      })
+    );
+  };
+
+  // handle pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+  const totalPages = Math.ceil(filteredUser.length / itemsPerPage) || 1;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentData = filteredUser.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePrev = () => {
+    setCurrentPage((prev) => (prev === 1 ? totalPages : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prev) => (prev === totalPages ? 1 : prev + 1));
+  };
+
+  const goToPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="p-6">
@@ -100,32 +104,15 @@ function UsersList() {
         </button>
 
         <div className="flex items-center gap-3">
-          <div>
-            <label className="block mb-2 text-sm text-gray-600">
-              Search Product
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Enter User Name"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-80 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8906]"
-              />
-              <svg
-                className="absolute w-5 h-5 text-gray-400 -translate-y-1/2 right-3 top-1/2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
-          </div>
+          <form onChange={handleSubmit(onSearch)}>
+            <Input
+              {...register("search")}
+              id="search"
+              type="search"
+              label="Search User"
+              placeholder="Enter User Name"
+            />
+          </form>
 
           <div className="mt-7">
             <button className="flex items-center gap-2 bg-[#FF8906] px-6 py-2 rounded-lg hover:bg-[#e57a05] transition">
@@ -179,7 +166,7 @@ function UsersList() {
             </tr>
           </thead>
           <tbody>
-            {users.map((product, index) => (
+            {currentData.map((product, index) => (
               <tr
                 key={product.id}
                 className={index % 2 === 0 && "bg-[#E8E8E84D]"}>
@@ -191,7 +178,7 @@ function UsersList() {
                 </td>
                 <td className="px-4 py-4">
                   <img
-                    src={product.image}
+                    src={product.profileImage}
                     alt={product.name}
                     className="object-cover w-12 h-12 rounded-lg"
                   />
@@ -239,22 +226,26 @@ function UsersList() {
             Show 5 product of 100 product
           </div>
           <div className="flex items-center gap-2">
-            <button className="px-3 py-1 text-sm text-gray-600 rounded hover:bg-gray-100">
+            <button
+              onClick={handlePrev}
+              className="px-3 py-1 text-sm text-gray-600 rounded hover:bg-gray-100">
               Prev
             </button>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((page) => (
+            {Array.from({ length: totalPages }, (_, index) => (
               <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
+                key={index + 1}
+                onClick={() => goToPage(index + 1)}
                 className={`px-3 py-1 text-sm rounded ${
-                  currentPage === page
+                  currentPage === index + 1
                     ? "text-[#FF8906]"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}>
-                {page}
+                {index + 1}
               </button>
             ))}
-            <button className="px-3 py-1 text-sm text-gray-600 rounded hover:bg-gray-100">
+            <button
+              onClick={handleNext}
+              className="px-3 py-1 text-sm text-gray-600 rounded hover:bg-gray-100">
               Next
             </button>
           </div>
