@@ -144,15 +144,11 @@ function HomePage() {
       <div className="px-4 py-10 mb-20 sm:px-8 md:px-12 lg:px-16 xl:px-20 bg-custom-gradient">
         <Testimoni />
       </div>
-      <div className="fixed bottom-125 right-107 z-100">
+      <div>
         <button
           onClick={() => setShowChat(!showChat)}
-          className="fixed z-100 cursor-pointer bottom-5 right-5 w-16 h-16 p-2 bg-[#FF8906] rounded-full">
-          <img
-            className="size-full"
-            src="/public/icon/icon-chat.svg"
-            alt="Icon Chat"
-          />
+          className="fixed z-50 cursor-pointer bottom-5 right-5 w-16 h-16 p-3 bg-[#FF8906] rounded-full shadow-xl hover:bg-[#FF9D26] transition-all hover:scale-110">
+          <img src="/icon/icon-chat.svg" alt="Icon Chat" />
         </button>
         <Chat isShow={showChat} />
       </div>
