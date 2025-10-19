@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "HAPPY MOTHER'S DAY!",
-    "description": "Get one of our favorite menu for free!",
+    "description": "Get one healthy smoothie for free!",
     "buttonText": "Klaim Kupon",
     "image": "/img/img-promo1.png",
     "bgColor": "#88B788",
@@ -11,8 +11,8 @@
   },
   {
     "id": 2,
-    "title": "Get a cup of coffee for free on sunday morning",
-    "description": "Only at 7 to 9 AM",
+    "title": "Morning Wellness Boost",
+    "description": "Free green juice every Sunday, 7-9 AM only",
     "buttonText": "Klaim Kupon",
     "image": "/img/img-promo1.png",
     "bgColor": "#88B788",
@@ -22,7 +22,7 @@
   {
     "id": 3,
     "title": "HAPPY FATHER'S DAY!",
-    "description": "Buy 1 Get 1 for all coffee menu",
+    "description": "Buy 1 Get 1 for all protein shake menu",
     "buttonText": "Klaim Kupon",
     "image": "/img/img-promo1.png",
     "bgColor": "#88B788",
@@ -31,8 +31,8 @@
   },
   {
     "id": 4,
-    "title": "WEEKEND SPECIAL!",
-    "description": "Get 25% off for all pastries",
+    "title": "WEEKEND DETOX SPECIAL!",
+    "description": "Get 25% off for all detox juice packages",
     "buttonText": "Klaim Kupon",
     "image": "/img/img-promo2.png",
     "bgColor": "#F5C361",
@@ -42,11 +42,41 @@
   {
     "id": 5,
     "title": "NEW MEMBER BONUS",
-    "description": "Free coffee for your first order!",
+    "description": "Free healthy drink for your first order!",
     "buttonText": "Klaim Kupon",
     "image": "/img/img-promo2.png",
     "bgColor": "#F5C361",
     "validUntil": "2025-12-31",
+    "isActive": true
+  },
+  {
+    "id": 6,
+    "title": "FITNESS FRIDAY",
+    "description": "30% off for Post-Workout Power every Friday",
+    "buttonText": "Klaim Kupon",
+    "image": "/img/img-promo1.png",
+    "bgColor": "#88B788",
+    "validUntil": "2025-12-31",
+    "isActive": true
+  },
+  {
+    "id": 7,
+    "title": "DIET PROGRAM PACKAGE",
+    "description": "Buy 5 drinks, get 1 nutrition consultation free",
+    "buttonText": "Klaim Kupon",
+    "image": "/img/img-promo2.png",
+    "bgColor": "#F5C361",
+    "validUntil": "2025-11-30",
+    "isActive": true
+  },
+  {
+    "id": 8,
+    "title": "IMMUNITY BOOSTER WEEK",
+    "description": "Golden Immunity at special price: only IDR 25K",
+    "buttonText": "Klaim Kupon",
+    "image": "/img/img-promo1.png",
+    "bgColor": "#88B788",
+    "validUntil": "2025-10-27",
     "isActive": true
   }
 ]

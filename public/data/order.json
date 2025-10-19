@@ -9,14 +9,14 @@
     "paymentMethod": "Cash",
     "shipping": "Door Delivery",
     "status": "On Progress",
-    "totalTransaction": 55000,
+    "totalTransaction": 108000,
     "listOrders": [
       {
         "menuId": 1,
-        "name": "Hazelnut Latte",
-        "image": "/img-menus/image1.png",
-        "price": 20000,
-        "originalPrice": 20000,
+        "name": "The Emerald Boost",
+        "image": "/img-menus/menu1.png",
+        "price": 32000,
+        "originalPrice": 32000,
         "size": "Reguler",
         "hotIce": "Ice",
         "quantity": 1,
@@ -24,33 +24,21 @@
         "cartId": 1760785534938
       },
       {
-        "menuId": 2,
-        "name": "Hazelnut Latte",
-        "image": "/img-menus/image2.png",
-        "price": 20000,
-        "originalPrice": 20000,
-        "size": "Reguler",
+        "menuId": 4,
+        "name": "Post-Workout Power",
+        "image": "/img-menus/menu4.png",
+        "price": 37000,
+        "originalPrice": 52000,
+        "size": "Large",
         "hotIce": "Ice",
-        "quantity": 1,
-        "isFlashSale": false,
-        "cartId": 1760785536717
-      },
-      {
-        "menuId": 3,
-        "name": "Grilled Sandwich",
-        "image": "/img-menus/image3.png",
-        "price": 10000,
-        "originalPrice": 20000,
-        "size": "Medium",
-        "hotIce": "Hot",
-        "quantity": 1,
+        "quantity": 2,
         "isFlashSale": true,
-        "cartId": 1760785550906
+        "cartId": 1760785536717
       }
     ],
-    "orderTotal": 50000,
+    "orderTotal": 106000,
     "deliveryFee": 0,
-    "tax": 5000
+    "tax": 2000
   },
   {
     "noOrder": "ORD-17102025-8921",
@@ -62,26 +50,26 @@
     "paymentMethod": "E-Wallet",
     "shipping": "Dine In",
     "status": "Done",
-    "totalTransaction": 75000,
+    "totalTransaction": 86000,
     "listOrders": [
       {
-        "menuId": 5,
-        "name": "Cappuccino",
-        "image": "/img-menus/image5.png",
-        "price": 25000,
-        "originalPrice": 25000,
-        "size": "Large",
+        "menuId": 3,
+        "name": "Golden Immunity",
+        "image": "/img-menus/menu3.png",
+        "price": 30000,
+        "originalPrice": 45000,
+        "size": "Reguler",
         "hotIce": "Hot",
         "quantity": 2,
-        "isFlashSale": false,
+        "isFlashSale": true,
         "cartId": 1760685234567
       },
       {
-        "menuId": 8,
-        "name": "Chicken Wings",
-        "image": "/img-menus/image8.png",
-        "price": 25000,
-        "originalPrice": 30000,
+        "menuId": 6,
+        "name": "Moonlight Latte",
+        "image": "/img-menus/menu6.png",
+        "price": 28000,
+        "originalPrice": 36000,
         "size": "Large",
         "hotIce": "Hot",
         "quantity": 1,
@@ -89,9 +77,9 @@
         "cartId": 1760685345678
       }
     ],
-    "orderTotal": 70000,
+    "orderTotal": 88000,
     "deliveryFee": 0,
-    "tax": 5000
+    "tax": -2000
   },
   {
     "noOrder": "ORD-16102025-3456",
@@ -103,14 +91,14 @@
     "paymentMethod": "Card",
     "shipping": "Door Delivery",
     "status": "Shipping",
-    "totalTransaction": 92000,
+    "totalTransaction": 149000,
     "listOrders": [
       {
-        "menuId": 4,
-        "name": "Green Tea Latte",
-        "image": "/img-menus/image4.png",
-        "price": 22000,
-        "originalPrice": 22000,
+        "menuId": 2,
+        "name": "Ruby Cleanse",
+        "image": "/img-menus/menu2.png",
+        "price": 38000,
+        "originalPrice": 38000,
         "size": "Reguler",
         "hotIce": "Ice",
         "quantity": 2,
@@ -118,33 +106,33 @@
         "cartId": 1760585123456
       },
       {
-        "menuId": 6,
-        "name": "Chocolate Cake",
-        "image": "/img-menus/image6.png",
-        "price": 35000,
-        "originalPrice": 35000,
-        "size": "Medium",
-        "hotIce": "Hot",
+        "menuId": 5,
+        "name": "Berry Glow Smoothie",
+        "image": "/img-menus/menu5.png",
+        "price": 44000,
+        "originalPrice": 44000,
+        "size": "Large",
+        "hotIce": "Ice",
         "quantity": 1,
         "isFlashSale": false,
         "cartId": 1760585234567
       },
       {
-        "menuId": 7,
-        "name": "Croissant",
-        "image": "/img-menus/image7.png",
-        "price": 15000,
-        "originalPrice": 18000,
-        "size": "Small",
-        "hotIce": "Hot",
+        "menuId": 8,
+        "name": "Tropical Vitality",
+        "image": "/img-menus/menu8.png",
+        "price": 29000,
+        "originalPrice": 40000,
+        "size": "Reguler",
+        "hotIce": "Ice",
         "quantity": 1,
         "isFlashSale": true,
         "cartId": 1760585345678
       }
     ],
-    "orderTotal": 87000,
+    "orderTotal": 149000,
     "deliveryFee": 0,
-    "tax": 5000
+    "tax": 0
   },
   {
     "noOrder": "ORD-15102025-7812",
@@ -156,24 +144,36 @@
     "paymentMethod": "Cash",
     "shipping": "Pick Up",
     "status": "Done",
-    "totalTransaction": 42000,
+    "totalTransaction": 66000,
     "listOrders": [
       {
-        "menuId": 9,
-        "name": "Espresso",
-        "image": "/img-menus/image9.png",
-        "price": 18000,
-        "originalPrice": 18000,
-        "size": "Small",
-        "hotIce": "Hot",
+        "menuId": 7,
+        "name": "Hydra Green",
+        "image": "/img-menus/menu7.png",
+        "price": 28000,
+        "originalPrice": 28000,
+        "size": "Reguler",
+        "hotIce": "Ice",
         "quantity": 2,
         "isFlashSale": false,
         "cartId": 1760485123456
+      },
+      {
+        "menuId": 10,
+        "name": "Dragon's Kiss Smoothie",
+        "image": "/img-menus/menu10.png",
+        "price": 30000,
+        "originalPrice": 42000,
+        "size": "Reguler",
+        "hotIce": "Ice",
+        "quantity": 1,
+        "isFlashSale": true,
+        "cartId": 1760485234568
       }
     ],
-    "orderTotal": 36000,
+    "orderTotal": 86000,
     "deliveryFee": 0,
-    "tax": 6000
+    "tax": -20000
   },
   {
     "noOrder": "ORD-13102025-4350",
@@ -185,14 +185,14 @@
     "paymentMethod": "Cash",
     "shipping": "Door Delivery",
     "status": "On Progress",
-    "totalTransaction": 22000,
+    "totalTransaction": 34000,
     "listOrders": [
       {
         "menuId": 1,
-        "name": "Hazelnut Latte",
-        "image": "/img-menus/image1.png",
-        "price": 20000,
-        "originalPrice": 20000,
+        "name": "The Emerald Boost",
+        "image": "/img-menus/menu1.png",
+        "price": 32000,
+        "originalPrice": 32000,
         "size": "Reguler",
         "hotIce": "Ice",
         "quantity": 1,
@@ -200,7 +200,7 @@
         "cartId": 1760289283595
       }
     ],
-    "orderTotal": 20000,
+    "orderTotal": 32000,
     "deliveryFee": 0,
     "tax": 2000
   },
@@ -214,26 +214,26 @@
     "paymentMethod": "E-Wallet",
     "shipping": "Door Delivery",
     "status": "Done",
-    "totalTransaction": 68000,
+    "totalTransaction": 90000,
     "listOrders": [
       {
-        "menuId": 10,
-        "name": "Americano",
-        "image": "/img-menus/image10.png",
-        "price": 20000,
-        "originalPrice": 20000,
+        "menuId": 9,
+        "name": "Sunrise Chicory Latte",
+        "image": "/img-menus/menu9.png",
+        "price": 32000,
+        "originalPrice": 36000,
         "size": "Reguler",
-        "hotIce": "Ice",
+        "hotIce": "Hot",
         "quantity": 2,
-        "isFlashSale": false,
+        "isFlashSale": true,
         "cartId": 1760185123456
       },
       {
-        "menuId": 11,
-        "name": "Caesar Salad",
-        "image": "/img-menus/image11.png",
+        "menuId": 6,
+        "name": "Moonlight Latte",
+        "image": "/img-menus/menu6.png",
         "price": 28000,
-        "originalPrice": 35000,
+        "originalPrice": 36000,
         "size": "Large",
         "hotIce": "Hot",
         "quantity": 1,
@@ -241,9 +241,9 @@
         "cartId": 1760185234567
       }
     ],
-    "orderTotal": 63000,
+    "orderTotal": 92000,
     "deliveryFee": 0,
-    "tax": 5000
+    "tax": -2000
   },
   {
     "noOrder": "ORD-11102025-5623",
@@ -255,48 +255,36 @@
     "paymentMethod": "Card",
     "shipping": "Dine In",
     "status": "Done",
-    "totalTransaction": 115000,
+    "totalTransaction": 118000,
     "listOrders": [
       {
-        "menuId": 12,
-        "name": "Mocha Latte",
-        "image": "/img-menus/image12.png",
-        "price": 28000,
-        "originalPrice": 28000,
+        "menuId": 4,
+        "name": "Post-Workout Power",
+        "image": "/img-menus/menu4.png",
+        "price": 37000,
+        "originalPrice": 52000,
         "size": "Large",
-        "hotIce": "Hot",
+        "hotIce": "Ice",
         "quantity": 2,
-        "isFlashSale": false,
+        "isFlashSale": true,
         "cartId": 1760085123456
       },
       {
-        "menuId": 13,
-        "name": "Beef Burger",
-        "image": "/img-menus/image13.png",
-        "price": 45000,
-        "originalPrice": 45000,
+        "menuId": 5,
+        "name": "Berry Glow Smoothie",
+        "image": "/img-menus/menu5.png",
+        "price": 44000,
+        "originalPrice": 44000,
         "size": "Large",
-        "hotIce": "Hot",
+        "hotIce": "Ice",
         "quantity": 1,
         "isFlashSale": false,
         "cartId": 1760085234567
-      },
-      {
-        "menuId": 14,
-        "name": "French Fries",
-        "image": "/img-menus/image14.png",
-        "price": 15000,
-        "originalPrice": 18000,
-        "size": "Medium",
-        "hotIce": "Hot",
-        "quantity": 1,
-        "isFlashSale": true,
-        "cartId": 1760085345678
       }
     ],
-    "orderTotal": 108000,
+    "orderTotal": 118000,
     "deliveryFee": 0,
-    "tax": 7000
+    "tax": 0
   },
   {
     "noOrder": "ORD-10102025-8901",
@@ -308,35 +296,35 @@
     "paymentMethod": "Cash",
     "shipping": "Pick Up",
     "status": "On Progress",
-    "totalTransaction": 35000,
+    "totalTransaction": 66000,
     "listOrders": [
       {
-        "menuId": 15,
-        "name": "Vanilla Latte",
-        "image": "/img-menus/image15.png",
-        "price": 24000,
-        "originalPrice": 24000,
+        "menuId": 3,
+        "name": "Golden Immunity",
+        "image": "/img-menus/menu3.png",
+        "price": 30000,
+        "originalPrice": 45000,
         "size": "Reguler",
-        "hotIce": "Ice",
+        "hotIce": "Hot",
         "quantity": 1,
-        "isFlashSale": false,
+        "isFlashSale": true,
         "cartId": 1759985123456
       },
       {
-        "menuId": 16,
-        "name": "Blueberry Muffin",
-        "image": "/img-menus/image16.png",
-        "price": 12000,
-        "originalPrice": 15000,
-        "size": "Small",
-        "hotIce": "Hot",
+        "menuId": 10,
+        "name": "Dragon's Kiss Smoothie",
+        "image": "/img-menus/menu10.png",
+        "price": 30000,
+        "originalPrice": 42000,
+        "size": "Reguler",
+        "hotIce": "Ice",
         "quantity": 1,
         "isFlashSale": true,
         "cartId": 1759985234567
       }
     ],
-    "orderTotal": 33000,
+    "orderTotal": 60000,
     "deliveryFee": 0,
-    "tax": 2000
+    "tax": 6000
   }
 ]

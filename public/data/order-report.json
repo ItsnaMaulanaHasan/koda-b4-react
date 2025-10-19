@@ -1,62 +1,62 @@
 [
   {
     "no": 1,
-    "name": "Caramel Machiato",
-    "sold": "300 Cup",
-    "revenue": 9000000
+    "name": "The Emerald Boost",
+    "sold": "450 Cup",
+    "revenue": 14400000
   },
   {
     "no": 2,
-    "name": "Hazelnut Latte",
-    "sold": "200 Cup",
-    "revenue": 80000000
+    "name": "Post-Workout Power",
+    "sold": "380 Cup",
+    "revenue": 14060000
   },
   {
     "no": 3,
-    "name": "Kopi Susu",
-    "sold": "100 Cup",
-    "revenue": 7000000
+    "name": "Golden Immunity",
+    "sold": "320 Cup",
+    "revenue": 11400000
   },
   {
     "no": 4,
-    "name": "Espresso Supreme",
-    "sold": "90 Cup",
-    "revenue": 6000000
+    "name": "Berry Glow Smoothie",
+    "sold": "290 Cup",
+    "revenue": 12760000
   },
   {
     "no": 5,
-    "name": "Caramel Velvet Latte",
-    "sold": "80 Cup",
-    "revenue": 5000000
+    "name": "Moonlight Latte",
+    "sold": "265 Cup",
+    "revenue": 8380000
   },
   {
     "no": 6,
-    "name": "Hazelnut Dream Brew",
-    "sold": "70 Cup",
-    "revenue": 4000000
+    "name": "Dragon's Kiss Smoothie",
+    "sold": "240 Cup",
+    "revenue": 8400000
   },
   {
     "no": 7,
-    "name": "Vanilla Silk Mocha",
-    "sold": "60 Cup",
-    "revenue": 3000000
+    "name": "Tropical Vitality",
+    "sold": "215 Cup",
+    "revenue": 7310000
   },
   {
     "no": 8,
-    "name": "Dark Roast Delight",
-    "sold": "50 Cup",
-    "revenue": 2000000
+    "name": "Ruby Cleanse",
+    "sold": "190 Cup",
+    "revenue": 7220000
   },
   {
     "no": 9,
-    "name": "Ethiopian Yirgacheffe Euphoria",
-    "sold": "40 Cup",
-    "revenue": 1000000
+    "name": "Hydra Green",
+    "sold": "175 Cup",
+    "revenue": 4900000
   },
   {
     "no": 10,
-    "name": "Indonesian Sumatra Reserve",
-    "sold": "30 Cup",
-    "revenue": 500000
+    "name": "Sunrise Chicory Latte",
+    "sold": "150 Cup",
+    "revenue": 5100000
   }
 ]
