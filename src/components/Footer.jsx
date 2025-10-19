@@ -10,7 +10,11 @@ function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-20 bg-[#F8F8F8] px-4 sm:px-8 md:px-12 lg:px-16 xl:px-30 py-20">
         <div className="flex flex-col justify-center gap-5">
           <div>
-            <img src="/icon/logo-original.svg" alt="Icon Logo" />
+            <img
+              className="w-30"
+              src="/img/logo-original.png"
+              alt="Logo Daily Greens"
+            />
           </div>
           <p className="text-[#4F5665]">
             Coffee Shop is a store that sells some good meals, and especially
@@ -119,7 +123,7 @@ function Footer() {
             </li>
           </ul>
         </div>
-        <span className="text-[#AFB5C0] text-sm">©2020CoffeeStore</span>
+        <span className="text-[#AFB5C0] text-sm">©2025DailyGreens</span>
       </div>
     </footer>
   );

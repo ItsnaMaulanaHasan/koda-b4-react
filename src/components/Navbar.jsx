@@ -68,11 +68,9 @@ function Navbar() {
               <img
                 className="w-auto h-6 sm:h-7 md:h-8"
                 src={
-                  isAdminPage
-                    ? "/icon/logo-original.svg"
-                    : "/icon/logo-white.svg"
+                  isAdminPage ? "/img/logo-original.png" : "/img/logo-white.png"
                 }
-                alt="Logo white"
+                alt="Logo Daily Greens"
               />
             </div>
             {!isAdminPage && (

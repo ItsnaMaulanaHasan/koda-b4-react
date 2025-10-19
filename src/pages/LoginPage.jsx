@@ -135,7 +135,11 @@ function LoginPage() {
       </div>
       <div className="flex flex-col flex-1 gap-5 px-8 py-20 sm:px-12 md:px-16 lg:px-40">
         <div>
-          <img src="/icon/logo-original.svg" alt="Icon Header" />
+          <img
+            className="w-30"
+            src="/img/logo-original.png"
+            alt="Logo Daily Greens"
+          />
         </div>
         <h1 className="font-semibold text-[#8E6447] text-xl">Login</h1>
         <p className="text-[#4F5665]">Fill out the form correctly</p>

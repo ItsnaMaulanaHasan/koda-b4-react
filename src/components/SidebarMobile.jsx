@@ -39,7 +39,11 @@ const SidebarMobile = ({ userLogin, handleLogout }) => {
     <div className="flex flex-col justify-between h-full px-2">
       <div className="flex flex-col w-full gap-5">
         <div className="flex items-center justify-between">
-          <img src="/icon/logo-original.svg" alt="Logo HIFI" />
+          <img
+            className="w-30"
+            src="/img/logo-original.png"
+            alt="Logo Daily Greens"
+          />
           <button
             onClick={() => setShowDrawer(false)}
             className="text-xs font-bold text-red-500 border-2 border-red-500 rounded-full size-5">
