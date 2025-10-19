@@ -152,57 +152,48 @@ function FilterSearch({ isMobile = false }) {
             />
           </div>
           <div className="flex flex-col gap-5">
-            <h1 className="font-semibold" htmlFor="search">
-              Category
-            </h1>
+            <h1 className="font-semibold">Category</h1>
             <Checkbox
-              checked={categoryFilter.includes("FavoriteProduct")}
-              onChange={() => handleCategoryChange("FavoriteProduct")}
+              checked={categoryFilter.includes("favoriteproduct")}
+              onChange={() => handleCategoryChange("favoriteproduct")}
               label="Favorite Product"
             />
             <Checkbox
-              checked={categoryFilter.includes("Coffe")}
-              onChange={() => handleCategoryChange("Coffe")}
-              label="Coffe"
+              checked={categoryFilter.includes("smoothies")}
+              onChange={() => handleCategoryChange("smoothies")}
+              label="Smoothies"
             />
             <Checkbox
-              checked={categoryFilter.includes("NonCoffe")}
-              onChange={() => handleCategoryChange("NonCoffe")}
-              label="Non Coffe"
+              checked={categoryFilter.includes("lattesandtonics")}
+              onChange={() => handleCategoryChange("lattesandtonics")}
+              label="Lattes & Tonics"
             />
             <Checkbox
-              checked={categoryFilter.includes("Foods")}
-              onChange={() => handleCategoryChange("Foods")}
-              label="Foods"
-            />
-            <Checkbox
-              checked={categoryFilter.includes("AddOn")}
-              onChange={() => handleCategoryChange("AddOn")}
-              label="Add-On"
+              checked={categoryFilter.includes("juices")}
+              onChange={() => handleCategoryChange("juices")}
+              label="Juices"
             />
           </div>
           <div className="flex flex-col gap-5">
-            <h1 className="font-semibold" htmlFor="search">
-              Sort By
-            </h1>
+            <h1 className="font-semibold">Sort By</h1>
             <Checkbox
-              checked={sortByFilter.includes("BuyGet1")}
-              onChange={() => handleSortByChange("BuyGet1")}
+              checked={sortByFilter.includes("buyget1")}
+              onChange={() => handleSortByChange("buyget1")}
               label="Buy 1 Get 1"
             />
             <Checkbox
-              checked={sortByFilter.includes("Flashsale")}
-              onChange={() => handleSortByChange("Flashsale")}
+              checked={sortByFilter.includes("flashsale")}
+              onChange={() => handleSortByChange("flashsale")}
               label="Flashsale"
             />
             <Checkbox
-              checked={sortByFilter.includes("BirthdayPackage")}
-              onChange={() => handleSortByChange("BirthdayPackage")}
-              label="Birthday Package"
+              checked={sortByFilter.includes("workoutpackage")}
+              onChange={() => handleSortByChange("workoutpackage")}
+              label="Workout Package"
             />
             <Checkbox
-              checked={sortByFilter.includes("Cheap")}
-              onChange={() => handleSortByChange("Cheap")}
+              checked={sortByFilter.includes("cheap")}
+              onChange={() => handleSortByChange("cheap")}
               label="Cheap"
             />
           </div>

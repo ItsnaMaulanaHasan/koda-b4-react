@@ -94,8 +94,14 @@ function CardMenu({ dataMenu }) {
         )}
       </div>
       <div className="relative z-50 flex flex-col gap-3 py-5 mx-auto bg-white md:shadow-md md:px-4 md:w-12/13 md:-mt-13">
-        <h1 className="text-lg font-medium md:text-2xl">{dataMenu.name}</h1>
-        <p className="text-[#4F5665] text-xs md:text-sm">
+        <h1
+          className="text-lg font-medium md:text-2xl line-clamp-2"
+          title={dataMenu.name}>
+          {dataMenu.name}
+        </h1>
+        <p
+          className="text-[#4F5665] text-xs md:text-sm line-clamp-3"
+          title={dataMenu.description}>
           {dataMenu.description}
         </p>
         <div className="flex flex-col items-start gap-2 md:items-center md:flex-row">
