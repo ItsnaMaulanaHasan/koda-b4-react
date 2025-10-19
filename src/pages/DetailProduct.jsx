@@ -202,21 +202,38 @@ function DetailProduct() {
           </p>
 
           {/* Counter */}
-          <div className="flex items-center border w-max rounded border-[#E8E8E8]">
-            <Button
-              onClick={() => setAmount((prev) => prev - 1)}
-              disabled={amount <= 1}
-              className="size-6 sm:size-7 border-2 border-[#FF8906] flex items-center justify-center hover:bg-[#FF8906] hover:text-white transition text-sm sm:text-base">
-              -
-            </Button>
-            <span className="w-10 text-xs font-medium text-center sm:w-12 sm:text-sm">
-              {amount}
-            </span>
-            <Button
-              onClick={() => setAmount((prev) => prev + 1)}
-              className="size-6 sm:size-7 bg-[#FF8906] flex items-center justify-center hover:bg-[#e67a05] transition text-sm sm:text-base">
-              +
-            </Button>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 border w-max rounded border-[#E8E8E8]">
+                <Button
+                  onClick={() => setAmount((prev) => prev - 1)}
+                  disabled={amount <= 1}
+                  className="size-6 sm:size-7 border-2 border-[#FF8906] flex items-center justify-center hover:bg-[#FF8906] hover:text-white transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed">
+                  -
+                </Button>
+                <span className="w-10 text-xs font-medium text-center md:w-auto sm:text-sm">
+                  {amount}
+                </span>
+                <Button
+                  onClick={() => setAmount((prev) => prev + 1)}
+                  disabled={amount >= menu.stock}
+                  className="size-6 sm:size-7 bg-[#FF8906] flex items-center justify-center hover:bg-[#e67a05] transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed">
+                  +
+                </Button>
+              </div>
+
+              {/* Stock Info */}
+              <div className="flex flex-col gap-1">
+                <span className="text-xs text-gray-600 sm:text-sm">
+                  Stock: {menu.stock}
+                </span>
+                {amount >= menu.stock && (
+                  <span className="text-xs font-medium text-red-500 sm:text-sm">
+                    Maximum stock reached!
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Choose Size */}
