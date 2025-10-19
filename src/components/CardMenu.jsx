@@ -63,7 +63,7 @@ function CardMenu({ dataMenu }) {
     }
   };
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full flex flex-col">
       <Alert
         type={alertStatus.type}
         message={alertStatus.message}
@@ -85,26 +85,30 @@ function CardMenu({ dataMenu }) {
         cancelText="Cancel"
         type="info"
       />
-      <div className="relative">
-        <img className="size-full" src={dataMenu.image} alt={dataMenu.name} />
+      <div className="relative flex-shrink-0">
+        <img
+          className="size-full object-cover aspect-square"
+          src={dataMenu.image}
+          alt={dataMenu.name}
+        />
         {dataMenu.isFlashSale && (
           <span className="absolute top-2 text-xs md:text-base left-2 py-1 md:py-3 px-2 bg-[#D00000] text-white uppercase font-bold rounded-full">
             Flash sale!
           </span>
         )}
       </div>
-      <div className="relative z-50 flex flex-col gap-3 py-5 mx-auto bg-white md:shadow-md md:px-4 md:w-12/13 md:-mt-13">
+      <div className="relative z-50 flex flex-col gap-3 py-5 mx-auto bg-white md:shadow-md md:px-4 md:w-12/13 md:-mt-13 flex-grow">
         <h1
-          className="text-lg font-medium md:text-2xl line-clamp-2"
+          className="text-lg font-medium md:text-2xl line-clamp-2 min-h-[3.5rem] md:min-h-[4rem]"
           title={dataMenu.name}>
           {dataMenu.name}
         </h1>
         <p
-          className="text-[#4F5665] text-xs md:text-sm line-clamp-3"
+          className="text-[#4F5665] text-xs md:text-sm line-clamp-3 min-h-[3rem] md:min-h-[3.75rem]"
           title={dataMenu.description}>
           {dataMenu.description}
         </p>
-        <div className="flex flex-col items-start gap-2 md:items-center md:flex-row">
+        <div className="flex flex-col items-start gap-2 md:items-center md:flex-row min-h-[2.5rem]">
           {dataMenu.discountPrice && (
             <span className="text-sm text-red-500 line-through">
               IDR ${dataMenu.price.toLocaleString("id")}
@@ -116,7 +120,7 @@ function CardMenu({ dataMenu }) {
               : `IDR ${dataMenu.price.toLocaleString("id")}`}
           </span>
         </div>
-        <div className="flex flex-col gap-2 md:flex-row">
+        <div className="flex flex-col gap-2 md:flex-row mt-auto">
           <Button className="bg-[#FF8906] flex-2 hover:bg-[#e67a05]">
             Buy
           </Button>
