@@ -37,7 +37,7 @@ function Chat({ isShow }) {
   if (!isShow) return null;
 
   return (
-    <div className="fixed bottom-24 right-5 w-[350px] h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+    <div className="fixed bottom-24 z-100 right-5 w-[350px] h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden">
       {/* Header */}
       <div className="bg-gradient-to-r from-[#FF8906] to-[#FFB347] rounded-t-2xl w-full h-5"></div>
       <div className="p-5">

@@ -111,7 +111,9 @@ function CardMenu({ dataMenu }) {
           </span>
         </div>
         <div className="flex flex-col gap-2 md:flex-row">
-          <Button className="bg-[#FF8906] flex-2">Buy</Button>
+          <Button className="bg-[#FF8906] flex-2 hover:bg-[#e67a05]">
+            Buy
+          </Button>
           <Button
             onClick={handleAddToCart}
             className="flex-1 border border-[#FF8906] text-[#FF8906] justify-items-center content-center">

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import CardMenu from "../components/CardMenu";
 import Chat from "../components/Chat";
@@ -9,6 +9,7 @@ import { useFetchData } from "../hooks/useFetchData";
 function HomePage() {
   const { data, isLoading, error } = useFetchData("/data/menu.json");
   const [showChat, setShowChat] = useState(false);
+  const navigate = useNavigate();
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -27,7 +28,9 @@ function HomePage() {
               We provide high quality beans, good taste, and healthy meals made
               by love just for you. Start your day with us for a bigger smile!
             </p>
-            <Button className="bg-[#FF8906] w-max px-5 py-2 sm:py-4 sm:px-10">
+            <Button
+              onClick={() => navigate("/product")}
+              className="bg-[#FF8906] w-max px-5 py-2 sm:py-4 sm:px-10 hover:bg-[#e67a05]">
               Get Started
             </Button>
             <div className="flex gap-10 mt-5">
