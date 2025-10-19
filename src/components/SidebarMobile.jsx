@@ -83,7 +83,9 @@ const SidebarMobile = ({ userLogin, handleLogout }) => {
               <div className="flex-shrink-0 w-12 h-12 overflow-hidden rounded-full">
                 <img
                   className="object-cover w-full h-full"
-                  src={userLogin.profileImage || "/img-menus/image1.png"}
+                  src={
+                    userLogin.profileImage || "/img/empty-photo-profile.jpeg"
+                  }
                   alt="Profile"
                 />
               </div>

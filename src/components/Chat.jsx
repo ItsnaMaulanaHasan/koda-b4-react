@@ -45,7 +45,7 @@ function Chat({ isShow }) {
           <div className="w-12 h-12 overflow-hidden bg-white rounded-full">
             <img
               className="object-cover w-full h-full"
-              src="/img-menus/image1.png"
+              src="/img/empty-photo-profile.jpeg"
               alt="Admin"
             />
           </div>
@@ -69,7 +69,7 @@ function Chat({ isShow }) {
                 <div className="flex-shrink-0 w-8 h-8 mr-2 overflow-hidden rounded-full">
                   <img
                     className="object-cover w-full h-full"
-                    src="/img-menus/image1.png"
+                    src="/img/empty-photo-profile.jpeg"
                     alt="Admin"
                   />
                 </div>
