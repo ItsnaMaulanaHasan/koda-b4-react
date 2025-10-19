@@ -10,7 +10,7 @@ function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-20 bg-[#F8F8F8] px-4 sm:px-8 md:px-12 lg:px-16 xl:px-30 py-20">
         <div className="flex flex-col justify-center gap-5">
           <div>
-            <img src="/icon/logo-original.svg" alt="" />
+            <img src="/icon/logo-original.svg" alt="Icon Logo" />
           </div>
           <p className="text-[#4F5665]">
             Coffee Shop is a store that sells some good meals, and especially
