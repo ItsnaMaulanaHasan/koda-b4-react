@@ -22,11 +22,12 @@ function HomePage() {
         <div className="content-center order-2 px-4 py-20 md:py-0 h-max md:h-screen md:order-1 sm:px-8 md:px-12 lg:px-16 xl:px-20 bg-custom-gradient justify-items-center">
           <div className="flex flex-col gap-5">
             <h1 className="text-2xl font-medium text-white sm:text-3xl md:text-4xl lg:text-5xl">
-              Start Your Day with Coffe and Good Meals
+              Start Your Healthy Journey with Fresh Green Drinks
             </h1>
             <p className="text-white">
-              We provide high quality beans, good taste, and healthy meals made
-              by love just for you. Start your day with us for a bigger smile!
+              We provide premium quality ingredients, natural flavors, and
+              nutritious drinks made with care just for you. Start your wellness
+              journey with us for a healthier life!
             </p>
             <Button
               onClick={() => navigate("/product")}
@@ -68,31 +69,36 @@ function HomePage() {
           <div className="flex items-center">
             <div className="bg-[#FF8906] w-2 h-15"></div>
             <div className="p-5 text-2xl font-medium sm:text-3xl md:text-4xl lg:text-5xl">
-              We Provide <span className="text-[#8E6447]">Good Coffee</span> and{" "}
-              <span className="text-[#8E6447]">Healthy Meals</span>
+              We Provide{" "}
+              <span className="text-[#8E6447]">Fresh Green Drinks</span> and{" "}
+              <span className="text-[#8E6447]">Nutrition for Your Diet</span>
             </div>
           </div>
           <div className="flex flex-col gap-5">
             <p className="text-[#4F5665]">
-              You can explore the menu that we provide with fun and have their
-              own taste and make your day better.
+              You can explore our healthy drink menu that supports your diet
+              goals with delicious taste and make your wellness journey more
+              enjoyable.
             </p>
             <div className="flex flex-col gap-10 text-[#4F5665]">
               <div className="flex gap-5">
                 <img src="/icon/icon-checklist.svg" alt="Icon Checklist" />
-                <p>High quality beans</p>
+                <p>100% natural and organic ingredients</p>
               </div>
               <div className="flex gap-5">
                 <img src="/icon/icon-checklist.svg" alt="Icon Checklist" />
-                <p>Healthy meals, you can request the ingredients</p>
+                <p>Low calorie drinks, perfect for your diet program</p>
               </div>
               <div className="flex gap-5">
                 <img src="/icon/icon-checklist.svg" alt="Icon Checklist" />
-                <p>Chat with our staff to get better experience for ordering</p>
+                <p>
+                  Chat with our nutrition staff to get personalized
+                  recommendations
+                </p>
               </div>
               <div className="flex gap-5">
                 <img src="/icon/icon-checklist.svg" alt="Icon Checklist" />
-                <p>Free member card with a minimum purchase of IDR 200.000.</p>
+                <p>Free loyalty card with a minimum purchase of IDR 200.000.</p>
               </div>
             </div>
           </div>
@@ -114,8 +120,8 @@ function HomePage() {
           </h1>
           <div className="h-2 w-20 bg-[#FF8906]"></div>
           <p className="text-[#4F5665]">
-            Let's choose and have a bit taste of poeple's favorite. It might be
-            yours too!
+            Let's choose and taste our best-selling healthy drinks. It might
+            become your daily wellness companion too!
           </p>
         </div>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -135,8 +141,8 @@ function HomePage() {
           </h1>
           <div className="h-2 w-20 bg-[#FF8906]"></div>
           <p className="text-[#4F5665]">
-            Let's choose and have a bit taste of poeple's favorite. It might be
-            yours too!
+            Find the nearest Daily Greens outlet and start your healthy
+            lifestyle with our refreshing drinks!
           </p>
         </div>
         <div className="mt-20">

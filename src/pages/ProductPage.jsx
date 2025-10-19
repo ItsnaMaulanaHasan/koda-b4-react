@@ -122,7 +122,7 @@ function ProductPage() {
           </Drawer>
           {/* hero section */}
           <div className="hidden md:block px-20 py-20 bg-[url('/img/img-header-product.png')] font-medium text-white text-5xl bg-no-repeat bg-cover bg-center">
-            We Provide Good Coffee and Healthy Meals
+            We Provide Fresh Green Drinks and Nutrition for Your Diet
           </div>
           {/* promo section */}
           <div>
