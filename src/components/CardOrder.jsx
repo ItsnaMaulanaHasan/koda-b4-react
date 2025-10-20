@@ -48,7 +48,7 @@ function CardOrder({ order, onRemove, remove = true }) {
               IDR{order.originalPrice.toLocaleString("id")}
             </span>
           )}
-          <span className="text-lg font-medium text-[#FF8906] sm:text-xl md:text-2xl">
+          <span className="text-sm font-medium text-[#FF8906] sm:text-lg md:text-xl">
             IDR {(order.price * order.quantity).toLocaleString("id")}
           </span>
         </div>

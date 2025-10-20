@@ -2,41 +2,41 @@ import { useContext, useState } from "react";
 import { DrawerAdminContext } from "../context/DrawerContext";
 import CardOrder from "./CardOrder";
 
-const order = {
-  orderNo: "#12354-09893",
-  customerName: "Ghaluh Wizard Anggoro",
-  address: "Griya bandung indah",
-  phone: "082116304338",
-  paymentMethod: "Cash",
-  shipping: "Dine In",
-  total: "Idr 80.000",
-  items: [
-    {
-      menuId: 1,
-      name: "Hazelnut Latte",
-      image: "/img-menus/image1.png",
-      price: 20000,
-      originalPrize: 40000,
-      size: "Regular",
-      hotIce: "Ice",
-      quantity: 2,
-      isFlashSale: false,
-    },
-    {
-      menuId: 2,
-      name: "Hazelnut Latte",
-      image: "/img-menus/image1.png",
-      price: 20000,
-      originalPrize: 40000,
-      size: "Regular",
-      hotIce: "Ice",
-      quantity: 2,
-      isFlashSale: true,
-    },
-  ],
-};
+// const order = {
+//   orderNo: "#12354-09893",
+//   customerName: "Ghaluh Wizard Anggoro",
+//   address: "Griya bandung indah",
+//   phone: "082116304338",
+//   paymentMethod: "Cash",
+//   shipping: "Dine In",
+//   total: "Idr 80.000",
+//   items: [
+//     {
+//       menuId: 1,
+//       name: "Hazelnut Latte",
+//       image: "/img-menus/image1.png",
+//       price: 20000,
+//       originalPrize: 40000,
+//       size: "Regular",
+//       hotIce: "Ice",
+//       quantity: 2,
+//       isFlashSale: false,
+//     },
+//     {
+//       menuId: 2,
+//       name: "Hazelnut Latte",
+//       image: "/img-menus/image1.png",
+//       price: 20000,
+//       originalPrize: 40000,
+//       size: "Regular",
+//       hotIce: "Ice",
+//       quantity: 2,
+//       isFlashSale: true,
+//     },
+//   ],
+// };
 
-const OrderDetail = () => {
+const OrderDetail = ({ order }) => {
   const { setShowDrawer } = useContext(DrawerAdminContext);
   const [status, setStatus] = useState(order?.status || "Pending");
 
@@ -173,10 +173,10 @@ const OrderDetail = () => {
         <div>
           <h2 className="mb-4 text-xl font-semibold">Your Order</h2>
           <div className="flex flex-col gap-4">
-            {order.items && order.items.length > 0 ? (
-              order.items.map((item, index) => (
+            {order.listOrders && order.listOrders.length > 0 ? (
+              order.listOrders.map((item, index) => (
                 <CardOrder
-                  key={item.cartId || index}
+                  key={item.menuId || index}
                   order={item}
                   remove={false}
                 />
