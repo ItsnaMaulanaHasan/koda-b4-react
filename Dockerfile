@@ -1,7 +1,7 @@
 FROM node:alpine AS builder
 
 WORKDIR /app
-COPY ./koda-b4-react .
+COPY . .
 RUN npm ci && npm run build
 
 FROM nginx:alpine
