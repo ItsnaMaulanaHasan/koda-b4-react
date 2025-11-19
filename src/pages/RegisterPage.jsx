@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import bcrypt from "bcryptjs";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -40,51 +39,44 @@ function RegisterPage() {
   });
 
   const onSubmit = async (data) => {
+    setIsRegister(true);
     try {
-      setIsRegister(true);
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(data.password, salt);
-
-      const registerData = {
-        id: Date.now(),
+      const body = {
         fullName: data.fullName,
         email: data.email,
-        role: "customer",
-        password: hashedPassword,
-        joinDate: new Date().toISOString(),
-        phone: "",
-        address: "",
-        profileImage: "",
+        password: data.password,
       };
+      const encodedData = new URLSearchParams(body).toString();
 
-      const existingData = JSON.parse(localStorage.getItem("users") || "[]");
-
-      const emailExists = existingData.some(
-        (user) => user.email === data.email
+      const res = await fetch(
+        import.meta.env.VITE_BASE_URL + "/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: encodedData,
+        }
       );
-      if (emailExists) {
-        setAlertStatus({
-          type: "error",
-          message: "Email already registered!",
-        });
-        setIsRegister(false);
-        return;
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
       }
 
-      existingData.push(registerData);
-      localStorage.setItem("users", JSON.stringify(existingData));
+      const result = await res.json();
 
-      setAlertStatus({ type: "success", message: "Registration successful!" });
+      setAlertStatus({ type: "success", message: result.message });
 
       setTimeout(() => {
         navigate("/auth/login");
-        setIsRegister(false);
       }, 1500);
     } catch (error) {
       setAlertStatus({
         type: "error",
-        message: `An error occurred while saving the data. Please try again: ${error}`,
+        message: error.message || "Registration failed",
       });
+      setIsRegister(false);
+    } finally {
       setIsRegister(false);
     }
   };
