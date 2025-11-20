@@ -32,7 +32,7 @@ function CardMenu({ dataMenu }) {
   if (dataMenu.productImage) {
     productImage = dataMenu.productImage;
   } else {
-    productImage = "/public/img/empty-image-placeholder.webp";
+    productImage = "/img/empty-image-placeholder.webp";
   }
 
   const redirectToLogin = (e) => {
