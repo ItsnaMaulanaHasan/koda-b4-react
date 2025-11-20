@@ -59,23 +59,34 @@ function RegisterPage() {
         }
       );
 
+      if (!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message || "Registration failed");
+      }
+
       const result = await res.json();
 
       if (!result.success) {
         throw new Error(result.message);
       }
 
-      setAlertStatus({ type: "success", message: result.message });
+      setAlertStatus({ type: "success", message: "Registration successful" });
 
       setTimeout(() => {
         navigate("/auth/login");
       }, 1500);
     } catch (error) {
+      let errorMessage = "Registration failed";
+
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (!navigator.onLine) {
+        errorMessage = "No internet connection";
+      }
       setAlertStatus({
         type: "error",
-        message: error.message || "Registration failed",
+        message: errorMessage,
       });
-      setIsRegister(false);
     } finally {
       setIsRegister(false);
     }

@@ -63,6 +63,11 @@ function LoginPage() {
         }
       );
 
+      if (!resLogin.ok) {
+        const resultLogin = await resLogin.json();
+        throw new Error(resultLogin.message || "Registration failed");
+      }
+
       const resultLogin = await resLogin.json();
 
       if (!resultLogin.success) {
@@ -81,6 +86,11 @@ function LoginPage() {
         }
       );
 
+      if (!resProfile.ok) {
+        const resultProfile = await resProfile.json();
+        throw new Error(resultProfile.message || "Registration failed");
+      }
+
       const resultProfile = await resProfile.json();
 
       if (!resultProfile.success) {
@@ -93,7 +103,7 @@ function LoginPage() {
         setAccessToken(token);
       }, 1500);
     } catch (error) {
-      let errorMessage = "Login failed. Please try again";
+      let errorMessage = "Login failed";
       if (error.message) {
         errorMessage = error.message;
       } else if (!navigator.onLine) {
