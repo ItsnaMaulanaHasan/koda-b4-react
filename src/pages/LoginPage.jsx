@@ -1,12 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { AuthContext } from "../context/AuthContext";
+import { setDataProfile } from "../redux/reducers/profile";
 
 const LoginFormSchema = yup.object({
   email: yup
@@ -20,10 +22,19 @@ const LoginFormSchema = yup.object({
 });
 
 function LoginPage() {
+  // state for alert
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  // state for disable button
   const [isLogginIn, setIsLogginIn] = useState(false);
+  // dispatch for set data redux profile
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
+
+  // get setAccessToken from context for set access token
   const { setAccessToken } = useContext(AuthContext);
+
+  // initiate useform
   const {
     register,
     handleSubmit,
@@ -32,69 +43,67 @@ function LoginPage() {
     resolver: yupResolver(LoginFormSchema),
   });
 
+  // handle submit login
   const onSubmit = async (data) => {
     setIsLogginIn(true);
     try {
-      const body = {
+      // set body for request login
+      const body = new URLSearchParams({
         email: data.email,
         password: data.password,
-      };
-      const encodedData = new URLSearchParams(body).toString();
+      }).toString();
 
-      const { email, password } = data;
-      // set admin credential
-      const adminCredentials = {
-        email: "admin@hifi.com",
-        password: "admin123",
-        fullName: "Administrator",
-        role: "admin",
-        id: 0,
-      };
+      // request login
+      const resLogin = await fetch(
+        import.meta.env.VITE_BASE_URL + "/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body,
+        }
+      );
 
-      // cek login admin
-      if (
-        email === adminCredentials.email &&
-        password === adminCredentials.password
-      ) {
-        setAlertStatus({
-          type: "success",
-          message: "Login successful as Admin!",
-        });
+      const resultLogin = await resLogin.json();
 
-        setTimeout(() => {
-          setAccessToken("");
-          navigate("/admin/dashboard");
-          setIsLogginIn(false);
-        }, 1500);
-        return;
+      if (!resultLogin.success) {
+        throw new Error(resultLogin.message);
       }
 
-      const res = await fetch(import.meta.env.VITE_BASE_URL + "/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: encodedData,
-      });
+      const token = resultLogin.data.token;
 
-      const result = await res.json();
+      // request get data profile
+      const resProfile = await fetch(
+        import.meta.env.VITE_BASE_URL + "/profiles",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      if (!result.success) {
-        throw new Error(result.message);
+      const resultProfile = await resProfile.json();
+
+      if (!resultProfile.success) {
+        throw new Error(resultProfile.error || resultProfile.message);
       }
 
-      setAlertStatus({ type: "success", message: result.message });
+      dispatch(setDataProfile(resultProfile.data));
+      setAccessToken(token);
+
+      setAlertStatus({ type: "success", message: "Login Success!" });
 
       setTimeout(() => {
-        setAccessToken(result.data.token);
-        navigate("/");
-      }, 1500);
+        navigate(
+          resultProfile.data.role === "admin" ? "/admin/dashboard" : "/"
+        );
+      }, 1000);
     } catch (error) {
       setAlertStatus({
         type: "error",
         message: error.message || "Login failed",
       });
-      setIsLogginIn(false);
     } finally {
       setIsLogginIn(false);
     }
