@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import bcrypt from "bcryptjs";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -24,7 +23,7 @@ function LoginPage() {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
   const [isLogginIn, setIsLogginIn] = useState(false);
   const navigate = useNavigate();
-  const { setUserLogin } = useContext(AuthContext);
+  const { setAccessToken } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -34,10 +33,15 @@ function LoginPage() {
   });
 
   const onSubmit = async (data) => {
+    setIsLogginIn(true);
     try {
-      setIsLogginIn(true);
-      const { email, password } = data;
+      const body = {
+        email: data.email,
+        password: data.password,
+      };
+      const encodedData = new URLSearchParams(body).toString();
 
+      const { email, password } = data;
       // set admin credential
       const adminCredentials = {
         email: "admin@hifi.com",
@@ -52,70 +56,46 @@ function LoginPage() {
         email === adminCredentials.email &&
         password === adminCredentials.password
       ) {
-        const adminDataToStore = {
-          id: adminCredentials.id,
-          email: adminCredentials.email,
-          fullName: adminCredentials.fullName,
-          role: adminCredentials.role,
-        };
-
         setAlertStatus({
           type: "success",
           message: "Login successful as Admin!",
         });
 
         setTimeout(() => {
-          setUserLogin(adminDataToStore);
+          setAccessToken("");
           navigate("/admin/dashboard");
           setIsLogginIn(false);
         }, 1500);
         return;
       }
 
-      const usersData = JSON.parse(localStorage.getItem("users") || "[]");
-      const user = usersData.find((user) => user.email === email);
+      const res = await fetch(import.meta.env.VITE_BASE_URL + "/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: encodedData,
+      });
 
-      // cek email
-      if (!user) {
-        setAlertStatus({
-          type: "error",
-          message: "Incorrect email or password",
-        });
-        setIsLogginIn(false);
-        return;
+      const result = await res.json();
+
+      if (!result.success) {
+        throw new Error(result.message);
       }
 
-      // cek password
-      const isPasswordValid = await bcrypt.compare(password, user.password);
+      setAlertStatus({ type: "success", message: result.message });
 
-      if (isPasswordValid) {
-        const userDataToStore = {
-          id: user.id,
-          email: user.email,
-          fullName: user.fullName,
-          role: user.role,
-          joinDate: user.joinDate,
-        };
-
-        setAlertStatus({ type: "success", message: "Login successful!" });
-
-        setTimeout(() => {
-          setUserLogin(userDataToStore);
-          navigate("/");
-          setIsLogginIn(false);
-        }, 1500);
-      } else {
-        setAlertStatus({
-          type: "error",
-          message: "Incorrect email or password",
-        });
-        setIsLogginIn(false);
-      }
+      setTimeout(() => {
+        setAccessToken(result.data.token);
+        navigate("/");
+      }, 1500);
     } catch (error) {
       setAlertStatus({
         type: "error",
-        message: `An error occurred while process the data. Please try again: ${error}`,
+        message: error.message || "Login failed",
       });
+      setIsLogginIn(false);
+    } finally {
       setIsLogginIn(false);
     }
   };

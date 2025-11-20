@@ -59,11 +59,11 @@ function RegisterPage() {
         }
       );
 
-      if (!res.ok) {
-        throw new Error(res.message);
-      }
-
       const result = await res.json();
+
+      if (!result.success) {
+        throw new Error(result.message);
+      }
 
       setAlertStatus({ type: "success", message: result.message });
 
