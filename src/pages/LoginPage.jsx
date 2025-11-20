@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
@@ -28,8 +28,6 @@ function LoginPage() {
   const [isLogginIn, setIsLogginIn] = useState(false);
   // dispatch for set data redux profile
   const dispatch = useDispatch();
-
-  const navigate = useNavigate();
 
   // get setAccessToken from context for set access token
   const { setAccessToken } = useContext(AuthContext);
@@ -86,23 +84,24 @@ function LoginPage() {
       const resultProfile = await resProfile.json();
 
       if (!resultProfile.success) {
-        throw new Error(resultProfile.error || resultProfile.message);
+        throw new Error(resultProfile.message);
       }
 
-      dispatch(setDataProfile(resultProfile.data));
-      setAccessToken(token);
-
-      setAlertStatus({ type: "success", message: "Login Success!" });
-
+      setAlertStatus({ type: "success", message: "Login successful!" });
       setTimeout(() => {
-        navigate(
-          resultProfile.data.role === "admin" ? "/admin/dashboard" : "/"
-        );
-      }, 1000);
+        dispatch(setDataProfile(resultProfile.data));
+        setAccessToken(token);
+      }, 1500);
     } catch (error) {
+      let errorMessage = "Login failed. Please try again";
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (!navigator.onLine) {
+        errorMessage = "No internet connection";
+      }
       setAlertStatus({
         type: "error",
-        message: error.message || "Login failed",
+        message: errorMessage,
       });
     } finally {
       setIsLogginIn(false);
