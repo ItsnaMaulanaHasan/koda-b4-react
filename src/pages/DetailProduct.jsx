@@ -12,27 +12,32 @@ import { addDataCart } from "../redux/reducers/cart";
 
 function DetailProduct() {
   // fetch data menu
-  const { data, isLoading, error } = useFetchData("/data/menu.json");
+  const { id: idMenu } = useParams();
+  const { data, isLoading, error } = useFetchData(
+    import.meta.env.VITE_BASE_URL + "/products/" + idMenu
+  );
+  console.log(data);
+  const menu = data.data;
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
   const [showModal, setShowModal] = useState(false);
   const { userLogin } = useContext(AuthContext);
   const isAuthenticated = !!userLogin?.email;
   const navigate = useNavigate();
-  const { id: idMenu } = useParams();
-  const menu = data.find((menu) => menu.id === parseInt(idMenu));
   const dispatch = useDispatch();
 
   const [amount, setAmount] = useState(1);
   const [size, setSize] = useState("Reguler");
   const [hotIce, setHotIce] = useState("Ice");
 
-  // handle pagination
+  // handle pagination recomendations
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+
+  const recommendations = menu?.recomendations || [];
+  const totalPages = Math.ceil(recommendations.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentData = recommendations.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePrev = () => {
     setCurrentPage((prev) => (prev === 1 ? totalPages : prev - 1));
@@ -133,7 +138,7 @@ function DetailProduct() {
           <div className="w-full h-64 sm:h-80 md:h-96">
             <img
               className="object-cover w-full h-full"
-              src={menu.image}
+              src={menu.prouductImages || "/img/empty-image-placeholder.webp"}
               alt={menu.name}
             />
           </div>
@@ -142,21 +147,21 @@ function DetailProduct() {
             <div className="h-32 transition cursor-pointer hover:opacity-80">
               <img
                 className="object-cover w-full h-full"
-                src={menu.image}
+                src={menu.prouductImages || "/img/empty-image-placeholder.webp"}
                 alt={menu.name}
               />
             </div>
             <div className="h-32 transition cursor-pointer hover:opacity-80">
               <img
                 className="object-cover w-full h-full"
-                src={menu.image}
+                src={menu.prouductImages || "/img/empty-image-placeholder.webp"}
                 alt={menu.name}
               />
             </div>
             <div className="h-32 transition cursor-pointer hover:opacity-80">
               <img
                 className="object-cover w-full h-full"
-                src={menu.image}
+                src={menu.prouductImages || "/img/empty-image-placeholder.webp"}
                 alt={menu.name}
               />
             </div>
