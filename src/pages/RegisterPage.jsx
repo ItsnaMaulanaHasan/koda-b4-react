@@ -60,7 +60,7 @@ function RegisterPage() {
       );
 
       if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
+        throw new Error(res.message);
       }
 
       const result = await res.json();
