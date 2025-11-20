@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -24,27 +24,39 @@ function Navbar() {
   const dataCarts = useSelector((state) => state.cart.dataCarts);
   const amountCart = dataCarts.length;
 
-  const userLogin = async () => {
-    try {
-      const res = await fetch(import.meta.env.VITE_BASE_URL + "/profiles", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      const result = await res.json();
-
-      if (!result.success) {
-        throw new Error(result.error || result.message);
+  const [userLogin, setUserLogin] = useState(null);
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (!accessToken) {
+        setUserLogin(null);
+        return;
       }
 
-      return result.data;
-    } catch (error) {
-      console.log("Error fetching profile:", error);
-      return null;
-    }
-  };
+      try {
+        const res = await fetch(import.meta.env.VITE_BASE_URL + "/profiles", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const result = await res.json();
+
+        if (!result.success) {
+          throw new Error(result.error || result.message);
+        }
+
+        setUserLogin(result.data);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, [accessToken]);
 
   const isHomePage = location.pathname === "/";
   const isAdminPage = location.pathname.startsWith("/admin");
@@ -56,6 +68,7 @@ function Navbar() {
 
   const handleLogout = () => {
     setAccessToken(null);
+    setUserLogin(null);
     setShowDropdown(false);
     navigate("/auth/login");
   };
@@ -162,7 +175,7 @@ function Navbar() {
                     <img
                       className="object-contain w-full h-full"
                       src={
-                        userLogin.profilePhoto ||
+                        userLogin?.profilePhoto ||
                         "/img/empty-photo-profile.jpeg"
                       }
                       alt="Profile"
@@ -189,10 +202,10 @@ function Navbar() {
                   <div className="absolute right-0 z-50 w-48 py-2 mt-2 bg-white rounded-lg shadow-lg">
                     <div className="px-4 py-2 border-b border-gray-200">
                       <p className="text-sm font-semibold text-[#0B132A]">
-                        {userLogin.fullName}
+                        {userLogin?.fullName}
                       </p>
                       <p className="text-xs text-[#4F5665]">
-                        {userLogin.email}
+                        {userLogin?.email}
                       </p>
                     </div>
                     <button
