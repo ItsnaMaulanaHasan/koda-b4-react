@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
+import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
@@ -7,38 +8,11 @@ function ProtectedRoute({
   redirectIfAuthenticated = false,
   allowedRole = null,
 }) {
+  // get context from auth context
   const { accessToken } = useContext(AuthContext);
   const isAuthenticated = !!accessToken;
-
-  const [userLogin, setUserLogin] = useState(null);
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (!accessToken) {
-        setUserLogin(null);
-        return;
-      }
-
-      try {
-        const res = await fetch(import.meta.env.VITE_BASE_URL + "/profiles", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        const result = await res.json();
-
-        if (!result.success) {
-          throw new Error(result.error || result.message);
-        }
-
-        setUserLogin(result.data);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
-
-    fetchUserProfile();
-  }, [accessToken]);
+  // get user login data from redux
+  const userLogin = useSelector((state) => state.profile.dataProfile);
 
   if (redirectIfAuthenticated) {
     if (isAuthenticated) {

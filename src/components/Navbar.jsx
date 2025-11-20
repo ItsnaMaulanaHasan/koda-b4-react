@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -16,43 +16,21 @@ import SidebarMobile from "./SidebarMobile";
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
+  // state for modal
   const [showModal, setShowModal] = useState(false);
+  // state for drawer
   const [showDrawer, setShowDrawer] = useState(false);
+  // state for dropdown
   const [showDropdown, setShowDropdown] = useState(false);
+  // state for search bar in dekstop view
   const [showSearchDesktop, setShowSearchDesktop] = useState(false);
-  const { accessToken, setAccessToken } = useContext(AuthContext);
+  // get context fro auth context
+  const { setAccessToken } = useContext(AuthContext);
+  // get data redux for cart
   const dataCarts = useSelector((state) => state.cart.dataCarts);
+  // get data user login from redux
+  const userLogin = useSelector((state) => state.profile.dataProfile);
   const amountCart = dataCarts.length;
-
-  const [userLogin, setUserLogin] = useState(null);
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (!accessToken) {
-        setUserLogin(null);
-        return;
-      }
-
-      try {
-        const res = await fetch(import.meta.env.VITE_BASE_URL + "/profiles", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        const result = await res.json();
-
-        if (!result.success) {
-          throw new Error(result.error || result.message);
-        }
-
-        setUserLogin(result.data);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
-
-    fetchUserProfile();
-  }, [accessToken]);
 
   const isHomePage = location.pathname === "/";
   const isAdminPage = location.pathname.startsWith("/admin");
@@ -62,9 +40,9 @@ function Navbar() {
       isActive && "font-bold border-b border-[#FF8906]"
     }`;
 
+  // handle logout
   const handleLogout = () => {
     setAccessToken(null);
-    setUserLogin(null);
     setShowDropdown(false);
     navigate("/auth/login");
   };
