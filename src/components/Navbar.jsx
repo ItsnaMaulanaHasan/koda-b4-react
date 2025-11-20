@@ -20,9 +20,31 @@ function Navbar() {
   const [showDrawer, setShowDrawer] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSearchDesktop, setShowSearchDesktop] = useState(false);
-  const { userLogin, setUserLogin } = useContext(AuthContext);
+  const { accessToken, setAccessToken } = useContext(AuthContext);
   const dataCarts = useSelector((state) => state.cart.dataCarts);
   const amountCart = dataCarts.length;
+
+  const userLogin = async () => {
+    try {
+      const res = await fetch(import.meta.env.VITE_BASE_URL + "/profiles", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const result = await res.json();
+
+      if (!result.success) {
+        throw new Error(result.error || result.message);
+      }
+
+      return result.data;
+    } catch (error) {
+      console.log("Error fetching profile:", error);
+      return null;
+    }
+  };
 
   const isHomePage = location.pathname === "/";
   const isAdminPage = location.pathname.startsWith("/admin");
@@ -33,7 +55,7 @@ function Navbar() {
     }`;
 
   const handleLogout = () => {
-    setUserLogin(null);
+    setAccessToken(null);
     setShowDropdown(false);
     navigate("/auth/login");
   };
@@ -140,7 +162,7 @@ function Navbar() {
                     <img
                       className="object-contain w-full h-full"
                       src={
-                        userLogin.profileImage ||
+                        userLogin.profilePhoto ||
                         "/img/empty-photo-profile.jpeg"
                       }
                       alt="Profile"

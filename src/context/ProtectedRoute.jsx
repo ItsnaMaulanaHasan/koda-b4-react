@@ -7,8 +7,30 @@ function ProtectedRoute({
   redirectIfAuthenticated = false,
   allowedRole = null,
 }) {
-  const { userLogin } = useContext(AuthContext);
-  const isAuthenticated = !!userLogin?.email;
+  const { accessToken } = useContext(AuthContext);
+  const isAuthenticated = !!accessToken;
+
+  const userLogin = async () => {
+    try {
+      const res = await fetch(import.meta.env.VITE_BASE_URL + "/profiles", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const result = await res.json();
+
+      if (!result.success) {
+        throw new Error(result.error || result.message);
+      }
+
+      return result.data;
+    } catch (error) {
+      console.log("Error fetching profile:", error);
+      return null;
+    }
+  };
 
   if (redirectIfAuthenticated) {
     if (isAuthenticated) {
