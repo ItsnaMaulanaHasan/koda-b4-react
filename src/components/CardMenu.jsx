@@ -44,7 +44,7 @@ function CardMenu({ dataMenu }) {
       const cartItem = {
         menuId: dataMenu.id,
         name: dataMenu.name,
-        image: dataMenu.image,
+        image: dataMenu.imageProduct,
         price: dataMenu.discountPrice || dataMenu.price,
         originalPrice: dataMenu.price,
         size: "Reguler",
