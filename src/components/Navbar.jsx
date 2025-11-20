@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { DrawerNavbarContext } from "../context/DrawerContext";
+import { clearDataProfile } from "../redux/reducers/profile";
 import Button from "./Button";
 import Drawer from "./Drawer";
 import ModalConfirmation from "./ModalConfirmation";
@@ -25,11 +26,13 @@ function Navbar() {
   // state for search bar in dekstop view
   const [showSearchDesktop, setShowSearchDesktop] = useState(false);
   // get context fro auth context
-  const { setAccessToken } = useContext(AuthContext);
+  const { accessToken, setAccessToken } = useContext(AuthContext);
   // get data redux for cart
   const dataCarts = useSelector((state) => state.cart.dataCarts);
   // get data user login from redux
   const userLogin = useSelector((state) => state.profile.dataProfile);
+  const dispatch = useDispatch();
+
   const amountCart = dataCarts.length;
 
   const isHomePage = location.pathname === "/";
@@ -43,6 +46,7 @@ function Navbar() {
   // handle logout
   const handleLogout = () => {
     setAccessToken(null);
+    dispatch(clearDataProfile());
     setShowDropdown(false);
     navigate("/auth/login");
   };
@@ -140,7 +144,7 @@ function Navbar() {
               )}
             </button>
 
-            {userLogin ? (
+            {accessToken ? (
               <div className="relative">
                 <button
                   onClick={() => setShowDropdown(!showDropdown)}

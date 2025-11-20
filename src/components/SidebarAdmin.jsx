@@ -1,14 +1,18 @@
 import { useContext, useState } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { clearDataProfile } from "../redux/reducers/profile";
 import ModalConfirmation from "./ModalConfirmation";
 
 function SidebarAdmin({ children }) {
   const [showModal, setShowModal] = useState(false);
   const { setAccessToken } = useContext(AuthContext);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleLogout = () => {
     setAccessToken(null);
+    dispatch(clearDataProfile());
     navigate("/auth/login");
   };
 
