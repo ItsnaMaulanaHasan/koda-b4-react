@@ -5,10 +5,10 @@ import ModalConfirmation from "./ModalConfirmation";
 
 function SidebarAdmin({ children }) {
   const [showModal, setShowModal] = useState(false);
-  const { setUserLogin } = useContext(AuthContext);
+  const { setAccessToken } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogout = () => {
-    setUserLogin(null);
+    setAccessToken(null);
     navigate("/auth/login");
   };
 

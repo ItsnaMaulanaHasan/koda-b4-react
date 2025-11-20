@@ -84,7 +84,7 @@ const SidebarMobile = ({ userLogin, handleLogout }) => {
                 <img
                   className="object-cover w-full h-full"
                   src={
-                    userLogin.profileImage || "/img/empty-photo-profile.jpeg"
+                    userLogin.profilePhoto || "/img/empty-photo-profile.jpeg"
                   }
                   alt="Profile"
                 />

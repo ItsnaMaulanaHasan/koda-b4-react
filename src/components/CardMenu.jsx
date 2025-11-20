@@ -23,8 +23,8 @@ import ModalConfirmation from "./ModalConfirmation";
 function CardMenu({ dataMenu }) {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
   const [showModal, setShowModal] = useState(false);
-  const { userLogin } = useContext(AuthContext);
-  const isAuthenticated = !!userLogin?.email;
+  const { accessToken } = useContext(AuthContext);
+  const isAuthenticated = !!accessToken;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
