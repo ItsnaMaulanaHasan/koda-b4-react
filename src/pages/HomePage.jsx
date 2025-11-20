@@ -10,8 +10,6 @@ function HomePage() {
   const { data, isLoading, error } = useFetchData(
     import.meta.env.VITE_BASE_URL + "/favourite-products"
   );
-
-  console.log(data);
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
 

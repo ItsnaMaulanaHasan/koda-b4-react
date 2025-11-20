@@ -16,12 +16,11 @@ function DetailProduct() {
   const { data, isLoading, error } = useFetchData(
     import.meta.env.VITE_BASE_URL + "/products/" + idMenu
   );
-  console.log(data);
   const menu = data.data;
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
   const [showModal, setShowModal] = useState(false);
-  const { userLogin } = useContext(AuthContext);
-  const isAuthenticated = !!userLogin?.email;
+  const { accessToken } = useContext(AuthContext);
+  const isAuthenticated = !!accessToken;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
