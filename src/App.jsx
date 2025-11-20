@@ -127,9 +127,9 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const [userLogin, setUserLogin] = useState(() => {
+  const [accessToken, setAccessToken] = useState(() => {
     try {
-      const data = window.localStorage.getItem("userLogin");
+      const data = window.localStorage.getItem("accessToken");
       return data ? JSON.parse(data) : null;
     } catch (error) {
       console.log("Failed to parse data user login from localStorage:", error);
@@ -137,12 +137,12 @@ function App() {
     }
   });
   useEffect(() => {
-    window.localStorage.setItem("userLogin", JSON.stringify(userLogin));
-  }, [userLogin]);
+    window.localStorage.setItem("accessToken", JSON.stringify(accessToken));
+  }, [accessToken]);
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <AuthContext.Provider value={{ userLogin, setUserLogin }}>
+        <AuthContext.Provider value={{ accessToken, setAccessToken }}>
           <RouterProvider router={router} />
         </AuthContext.Provider>
       </PersistGate>
