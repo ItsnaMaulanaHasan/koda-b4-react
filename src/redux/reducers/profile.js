@@ -11,10 +11,13 @@ const profile = createSlice({
     setDataProfile: (state, action) => {
       state.dataProfile = action.payload;
     },
+    clearDataProfile: (state) => {
+      state.dataProfile = {};
+    },
   },
 });
 
 export const {
   reducer: profileReducer,
-  actions: { setDataProfile },
+  actions: { setDataProfile, clearDataProfile },
 } = profile;
