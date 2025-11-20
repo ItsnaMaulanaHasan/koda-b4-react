@@ -28,6 +28,13 @@ function CardMenu({ dataMenu }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  let productImage;
+  if (dataMenu.productImage) {
+    productImage = dataMenu.productImage;
+  } else {
+    productImage = "/public/img/empty-image-placeholder.webp";
+  }
+
   const redirectToLogin = (e) => {
     e.preventDefault();
     navigate("/auth/login");
@@ -88,7 +95,7 @@ function CardMenu({ dataMenu }) {
       <div className="relative flex-shrink-0">
         <img
           className="size-full object-cover aspect-square"
-          src={dataMenu.image}
+          src={productImage}
           alt={dataMenu.name}
         />
         {dataMenu.isFlashSale && (
@@ -109,13 +116,13 @@ function CardMenu({ dataMenu }) {
           {dataMenu.description}
         </p>
         <div className="flex flex-col items-start gap-2 md:items-center md:flex-row min-h-[2.5rem]">
-          {dataMenu.discountPrice && (
+          {dataMenu.discountPrice !== 0 && (
             <span className="text-sm text-red-500 line-through">
               IDR ${dataMenu.price.toLocaleString("id")}
             </span>
           )}
           <span className="font-medium text-lg md:text-2xl text-[#FF8906]">
-            {dataMenu.discountPrice
+            {dataMenu.discountPrice !== 0
               ? `IDR ${dataMenu.discountPrice.toLocaleString("id")}`
               : `IDR ${dataMenu.price.toLocaleString("id")}`}
           </span>
