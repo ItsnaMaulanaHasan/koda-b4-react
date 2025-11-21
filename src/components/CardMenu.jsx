@@ -1,11 +1,6 @@
-import { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
-import { addDataCart } from "../redux/reducers/cart";
+import { useState } from "react";
 import Alert from "./Alert";
 import Button from "./Button";
-import ModalConfirmation from "./ModalConfirmation";
 
 /**
  * CardMenu component for displaying menu item with add to cart functionality
@@ -22,11 +17,6 @@ import ModalConfirmation from "./ModalConfirmation";
  */
 function CardMenu({ dataMenu }) {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
-  const [showModal, setShowModal] = useState(false);
-  const { accessToken } = useContext(AuthContext);
-  const isAuthenticated = !!accessToken;
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   let productImage;
   if (dataMenu.productImage) {
@@ -35,40 +25,6 @@ function CardMenu({ dataMenu }) {
     productImage = "/img/empty-image-placeholder.webp";
   }
 
-  const redirectToLogin = (e) => {
-    e.preventDefault();
-    navigate("/auth/login");
-  };
-
-  const handleCancel = (e) => {
-    e.preventDefault();
-    setShowModal(false);
-  };
-
-  const handleAddToCart = (e) => {
-    e.preventDefault();
-    if (isAuthenticated) {
-      const cartItem = {
-        menuId: dataMenu.id,
-        name: dataMenu.name,
-        image: dataMenu.imageProduct,
-        price: dataMenu.discountPrice || dataMenu.price,
-        originalPrice: dataMenu.price,
-        size: "Reguler",
-        hotIce: "Ice",
-        quantity: 1,
-        isFlashSale: dataMenu.isFlashSale,
-      };
-
-      dispatch(addDataCart(cartItem));
-      setAlertStatus({
-        type: "success",
-        message: "Successfully added to cart",
-      });
-    } else {
-      setShowModal(true);
-    }
-  };
   return (
     <div className="w-full h-full flex flex-col">
       <Alert
@@ -81,16 +37,6 @@ function CardMenu({ dataMenu }) {
         onClick={(e) => {
           e.preventDefault();
         }}
-      />
-      <ModalConfirmation
-        isOpen={showModal}
-        onClose={handleCancel}
-        onConfirm={redirectToLogin}
-        title="Confirm Login"
-        message="Please login to add to cart!"
-        confirmText="Login"
-        cancelText="Cancel"
-        type="info"
       />
       <div className="relative flex-shrink-0">
         <img
@@ -131,9 +77,7 @@ function CardMenu({ dataMenu }) {
           <Button className="bg-[#FF8906] flex-2 hover:bg-[#e67a05]">
             Buy
           </Button>
-          <Button
-            onClick={handleAddToCart}
-            className="flex-1 border border-[#FF8906] text-[#FF8906] justify-items-center content-center">
+          <Button className="flex-1 border border-[#FF8906] text-[#FF8906] justify-items-center content-center">
             <img src="/icon/icon-cart-orange.svg" alt="Icon Cart Orange" />
           </Button>
         </div>
