@@ -1,11 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import { AuthContext } from "../context/AuthContext";
+import { clearDataProfile } from "../redux/reducers/profile";
 
 const ForgotPasswordFormSchema = yup.object({
   password: yup
@@ -20,6 +23,10 @@ const ForgotPasswordFormSchema = yup.object({
 
 function ResetPasswordPage() {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  const [searchParams] = useSearchParams();
+  const [isProcessing, setIsProcessing] = useState(false);
+  const { setAccessToken } = useContext(AuthContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
     register,
@@ -29,26 +36,59 @@ function ResetPasswordPage() {
     resolver: yupResolver(ForgotPasswordFormSchema),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    setIsProcessing(true);
     try {
-      const { email } = data;
-      const usersData = JSON.parse(localStorage.getItem("users") || "[]");
+      const body = new URLSearchParams({
+        email: searchParams.get("email"),
+        token: searchParams.get("token"),
+        newPassword: data.password,
+      }).toString();
 
-      const isValidEmail = usersData.find((data) => data.email === email);
+      const res = await fetch(
+        import.meta.env.VITE_BASE_URL + "/auth/reset-password",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body,
+        }
+      );
 
-      if (isValidEmail) {
-        setAlertStatus({ type: "success", message: "Email sent successfully" });
-        setTimeout(() => {
-          navigate("/auth/login");
-        }, 1500);
-      } else {
-        setAlertStatus({ type: "error", message: "Email not registered" });
+      if (!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message || "Failed to reset password");
       }
+
+      const result = await res.json();
+
+      if (!result.success) {
+        throw new Error(result.message);
+      }
+
+      setAlertStatus({
+        type: "success",
+        message: "Password has been reset successfully",
+      });
+      setTimeout(() => {
+        setAccessToken("");
+        dispatch(clearDataProfile());
+        navigate("/auth/login");
+      }, 1500);
     } catch (error) {
+      let errorMessage = "An error occurred while processing data";
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (!navigator.onLine) {
+        errorMessage = "No internet connection";
+      }
       setAlertStatus({
         type: "error",
-        message: `An error occurred while process the data. Please try again: ${error}`,
+        message: errorMessage,
       });
+    } finally {
+      setIsProcessing(false);
     }
   };
   return (
@@ -86,6 +126,7 @@ function ResetPasswordPage() {
               type="password"
               label="New Password"
               placeholder="Enter Your New Password"
+              disabled={isProcessing}
             />
             <Input
               {...register("confirmPassword")}
@@ -94,9 +135,13 @@ function ResetPasswordPage() {
               type="password"
               label="Confirm Password"
               placeholder="Confirm New Password"
+              disabled={isProcessing}
             />
-            <Button type="submit" className="bg-[#FF8906]">
-              Submit
+            <Button
+              disabled={isProcessing}
+              type="submit"
+              className="bg-[#FF8906] disabled:opacity-50 disabled:cursor-not-allowed">
+              {!isProcessing ? "Submit" : "Reset email..."}
             </Button>
           </div>
         </form>

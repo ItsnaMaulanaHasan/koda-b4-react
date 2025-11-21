@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
@@ -16,7 +15,7 @@ const ForgotPasswordFormSchema = yup.object({
 
 function ForgotPasswordPage() {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
-  const navigate = useNavigate();
+  const [isProcessing, setIsProcessing] = useState(false);
   const {
     register,
     handleSubmit,
@@ -25,26 +24,54 @@ function ForgotPasswordPage() {
     resolver: yupResolver(ForgotPasswordFormSchema),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    setIsProcessing(true);
     try {
-      const { email } = data;
-      const usersData = JSON.parse(localStorage.getItem("users") || "[]");
+      const body = new URLSearchParams({
+        email: data.email,
+      }).toString();
 
-      const isValidEmail = usersData.find((data) => data.email === email);
+      const res = await fetch(
+        import.meta.env.VITE_BASE_URL + "/auth/forgot-password",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body,
+        }
+      );
 
-      if (isValidEmail) {
-        setAlertStatus({ type: "success", message: "Email sent successfully" });
-        setTimeout(() => {
-          navigate("/auth/login");
-        }, 1500);
-      } else {
-        setAlertStatus({ type: "error", message: "Email not registered" });
+      if (!res.ok) {
+        const result = await res.json();
+        throw new Error(
+          result.message || "Password reset email failed to send"
+        );
       }
+
+      const result = await res.json();
+
+      if (!result.success) {
+        throw new Error(result.message);
+      }
+
+      setAlertStatus({
+        type: "success",
+        message: "Password reset link sent to email. Please Check your email",
+      });
     } catch (error) {
+      let errorMessage = "An error occurred while processing data";
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (!navigator.onLine) {
+        errorMessage = "No internet connection";
+      }
       setAlertStatus({
         type: "error",
-        message: `An error occurred while process the data. Please try again: ${error}`,
+        message: errorMessage,
       });
+    } finally {
+      setIsProcessing(false);
     }
   };
   return (
@@ -84,9 +111,13 @@ function ForgotPasswordPage() {
               type="email"
               label="Email"
               placeholder="Enter Your Email"
+              disabled={isProcessing}
             />
-            <Button type="submit" className="bg-[#FF8906]">
-              Submit
+            <Button
+              disabled={isProcessing}
+              type="submit"
+              className="bg-[#FF8906] disabled:opacity-50 disabled:cursor-not-allowed">
+              {!isProcessing ? "Submit" : "Sending email..."}
             </Button>
           </div>
         </form>
