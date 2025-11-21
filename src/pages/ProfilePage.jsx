@@ -37,6 +37,7 @@ const EditProfileFormSchema = yup.object({
 function ProfilePage() {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
   const { accessToken } = useContext(AuthContext);
 
   // get data user login from redux
@@ -71,45 +72,76 @@ function ProfilePage() {
     }
   }, [userLogin, setValue]);
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
+    setIsUploadingPhoto(true);
     const file = e.target.files[0];
+    if (!file) return;
     if (file) {
-      // Validasi ukuran file (max 2MB)
-      if (file.size > 2 * 1024 * 1024) {
-        setAlertStatus({
-          type: "error",
-          message: "Image size must be less than 2MB",
-        });
-        return;
-      }
+      try {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setProfileImage(reader.result);
+        };
+        reader.readAsDataURL(file);
 
-      // Validasi tipe file
-      if (!file.type.startsWith("image/")) {
-        setAlertStatus({
-          type: "error",
-          message: "File must be an image",
-        });
-        return;
-      }
+        // Upload ke backend
+        const formData = new FormData();
+        formData.append("profilePhoto", file);
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const imageData = reader.result;
-        setProfileImage(imageData);
-
-        // Update di localStorage
-        const usersData = JSON.parse(localStorage.getItem("users") || "[]");
-        const updatedUsers = usersData.map((user) =>
-          user.id === userLogin.id ? { ...user, profileImage: imageData } : user
+        const res = await fetch(
+          import.meta.env.VITE_BASE_URL + "/profiles/photo",
+          {
+            method: "PATCH",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: formData,
+          }
         );
-        localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+        if (!res.ok) {
+          const result = await res.json();
+          throw new Error(result.message || "Upload failed");
+        }
+
+        const result = await res.json();
+
+        if (!result.success) {
+          throw new Error(result.message);
+        }
+
+        if (result.data?.profilePhoto) {
+          dispatch(
+            setDataProfile({
+              ...userLogin,
+              profilePhoto: result.data.profilePhoto,
+            })
+          );
+          setProfileImage(result.data.profilePhoto);
+        }
 
         setAlertStatus({
           type: "success",
           message: "Profile photo updated successfully!",
         });
-      };
-      reader.readAsDataURL(file);
+      } catch (error) {
+        let errorMessage = "Failed to upload profile photo";
+        if (error.message) {
+          errorMessage = error.message;
+        } else if (!navigator.onLine) {
+          errorMessage = "No internet connection";
+        }
+
+        setAlertStatus({
+          type: "error",
+          message: errorMessage,
+        });
+        setProfileImage(
+          userLogin?.profilePhoto || "/img/empty-photo-profile.jpeg"
+        );
+      } finally {
+        setIsUploadingPhoto(false);
+      }
     }
   };
 
@@ -201,8 +233,8 @@ function ProfilePage() {
           <Button
             type="button"
             onClick={() => profileImg.current.click()}
-            className="bg-[#FF8906] py-4 w-full text-sm sm:text-base">
-            Upload New Photo
+            className="bg-[#FF8906] py-4 w-full text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed">
+            {isUploadingPhoto ? "Uploading..." : "Upload New Photo"}
           </Button>
           <div>
             Since{" "}
