@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Alert from "../components/Alert";
@@ -13,10 +13,11 @@ import { addDataCart } from "../redux/reducers/cart";
 function DetailProduct() {
   // fetch data menu
   const { id: idMenu } = useParams();
-  const { data, isLoading, error } = useFetchData(
-    import.meta.env.VITE_BASE_URL + "/products/" + idMenu
-  );
-  const menu = data.data;
+  const {
+    data: { data: menu },
+    isLoading,
+    error,
+  } = useFetchData(import.meta.env.VITE_BASE_URL + "/products/" + idMenu);
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
   const [showModal, setShowModal] = useState(false);
   const { accessToken } = useContext(AuthContext);
@@ -25,8 +26,18 @@ function DetailProduct() {
   const dispatch = useDispatch();
 
   const [amount, setAmount] = useState(1);
-  const [size, setSize] = useState("Reguler");
-  const [hotIce, setHotIce] = useState("Ice");
+
+  const [sizeId, setSizeId] = useState(null);
+  const [variantId, setVariantId] = useState(null);
+
+  useEffect(() => {
+    if (menu?.productSizes?.length > 0 && sizeId === null) {
+      setSizeId(menu.productSizes[0].id);
+    }
+    if (menu?.productVariants?.length > 0 && variantId === null) {
+      setVariantId(menu.productVariants[0].id);
+    }
+  }, [menu, sizeId, variantId]);
 
   // handle pagination recomendations
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,6 +61,16 @@ function DetailProduct() {
     setCurrentPage(pageNumber);
   };
 
+  const getSizeName = (id) => {
+    const size = menu?.productSizes?.find((s) => s.id === id);
+    return size?.size || "";
+  };
+
+  const getVariantName = (id) => {
+    const variant = menu?.productVariants?.find((v) => v.id === id);
+    return variant?.variant || "";
+  };
+
   // handle add to cart
   const handleAddToCart = () => {
     if (isAuthenticated) {
@@ -59,8 +80,10 @@ function DetailProduct() {
         image: menu.image,
         price: menu.discountPrice || menu.price,
         originalPrice: menu.price,
-        size: size,
-        hotIce: hotIce,
+        sizeId: sizeId,
+        sizeName: getSizeName(sizeId),
+        variantId: variantId,
+        variantName: getVariantName(variantId),
         quantity: amount,
       };
 
@@ -72,8 +95,8 @@ function DetailProduct() {
 
       // Reset ke default
       setAmount(1);
-      setSize("Reguler");
-      setHotIce("Ice");
+      setSizeId(menu.productSizes[0].id);
+      setVariantId(menu.productVariants[0].id);
     } else {
       setShowModal(true);
     }
@@ -87,8 +110,10 @@ function DetailProduct() {
         image: menu.image,
         price: menu.discountPrice || menu.price,
         originalPrice: menu.price,
-        size: size,
-        hotIce: hotIce,
+        sizeId: sizeId,
+        sizeName: getSizeName(sizeId),
+        variantId: variantId,
+        variantName: getVariantName(variantId),
         quantity: amount,
       };
 
@@ -96,8 +121,8 @@ function DetailProduct() {
 
       // Reset ke default
       setAmount(1);
-      setSize("Reguler");
-      setHotIce("Ice");
+      setSizeId(menu.productSizes[0].id);
+      setVariantId(menu.productVariants[0].id);
 
       navigate("/cart");
     } else {
@@ -178,7 +203,7 @@ function DetailProduct() {
             {menu.name}
           </h1>
           <div className="flex items-center gap-2 sm:gap-3">
-            {menu.discountPrice && (
+            {menu.discountPrice !== 0 && (
               <span className="text-xs text-red-500 line-through sm:text-sm">
                 IDR ${menu.price.toLocaleString("id")}
               </span>
@@ -243,49 +268,36 @@ function DetailProduct() {
           {/* Choose Size */}
           <div className="flex flex-col gap-2 sm:gap-3">
             <h3 className="font-semibold">Choose Size</h3>
-            <div className="grid grid-cols-3 gap-2 sm:gap-3">
-              <Button
-                onClick={() => setSize("Reguler")}
-                className={`py-3 border-2 ${
-                  size === "Reguler" ? "border-[#FF8906]" : "border-[#E8E8E8]"
-                } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
-                Regular
-              </Button>
-              <Button
-                onClick={() => setSize("Medium")}
-                className={`py-3 border-2 ${
-                  size === "Medium" ? "border-[#FF8906]" : "border-[#E8E8E8]"
-                } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
-                Medium
-              </Button>
-              <Button
-                onClick={() => setSize("Large")}
-                className={`py-3 border-2 ${
-                  size === "Large" ? "border-[#FF8906]" : "border-[#E8E8E8]"
-                } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
-                Large
-              </Button>
+            <div className="flex gap-2 sm:gap-3">
+              {menu.productSizes?.map((size) => (
+                <Button
+                  key={size.id}
+                  onClick={() => setSizeId(size.id)}
+                  className={`py-3 border-2 flex-1 ${
+                    sizeId === size.id ? "border-[#FF8906]" : "border-[#E8E8E8]"
+                  } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
+                  {size.size}
+                </Button>
+              ))}
             </div>
           </div>
 
-          {/* Hot/Ice */}
+          {/* Variant */}
           <div className="flex flex-col gap-2 sm:gap-3">
-            <h3 className="font-semibold">Hot/Ice?</h3>
-            <div className="grid grid-cols-2 gap-2 sm:gap-3">
-              <Button
-                onClick={() => setHotIce("Ice")}
-                className={`py-3 border-2 ${
-                  hotIce === "Ice" ? "border-[#FF8906]" : "border-[#E8E8E8]"
-                } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
-                Ice
-              </Button>
-              <Button
-                onClick={() => setHotIce("Hot")}
-                className={`py-3 border-2 ${
-                  hotIce === "Hot" ? "border-[#FF8906]" : "border-[#E8E8E8]"
-                } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
-                Hot
-              </Button>
+            <h3 className="font-semibold">Variant</h3>
+            <div className="flex gap-2 sm:gap-3">
+              {menu.productVariants?.map((variant) => (
+                <Button
+                  key={variant.id}
+                  onClick={() => setVariantId(variant.id)}
+                  className={`py-3 border-2 flex-1 ${
+                    variantId === variant.id
+                      ? "border-[#FF8906]"
+                      : "border-[#E8E8E8]"
+                  } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
+                  {variant.variant}
+                </Button>
+              ))}
             </div>
           </div>
 
