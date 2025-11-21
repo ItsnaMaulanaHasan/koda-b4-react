@@ -1,7 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  dataProfile: {},
+  dataProfile: {
+    profilePhoto: "",
+    fullName: "",
+    email: "",
+    phone: "",
+    address: "",
+    role: "",
+    joinDate: null,
+  },
 };
 
 const profile = createSlice({
@@ -9,10 +17,10 @@ const profile = createSlice({
   initialState,
   reducers: {
     setDataProfile: (state, action) => {
-      state.dataProfile = action.payload;
+      state.dataProfile = { ...initialState.dataProfile, ...action.payload };
     },
     clearDataProfile: (state) => {
-      state.dataProfile = {};
+      state.dataProfile = initialState.dataProfile;
     },
   },
 });
