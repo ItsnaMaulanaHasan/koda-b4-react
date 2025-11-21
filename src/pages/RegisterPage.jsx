@@ -41,12 +41,11 @@ function RegisterPage() {
   const onSubmit = async (data) => {
     setIsRegister(true);
     try {
-      const body = {
+      const body = new URLSearchParams({
         fullName: data.fullName,
         email: data.email,
         password: data.password,
-      };
-      const encodedData = new URLSearchParams(body).toString();
+      }).toString;
 
       const res = await fetch(
         import.meta.env.VITE_BASE_URL + "/auth/register",
@@ -55,7 +54,7 @@ function RegisterPage() {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
-          body: encodedData,
+          body,
         }
       );
 
