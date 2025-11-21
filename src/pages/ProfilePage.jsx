@@ -44,8 +44,8 @@ function ProfilePage() {
   const userLogin = useSelector((state) => state.profile.dataProfile);
   const dispatch = useDispatch();
 
-  const [profileImage, setProfileImage] = useState(
-    userLogin?.profileImage || "/img/empty-photo-profile.jpeg"
+  const [profilePhoto, setProfilePhoto] = useState(
+    userLogin?.profilePhoto || "/img/empty-photo-profile.jpeg"
   );
   const profileImg = useRef();
 
@@ -66,8 +66,8 @@ function ProfilePage() {
 
   useEffect(() => {
     if (userLogin) {
-      if (userLogin.profileImage) {
-        setProfileImage(userLogin.profileImage);
+      if (userLogin.profilePhoto) {
+        setProfilePhoto(userLogin.profilePhoto);
       }
     }
   }, [userLogin, setValue]);
@@ -80,7 +80,7 @@ function ProfilePage() {
       try {
         const reader = new FileReader();
         reader.onloadend = () => {
-          setProfileImage(reader.result);
+          setProfilePhoto(reader.result);
         };
         reader.readAsDataURL(file);
 
@@ -117,13 +117,16 @@ function ProfilePage() {
               profilePhoto: result.data.profilePhoto,
             })
           );
-          setProfileImage(result.data.profilePhoto);
+          setProfilePhoto(result.data.profilePhoto);
         }
 
         setAlertStatus({
           type: "success",
           message: "Profile photo updated successfully!",
         });
+        if (profileImg.current) {
+          profileImg.current.value = "";
+        }
       } catch (error) {
         let errorMessage = "Failed to upload profile photo";
         if (error.message) {
@@ -136,7 +139,7 @@ function ProfilePage() {
           type: "error",
           message: errorMessage,
         });
-        setProfileImage(
+        setProfilePhoto(
           userLogin?.profilePhoto || "/img/empty-photo-profile.jpeg"
         );
       } finally {
@@ -218,7 +221,7 @@ function ProfilePage() {
           <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48">
             <img
               className="object-contain w-full h-full rounded-full"
-              src={profileImage}
+              src={profilePhoto}
               alt="Profile"
             />
           </div>
