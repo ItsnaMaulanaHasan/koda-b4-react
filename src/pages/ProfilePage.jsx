@@ -1,30 +1,48 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import bcrypt from "bcryptjs";
 import moment from "moment";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { AuthContext } from "../context/AuthContext";
+import { setDataProfile } from "../redux/reducers/profile";
 
 const EditProfileFormSchema = yup.object({
-  fullName: yup.string().min(3, "Name must be at least 3 characters"),
-  email: yup.string().email("Invalid email format"),
-  phone: yup.string().min(10, "Phone must be at least 10 digits"),
-  password: yup
+  fullName: yup
     .string()
-    .test("len", "Password must be at least 6 characters", (val) => {
-      if (val === undefined || val === "") return true;
-      return val.length >= 6;
-    }),
-  address: yup.string().min(5, "Address must be at least 5 characters"),
+    .trim()
+    .required("Name cannot be empty")
+    .min(3, "Name must be at least 3 characters"),
+  email: yup
+    .string()
+    .trim()
+    .required("Email cannot be empty")
+    .email("Invalid email format"),
+  phone: yup
+    .string()
+    .trim()
+    .required("Phone cannot be empty")
+    .min(10, "Phone must be at least 10 digits"),
+  address: yup
+    .string()
+    .trim()
+    .required("Address cannot be empty")
+    .min(5, "Address must be at least 5 characters"),
 });
 
 function ProfilePage() {
-  const { userLogin, setUserLogin } = useContext(AuthContext);
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  const [isUpdating, setIsUpdating] = useState(false);
+  const { accessToken } = useContext(AuthContext);
+
+  // get data user login from redux
+  const userLogin = useSelector((state) => state.profile.dataProfile);
+  const dispatch = useDispatch();
+
   const [profileImage, setProfileImage] = useState(
     userLogin?.profileImage || "/img/empty-photo-profile.jpeg"
   );
@@ -37,14 +55,16 @@ function ProfilePage() {
     setValue,
   } = useForm({
     resolver: yupResolver(EditProfileFormSchema),
+    defaultValues: {
+      fullName: userLogin?.fullName,
+      email: userLogin?.email,
+      phone: userLogin?.phone,
+      address: userLogin?.address,
+    },
   });
 
   useEffect(() => {
     if (userLogin) {
-      setValue("fullName", userLogin.fullName || "");
-      setValue("email", userLogin.email || "");
-      setValue("phone", userLogin.phone || "");
-      setValue("address", userLogin.address || "");
       if (userLogin.profileImage) {
         setProfileImage(userLogin.profileImage);
       }
@@ -84,9 +104,6 @@ function ProfilePage() {
         );
         localStorage.setItem("users", JSON.stringify(updatedUsers));
 
-        // Update context
-        setUserLogin({ ...userLogin, profileImage: imageData });
-
         setAlertStatus({
           type: "success",
           message: "Profile photo updated successfully!",
@@ -97,62 +114,53 @@ function ProfilePage() {
   };
 
   const onSubmit = async (data) => {
+    setIsUpdating(true);
     try {
-      const usersData = JSON.parse(localStorage.getItem("users") || "[]");
-      const userIndex = usersData.findIndex((user) => user.id === userLogin.id);
+      const body = new URLSearchParams();
+      if (data.fullName) body.append("fullName", data.fullName);
+      if (data.email) body.append("email", data.email);
+      if (data.phone) body.append("phone", data.phone);
+      if (data.address) body.append("address", data.address);
 
-      if (userIndex === -1) {
-        setAlertStatus({
-          type: "error",
-          message: "User not found",
-        });
-        return;
-      }
-
-      const currentUser = usersData[userIndex];
-
-      // Jika password diisi, hash password baru
-      let updatedPassword = currentUser.password;
-      if (data.password && data.password.trim() !== "") {
-        const salt = await bcrypt.genSalt(10);
-        updatedPassword = await bcrypt.hash(data.password, salt);
-      }
-
-      // Update hanya field yang diisi
-      const updatedUser = {
-        ...currentUser,
-        fullName: data.fullName || currentUser.fullName,
-        email: data.email || currentUser.email,
-        phone: data.phone || currentUser.phone,
-        address: data.address || currentUser.address,
-        password: updatedPassword,
-      };
-
-      usersData[userIndex] = updatedUser;
-      localStorage.setItem("users", JSON.stringify(usersData));
-
-      // Update context (tanpa password)
-      setUserLogin({
-        id: updatedUser.id,
-        fullName: updatedUser.fullName,
-        email: updatedUser.email,
-        phone: updatedUser.phone,
-        address: updatedUser.address,
-        profileImage: updatedUser.profileImage,
+      const res = await fetch(import.meta.env.VITE_BASE_URL + "/profiles", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body,
       });
+
+      if (!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message || "Update profile failed");
+      }
+
+      const result = await res.json();
+
+      if (!result.success) {
+        throw new Error(result.message);
+      }
+
+      dispatch(setDataProfile(result.data));
 
       setAlertStatus({
         type: "success",
         message: "Profile updated successfully!",
       });
-
-      // Clear password field setelah berhasil
-      setValue("password", "");
     } catch (error) {
+      let errorMessage = "Update profile failed";
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (!navigator.onLine) {
+        errorMessage = "No internet connection";
+      }
       setAlertStatus({
         type: "error",
-        message: `An error occurred while updating profile: ${error}`,
+        message: errorMessage,
       });
+    } finally {
+      setIsUpdating(false);
     }
   };
   return (
@@ -213,6 +221,7 @@ function ProfilePage() {
               id="fullName"
               type="text"
               label="Full Name"
+              disabled={isUpdating}
               placeholder="Complete Your Full Name"
             />
             <Input
@@ -221,6 +230,7 @@ function ProfilePage() {
               id="email"
               type="email"
               label="Email"
+              disabled={isUpdating}
               placeholder="Complete Your Email"
             />
             <Input
@@ -229,16 +239,8 @@ function ProfilePage() {
               id="phone"
               type="text"
               label="Phone"
+              disabled={isUpdating}
               placeholder="Complete Your Number"
-            />
-            <Input
-              {...register("password")}
-              error={errors}
-              id="password"
-              type="password"
-              label="Password"
-              placeholder="*******"
-              passwordInProfile={true}
             />
             <Input
               {...register("address")}
@@ -246,12 +248,19 @@ function ProfilePage() {
               id="address"
               type="text"
               label="Address"
+              disabled={isUpdating}
               placeholder="Complete Your Address"
             />
+            <Link
+              to="/forgot-password"
+              className="text-[#FF8906] text-xs sm:text-sm">
+              Set New Password
+            </Link>
             <Button
+              disabled={isUpdating}
               type="submit"
-              className="bg-[#FF8906] w-full sm:w-auto text-sm sm:text-base mt-2">
-              Save Changes
+              className="bg-[#FF8906] w-full sm:w-auto text-sm sm:text-base mt-2 disabled:opacity-50 disabled:cursor-not-allowed">
+              {!isUpdating ? "Save Changes" : "Updating Profile..."}
             </Button>
           </form>
         </div>
