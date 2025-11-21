@@ -61,7 +61,7 @@ function Input({
             {label}
           </label>
           <Link
-            to="/auth/forgot-password"
+            to="/forgot-password"
             className="text-[#FF8906] text-xs sm:text-sm">
             Set New Password
           </Link>
