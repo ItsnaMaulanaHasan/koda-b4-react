@@ -11,7 +11,7 @@ function SidebarAdmin({ children }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {
-    setAccessToken(null);
+    setAccessToken("");
     dispatch(clearDataProfile());
     navigate("/auth/login");
   };

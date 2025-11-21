@@ -45,7 +45,7 @@ function Navbar() {
 
   // handle logout
   const handleLogout = () => {
-    setAccessToken(null);
+    setAccessToken("");
     dispatch(clearDataProfile());
     setShowDropdown(false);
     navigate("/auth/login");
