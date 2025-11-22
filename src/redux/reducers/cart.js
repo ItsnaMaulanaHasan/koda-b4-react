@@ -17,10 +17,13 @@ const cart = createSlice({
     reduceAmountCarts: (state) => {
       state.amountCarts--;
     },
+    clearCarts: (state) => {
+      state.amountCarts = 0;
+    },
   },
 });
 
 export const {
   reducer: cartReducer,
-  actions: { setAmountCarts, addAmountCarts, reduceAmountCarts },
+  actions: { setAmountCarts, addAmountCarts, reduceAmountCarts, clearCarts },
 } = cart;
