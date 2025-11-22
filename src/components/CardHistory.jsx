@@ -25,9 +25,9 @@ function CardHistory({ dataHistory }) {
     <div className="flex items-center w-full p-3 bg-[#E8E8E84D] gap-5">
       <div className="hidden md:block size-36">
         <img
-          className="size-full"
-          src={dataHistory.listOrders[0].image}
-          alt={dataHistory.noOrder}
+          className="size-full object-cover"
+          src={dataHistory.image || "/img/empty-image-placeholder.webp"}
+          alt={dataHistory.noInvoice}
         />
       </div>
       <div className="grid w-full grid-cols-[auto_auto] grid-rows-2 md:grid-cols-[auto_auto_auto_auto]">
@@ -36,7 +36,7 @@ function CardHistory({ dataHistory }) {
             <img src="/icon/icon-noorder.svg" alt="Icon No Order" />
             <span>No. Order</span>
           </div>
-          <div className="font-bold">{dataHistory.noOrder}</div>
+          <div className="font-bold">{dataHistory.noInvoice}</div>
         </div>
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2 text-[#4F5665]">
@@ -44,7 +44,7 @@ function CardHistory({ dataHistory }) {
             <span>Date</span>
           </div>
           <div className="font-bold">
-            {moment(dataHistory.dateOrder).format("DD MMMM YYYY")}
+            {moment(dataHistory.dateTransaction).format("DD MMMM YYYY")}
           </div>
         </div>
         <div className="flex flex-col gap-3">
@@ -68,7 +68,7 @@ function CardHistory({ dataHistory }) {
         </div>
         <div>
           <a
-            href={`/order-history/${dataHistory.noOrder}`}
+            href={`/order-history/${dataHistory.noInvoice}`}
             className="underline text-[#FF8906]">
             Views Order Detail
           </a>
