@@ -11,8 +11,7 @@ import Input from "../components/Input";
 import ModalConfirmation from "../components/ModalConfirmation";
 import { AuthContext } from "../context/AuthContext";
 import { useFetchData } from "../hooks/useFetchData";
-import { reduceAmountCarts } from "../redux/reducers/cart";
-import { addDataOrder } from "../redux/reducers/order";
+import { clearCarts, reduceAmountCarts } from "../redux/reducers/cart";
 
 const PaymentFormSchema = yup.object({
   email: yup
@@ -46,9 +45,11 @@ function CartPage() {
   const {
     data: { data: paymentMethods = [] },
   } = useFetchData(import.meta.env.VITE_BASE_URL + "/payment-methods");
+
   const [formData, setFormData] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+
   const userLogin = useSelector((state) => state.profile.dataProfile);
 
   const [orderMethodId, setOrderMethodId] = useState(null);
@@ -60,7 +61,7 @@ function CartPage() {
     if (paymentMethods?.length > 0 && paymentMethodId === null) {
       setPaymentMethodId(paymentMethods[0].id);
     }
-  }, [orderMethodId, orderMethods, paymentMethodId, paymentMethods]);
+  }, [orderMethodId, orderMethods, paymentMethodId, paymentMethods, showModal]);
 
   // delete cart
   const handleRemoveItem = async (cartId) => {
@@ -163,24 +164,37 @@ function CartPage() {
     }
   };
 
-  const handleConfirmCheckout = () => {
+  const handleConfirmCheckout = async () => {
     try {
       const orderData = {
         fullName: formData.fullName,
         email: formData.email,
+        phone: formData.phone,
         address: formData.address,
         orderMethodId,
-        listOrders: dataCarts,
-        orderTotal,
-        deliveryFee,
-        tax,
-        subTotal,
+        paymentMethodId,
       };
 
-      // Save to order histories
-      dispatch(addDataOrder(orderData));
+      const res = await fetch(import.meta.env.VITE_BASE_URL + "/transactions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
 
-      setOrderMethodId(1);
+      if (!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message || "Failed to checkout");
+      }
+
+      const result = await res.json();
+      if (!result.success) {
+        throw new Error(result.message);
+      }
+
+      dispatch(clearCarts());
       reset();
       setShowModal(false);
       setAlertStatus({ type: "success", message: "Checkout successful!" });
@@ -189,11 +203,18 @@ function CartPage() {
         navigate("/order-history");
       }, 2000);
     } catch (error) {
-      setShowModal(false);
+      let errorMessage = "Failed to checkout";
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (!navigator.onLine) {
+        errorMessage = "No internet connection";
+      }
       setAlertStatus({
         type: "error",
-        message: `An error occurred: ${error}`,
+        message: errorMessage,
       });
+    } finally {
+      setShowModal(false);
     }
   };
 
