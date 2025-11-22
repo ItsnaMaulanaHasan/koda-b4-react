@@ -140,10 +140,10 @@ function DetailProduct() {
         const res = await fetch(import.meta.env.VITE_BASE_URL + "/carts", {
           method: "POST",
           headers: {
-            Authorization: accessToken,
+            Authorization: `Bearer ${accessToken}`,
             "Content-Type": "application/json",
           },
-          cartItem,
+          body: JSON.stringify(cartItem),
         });
 
         if (!res.ok) {
@@ -155,6 +155,10 @@ function DetailProduct() {
 
         if (!result.success) {
           throw new Error(result.message);
+        }
+
+        if (result.data.id !== 0) {
+          dispatch(addAmountCarts());
         }
 
         navigate("/cart");
