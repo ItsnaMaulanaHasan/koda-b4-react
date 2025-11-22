@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { DrawerAdminContext } from "../context/DrawerContext";
-import CardOrder from "./CardOrder";
+import CardCart from "./CardCart";
 
 // const order = {
 //   orderNo: "#12354-09893",
@@ -175,7 +175,7 @@ const OrderDetail = ({ order }) => {
           <div className="flex flex-col gap-4">
             {order.listOrders && order.listOrders.length > 0 ? (
               order.listOrders.map((item, index) => (
-                <CardOrder
+                <CardCart
                   key={item.menuId || index}
                   order={item}
                   remove={false}

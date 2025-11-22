@@ -2,7 +2,6 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import CardOrder from "../components/CardOrder";
 
 function DetailHistory() {
   const { noOrder } = useParams();
@@ -121,7 +120,7 @@ function DetailHistory() {
         <div className="flex flex-col gap-3 sm:gap-4">
           <h1 className="text-xl font-medium sm:text-2xl">Your Order</h1>
           {history.listOrders.map((item) => (
-            <CardOrder key={item.cartId} order={item} remove={false} />
+            <CardCart key={item.cartId} order={item} remove={false} />
           ))}
         </div>
       </div>
