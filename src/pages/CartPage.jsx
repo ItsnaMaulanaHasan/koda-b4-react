@@ -1,16 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
-import CardOrder from "../components/CardOrder";
+import CardCart from "../components/CardCart";
 import Input from "../components/Input";
 import ModalConfirmation from "../components/ModalConfirmation";
 import { AuthContext } from "../context/AuthContext";
-import { clearDataCart, removeDataCart } from "../redux/reducers/cart";
+import { useFetchData } from "../hooks/useFetchData";
+import { reduceAmountCarts } from "../redux/reducers/cart";
 import { addDataOrder } from "../redux/reducers/order";
 
 const PaymentFormSchema = yup.object({
@@ -32,28 +33,106 @@ const PaymentFormSchema = yup.object({
 function CartPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { accessToken } = useContext(AuthContext);
+  const {
+    data: { data: dataCarts = [] },
+    isLoading,
+    error,
+    refetch: refetchCarts,
+  } = useFetchData(import.meta.env.VITE_BASE_URL + "/carts", accessToken);
+  const {
+    data: { data: orderMethods = [] },
+  } = useFetchData(import.meta.env.VITE_BASE_URL + "/order-methods");
+  const {
+    data: { data: paymentMethods = [] },
+  } = useFetchData(import.meta.env.VITE_BASE_URL + "/payment-methods");
   const [formData, setFormData] = useState(null);
-  const [shipping, setShipping] = useState("Dine In");
   const [showModal, setShowModal] = useState(false);
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
-  const dataCarts = useSelector((state) => state.cart.dataCarts);
-  const { userLogin } = useContext(AuthContext);
+  const userLogin = useSelector((state) => state.profile.dataProfile);
+
+  const [orderMethodId, setOrderMethodId] = useState(null);
+  const [paymentMethodId, setPaymentMethodId] = useState(null);
+  useEffect(() => {
+    if (orderMethods?.length > 0 && orderMethodId === null) {
+      setOrderMethodId(orderMethods[0].id);
+    }
+    if (paymentMethods?.length > 0 && paymentMethodId === null) {
+      setPaymentMethodId(paymentMethods[0].id);
+    }
+  }, [orderMethodId, orderMethods, paymentMethodId, paymentMethods]);
 
   // delete cart
-  const handleRemoveItem = (cartId) => {
-    dispatch(removeDataCart(cartId));
+  const handleRemoveItem = async (cartId) => {
+    try {
+      const res = await fetch(
+        import.meta.env.VITE_BASE_URL + `/carts/${cartId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message || "Failed to delete cart");
+      }
+
+      const result = await res.json();
+      if (!result.success) {
+        throw new Error(result.message);
+      }
+
+      dispatch(reduceAmountCarts());
+      refetchCarts();
+
+      reset({
+        email: userLogin?.email || "",
+        fullName: userLogin?.fullName || "",
+        phone: userLogin?.phone || "",
+        address: userLogin?.address || "",
+      });
+
+      setAlertStatus({
+        type: "success",
+        message: result.message,
+      });
+    } catch (error) {
+      let errorMessage = "Failed delete cart";
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (!navigator.onLine) {
+        errorMessage = "No internet connection";
+      }
+      setAlertStatus({
+        type: "error",
+        message: errorMessage,
+      });
+    }
   };
 
   // calculate total and subtotal order
-  const orderTotal = useSelector((state) =>
-    state.cart.dataCarts.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    )
-  );
-  const deliveryFee = 0;
-  const tax = orderTotal * 0.1;
-  const subTotal = orderTotal + deliveryFee + tax;
+  const { orderTotal, deliveryFee, tax, subTotal } = useMemo(() => {
+    const total =
+      dataCarts?.reduce((sum, item) => sum + (item.subtotal || 0), 0) || 0;
+
+    const selectedMethod = orderMethods?.find(
+      (method) => method.id === orderMethodId
+    );
+    const delivery = selectedMethod?.deliveryFee || 0;
+
+    const calculatedTax = total * 0.1;
+    const calculatedSubTotal = total + delivery + calculatedTax;
+
+    return {
+      orderTotal: total,
+      deliveryFee: delivery,
+      tax: calculatedTax,
+      subTotal: calculatedSubTotal,
+    };
+  }, [dataCarts, orderMethods, orderMethodId]);
 
   // handle form order
   const {
@@ -61,19 +140,15 @@ function CartPage() {
     handleSubmit,
     reset,
     formState: { errors },
-    setValue,
   } = useForm({
     resolver: yupResolver(PaymentFormSchema),
+    defaultValues: {
+      fullName: userLogin?.fullName,
+      email: userLogin?.email,
+      phone: userLogin?.phone,
+      address: userLogin?.address,
+    },
   });
-
-  useEffect(() => {
-    if (userLogin) {
-      setValue("fullName", userLogin.fullName || "");
-      setValue("email", userLogin.email || "");
-      setValue("phone", userLogin.phone || "");
-      setValue("address", userLogin.address || "");
-    }
-  }, [userLogin, setValue]);
 
   // handle submit form order
   const onSubmit = (data) => {
@@ -94,7 +169,7 @@ function CartPage() {
         fullName: formData.fullName,
         email: formData.email,
         address: formData.address,
-        shipping,
+        orderMethodId,
         listOrders: dataCarts,
         orderTotal,
         deliveryFee,
@@ -105,8 +180,7 @@ function CartPage() {
       // Save to order histories
       dispatch(addDataOrder(orderData));
 
-      dispatch(clearDataCart());
-      setShipping("Dine In");
+      setOrderMethodId(1);
       reset();
       setShowModal(false);
       setAlertStatus({ type: "success", message: "Checkout successful!" });
@@ -122,6 +196,10 @@ function CartPage() {
       });
     }
   };
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="px-4 py-6 mt-20 mb-10 sm:px-6 sm:py-8 md:px-10 md:mb-16 lg:px-16 xl:px-20 lg:mb-20">
@@ -169,10 +247,10 @@ function CartPage() {
                 </div>
               ) : (
                 dataCarts.map((item) => (
-                  <CardOrder
-                    key={item.cartId}
-                    order={item}
-                    onRemove={() => handleRemoveItem(item.cartId)}
+                  <CardCart
+                    key={item.id}
+                    cart={item}
+                    onRemove={() => handleRemoveItem(item.id)}
                   />
                 ))
               )}
@@ -209,7 +287,7 @@ function CartPage() {
               </div>
               <div className="flex items-center justify-between pt-3 border-t sm:pt-4">
                 <span className="font-bold text-[#4F5665] text-sm sm:text-base">
-                  Sub Total
+                  Total
                 </span>
                 <span className="text-[#0B132A] font-bold text-sm sm:text-base">
                   Idr. {subTotal.toLocaleString("id")}
@@ -226,41 +304,28 @@ function CartPage() {
                 <h3 className="text-base sm:text-lg text-[#4F5665] mb-3 sm:mb-4">
                   We Accept
                 </h3>
-                <div className="flex items-center justify-around gap-2 sm:gap-3 md:gap-4">
-                  <img
-                    src="/icon/icon-bri.svg"
-                    alt="Bank BRI"
-                    className="h-4 sm:h-5"
-                  />
-                  <img
-                    src="/icon/icon-dana.svg"
-                    alt="Dana"
-                    className="h-4 sm:h-5"
-                  />
-                  <img
-                    src="/icon/icon-bca.svg"
-                    alt="BCA"
-                    className="h-4 sm:h-5"
-                  />
-                  <img
-                    src="/icon/icon-gopay.svg"
-                    alt="Gopay"
-                    className="h-4 sm:h-5"
-                  />
-                  <img
-                    src="/icon/icon-ovo.svg"
-                    alt="OVO"
-                    className="h-4 sm:h-5"
-                  />
-                  <img
-                    src="/icon/icon-paypal.svg"
-                    alt="Paypal"
-                    className="h-4 sm:h-5"
-                  />
+                <div className="grid grid-cols-6 items-center justify-around gap-2 sm:gap-3 md:gap-4">
+                  {paymentMethods?.map((paymentMethod) => (
+                    <Button
+                      key={paymentMethod.id}
+                      type="button"
+                      onClick={() => setPaymentMethodId(paymentMethod.id)}
+                      className={`p-2 sm:p-3 border-2 ${
+                        paymentMethodId === paymentMethod.id
+                          ? "border-[#FF8906]"
+                          : "border-[#E8E8E8]"
+                      } hover:bg-[#FF8906] transition`}>
+                      <img
+                        src={
+                          paymentMethod.image ||
+                          "/public/img/empty-image-placeholder.webp"
+                        }
+                        alt={paymentMethod.name}
+                        className="object-contain w-full h-4 sm:h-5"
+                      />
+                    </Button>
+                  ))}
                 </div>
-                <p className="mt-2 sm:mt-3 text-[10px] sm:text-xs text-gray-500">
-                  *Get Discount if you pay with Bank Central Asia
-                </p>
               </div>
             </div>
           </div>
@@ -304,39 +369,22 @@ function CartPage() {
                 placeholder="Enter Your Address"
               />
               <h3 className="text-sm font-semibold sm:text-base">
-                Delivery Method
+                Order Method
               </h3>
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                <Button
-                  type="button"
-                  onClick={() => setShipping("Dine In")}
-                  className={`py-2 sm:py-3 border-2 ${
-                    shipping === "Dine In"
-                      ? "border-[#FF8906]"
-                      : "border-[#E8E8E8]"
-                  } hover:bg-[#FF8906] hover:text-white transition text-xs sm:text-sm md:text-base`}>
-                  Dine In
-                </Button>
-                <Button
-                  type="button"
-                  onClick={() => setShipping("Door Delivery")}
-                  className={`py-2 sm:py-3 border-2 ${
-                    shipping === "Door Delivery"
-                      ? "border-[#FF8906]"
-                      : "border-[#E8E8E8]"
-                  } hover:bg-[#FF8906] hover:text-white transition text-xs sm:text-sm md:text-base`}>
-                  Door Delivery
-                </Button>
-                <Button
-                  type="button"
-                  onClick={() => setShipping("Pick Up")}
-                  className={`py-2 sm:py-3 border-2 ${
-                    shipping === "Pick Up"
-                      ? "border-[#FF8906]"
-                      : "border-[#E8E8E8]"
-                  } hover:bg-[#FF8906] hover:text-white transition text-xs sm:text-sm md:text-base`}>
-                  Pick Up
-                </Button>
+                {orderMethods?.map((orderMethod) => (
+                  <Button
+                    key={orderMethod.id}
+                    type="button"
+                    onClick={() => setOrderMethodId(orderMethod.id)}
+                    className={`py-2 sm:py-3 border-2 ${
+                      orderMethodId === orderMethod.id
+                        ? "border-[#FF8906]"
+                        : "border-[#E8E8E8]"
+                    } hover:bg-[#FF8906] hover:text-white transition text-xs sm:text-sm md:text-base`}>
+                    {orderMethod.name}
+                  </Button>
+                ))}
               </div>
             </div>
           </div>
