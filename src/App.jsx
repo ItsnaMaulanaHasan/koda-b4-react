@@ -58,7 +58,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/order-history/:noOrder",
+        path: "/order-history/:noInvoice",
         element: (
           <ProtectedRoute>
             <DetailHistory />
