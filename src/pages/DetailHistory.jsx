@@ -1,24 +1,57 @@
 import moment from "moment";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
+import CardCart from "../components/CardCart";
+import { AuthContext } from "../context/AuthContext";
+import { useFetchData } from "../hooks/useFetchData";
+
+const getStatusStyle = (status) => {
+  status = status.toLowerCase().trim();
+
+  if (status.includes("progress")) {
+    return "bg-orange-100 text-orange-700 border-orange-200";
+  }
+  if (status.includes("sending")) {
+    return "bg-blue-100 text-blue-700 border-blue-200";
+  }
+  if (status.includes("finish")) {
+    return "bg-green-100 text-green-700 border-green-200";
+  }
+
+  return "bg-gray-100 text-gray-700 border-gray-200";
+};
 
 function DetailHistory() {
-  const { noOrder } = useParams();
-  const [history, setHistory] = useState(null);
-  const dataOrders = useSelector((state) => state.order.dataOrders);
+  const { noInvoice } = useParams();
+  const { accessToken } = useContext(AuthContext);
 
-  useEffect(() => {
-    const data = dataOrders.find((order) => order.noOrder === noOrder);
-    setHistory(data);
-  }, [dataOrders, noOrder]);
+  const {
+    data: { data: history = {} },
+    isLoading,
+    error,
+  } = useFetchData(
+    import.meta.env.VITE_BASE_URL + "/histories/" + noInvoice,
+    accessToken
+  );
 
-  if (!history) return <div className="p-20 mt-20">Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading...
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="flex items-center justify-center min-h-screen text-red-500">
+        Error: {error}
+      </div>
+    );
 
   return (
     <div className="p-4 mt-20 sm:p-6 md:p-10 lg:p-16 xl:p-20">
       <h1 className="mb-3 text-2xl font-medium sm:mb-4 sm:text-3xl md:mb-5 md:text-4xl">
-        Order <span className="font-bold">{history.noOrder}</span>
+        Order <span className="font-bold">{history.noInvoice}</span>
       </h1>
       <p className="text-xs text-[#4F5665] sm:text-sm">
         {moment(history.dateOrder).format("DD MMMM YYYY [at] hh:mm A")}
@@ -91,7 +124,7 @@ function DetailHistory() {
                 <span>Shipping</span>
               </div>
               <div className="font-bold text-[#0B132A] text-xs sm:text-sm md:text-base">
-                {history.shipping}
+                {history.orderMethod}
               </div>
             </div>
             <div className="flex items-center justify-between px-3 py-4 border-b sm:px-4 sm:py-5 border-b-[#E8E8E8E8]">
@@ -103,24 +136,32 @@ function DetailHistory() {
                 />
                 <span>Status</span>
               </div>
-              <div className="font-bold text-[#0B132A] text-xs sm:text-sm md:text-base">
+              <span
+                className={`
+                  px-3 py-1 
+                  text-xs sm:text-sm 
+                  font-semibold 
+                  rounded-full 
+                  border
+                  ${getStatusStyle(history.status)}
+                `}>
                 {history.status}
-              </div>
+              </span>
             </div>
             <div className="flex items-center justify-between px-3 py-4 sm:px-4 sm:py-5">
               <div className="font-medium text-[#4F5665] text-xs sm:text-sm">
                 Total Transaction
               </div>
               <div className="font-bold text-[#FF8906] text-sm sm:text-base md:text-lg">
-                Idr. {history.totalTransaction}
+                Idr. {history.totalTransaction?.toLocaleString("id")}
               </div>
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-3 sm:gap-4">
           <h1 className="text-xl font-medium sm:text-2xl">Your Order</h1>
-          {history.listOrders.map((item) => (
-            <CardCart key={item.cartId} order={item} remove={false} />
+          {history.historyItems.map((item) => (
+            <CardCart key={item.id} cart={item} remove={false} />
           ))}
         </div>
       </div>
