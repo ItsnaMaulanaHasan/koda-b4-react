@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-export const useFetchData = (url) => {
-  const [data, setData] = useState([]);
+export const useFetchData = (url, accessToken = null) => {
+  const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -11,13 +11,22 @@ export const useFetchData = (url) => {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          headers: {
+            ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+          },
+        });
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          const data = await response.json();
+          throw new Error(data.message || "Failed while fetching data");
         }
 
         const data = await response.json();
+        if (typeof data.success !== "undefined" && !data.success) {
+          throw new Error(data.message || "Failed while fetching data");
+        }
+
         setData(data);
       } catch (error) {
         setError(error.message);
@@ -30,7 +39,7 @@ export const useFetchData = (url) => {
     if (url) {
       fetchingData();
     }
-  }, [url]);
+  }, [accessToken, url]);
 
   return {
     isLoading,
