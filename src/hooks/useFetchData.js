@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useFetchData = (url, accessToken = null) => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refetchTrigger, setRefetchTrigger] = useState(0);
+
+  const refetch = useCallback(() => {
+    setRefetchTrigger((prev) => prev + 1);
+  }, []);
 
   useEffect(() => {
     const fetchingData = async () => {
@@ -39,11 +44,12 @@ export const useFetchData = (url, accessToken = null) => {
     if (url) {
       fetchingData();
     }
-  }, [accessToken, url]);
+  }, [accessToken, url, refetchTrigger]);
 
   return {
     isLoading,
     data,
     error,
+    refetch,
   };
 };
