@@ -7,9 +7,11 @@ import Testimoni from "../components/Testimoni";
 import { useFetchData } from "../hooks/useFetchData";
 
 function HomePage() {
-  const { data, isLoading, error } = useFetchData(
-    import.meta.env.VITE_BASE_URL + "/favourite-products"
-  );
+  const {
+    data: { data: favouriteProducts },
+    isLoading,
+    error,
+  } = useFetchData(import.meta.env.VITE_BASE_URL + "/favourite-products");
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
 
@@ -127,7 +129,7 @@ function HomePage() {
           </p>
         </div>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {data.data.slice(0, 4).map((menu) => (
+          {favouriteProducts.slice(0, 4).map((menu) => (
             <Link key={menu.id} to={`/product/${menu.id}`}>
               <CardMenu dataMenu={menu} />
             </Link>
