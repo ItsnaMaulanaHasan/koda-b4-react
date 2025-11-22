@@ -1,8 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { DrawerNavbarContext } from "../context/DrawerContext";
+import { setAmountCarts } from "../redux/reducers/cart";
 import { clearDataProfile } from "../redux/reducers/profile";
 import Button from "./Button";
 import Drawer from "./Drawer";
@@ -27,13 +28,38 @@ function Navbar() {
   const [showSearchDesktop, setShowSearchDesktop] = useState(false);
   // get context fro auth context
   const { accessToken, setAccessToken } = useContext(AuthContext);
-  // get data redux for cart
-  const dataCarts = useSelector((state) => state.cart.dataCarts);
   // get data user login from redux
   const userLogin = useSelector((state) => state.profile.dataProfile);
+  // get amount carts
+  const amountCarts = useSelector((state) => state.cart.amountCarts);
   const dispatch = useDispatch();
 
-  const amountCart = dataCarts.length;
+  useEffect(() => {
+    const fetchCarts = async () => {
+      if (!accessToken) {
+        dispatch(setAmountCarts(0));
+        return;
+      }
+
+      try {
+        const response = await fetch(import.meta.env.VITE_BASE_URL + "/carts", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          const carts = result?.data || [];
+          dispatch(setAmountCarts(carts.length));
+        }
+      } catch (error) {
+        console.error("Failed to fetch carts:", error);
+      }
+    };
+
+    fetchCarts();
+  }, [accessToken, dispatch]);
 
   const isHomePage = location.pathname === "/";
   const isAdminPage = location.pathname.startsWith("/admin");
@@ -137,9 +163,9 @@ function Navbar() {
                 }
                 alt="Icon Cart"
               />
-              {amountCart > 0 && (
+              {amountCarts > 0 && (
                 <div className="absolute flex items-center justify-center h-5 px-1 text-xs font-semibold text-white bg-red-500 rounded-full -top-2 -right-2 min-w-5">
-                  {amountCart}
+                  {amountCarts}
                 </div>
               )}
             </button>
