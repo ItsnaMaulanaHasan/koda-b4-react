@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { DrawerNavbarContext } from "../context/DrawerContext";
+import { useFetchData } from "../hooks/useFetchData";
 import { setAmountCarts } from "../redux/reducers/cart";
 import { clearDataProfile } from "../redux/reducers/profile";
 import Button from "./Button";
@@ -30,36 +31,21 @@ function Navbar() {
   const { accessToken, setAccessToken } = useContext(AuthContext);
   // get data user login from redux
   const userLogin = useSelector((state) => state.profile.dataProfile);
-  // get amount carts
-  const amountCarts = useSelector((state) => state.cart.amountCarts);
   const dispatch = useDispatch();
 
+  const { data } = useFetchData(
+    import.meta.env.VITE_BASE_URL + "/carts",
+    accessToken
+  );
+
+  const carts = data?.data || [];
+  const amountCarts = useSelector((state) => state.cart.amountCarts);
+
   useEffect(() => {
-    const fetchCarts = async () => {
-      if (!accessToken) {
-        dispatch(setAmountCarts(0));
-        return;
-      }
-
-      try {
-        const response = await fetch(import.meta.env.VITE_BASE_URL + "/carts", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          const carts = result?.data || [];
-          dispatch(setAmountCarts(carts.length));
-        }
-      } catch (error) {
-        console.error("Failed to fetch carts:", error);
-      }
-    };
-
-    fetchCarts();
-  }, [accessToken, dispatch]);
+    if (carts.length > 0) {
+      dispatch(setAmountCarts(carts.length));
+    }
+  }, [carts.length, dispatch]);
 
   const isHomePage = location.pathname === "/";
   const isAdminPage = location.pathname.startsWith("/admin");
