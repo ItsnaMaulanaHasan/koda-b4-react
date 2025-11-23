@@ -119,7 +119,11 @@ function ProductList() {
         textColor="text-[#0B132A]"
         direction="right"
         width="w-120">
-        <ProductForm mode={formMode} product={selectedProduct} />
+        <ProductForm
+          mode={formMode}
+          product={selectedProduct}
+          onSuccess={refetch}
+        />
       </Drawer>
 
       <h1 className="mb-6 text-3xl font-semibold">Product List</h1>
