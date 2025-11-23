@@ -23,7 +23,7 @@ const SidebarMobile = ({ userLogin, handleLogout }) => {
   const onSearch = (data) => {
     try {
       const params = new URLSearchParams();
-      if (data.search) params.set("search", data.search);
+      if (data.search) params.set("q", data.search);
       setShowDrawer(false);
       navigate(`/product?${params.toString()}`);
     } catch (error) {
@@ -102,6 +102,11 @@ const SidebarMobile = ({ userLogin, handleLogout }) => {
               onClick={() => handleNavigation("/profile")}
               className="px-3 text-sm border border-[#0B132A] text-[#0B132A] lg:px-4 whitespace-nowrap lg:text-base">
               Profile
+            </Button>
+            <Button
+              onClick={() => handleNavigation("/order-history")}
+              className="px-3 text-sm border border-[#0B132A] text-[#0B132A] lg:px-4 whitespace-nowrap lg:text-base">
+              Order Histories
             </Button>
             <Button
               onClick={() => {

@@ -229,6 +229,14 @@ function Navbar() {
                       Profile
                     </button>
                     <button
+                      onClick={() => {
+                        navigate("/order-history");
+                        setShowDropdown(false);
+                      }}
+                      className="w-full px-4 py-2 text-left text-sm text-[#0B132A] hover:bg-gray-100 transition">
+                      Order Histories
+                    </button>
+                    <button
                       onClick={() => setShowModal(true)}
                       className="w-full px-4 py-2 text-sm text-left text-red-500 transition hover:bg-gray-100">
                       Logout
