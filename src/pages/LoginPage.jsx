@@ -66,7 +66,7 @@ function LoginPage() {
 
       if (!resLogin.ok) {
         const resultLogin = await resLogin.json();
-        throw new Error(resultLogin.message || "Registration failed");
+        throw new Error(resultLogin.message || "Login failed");
       }
 
       const resultLogin = await resLogin.json();
@@ -89,7 +89,7 @@ function LoginPage() {
 
       if (!resProfile.ok) {
         const resultProfile = await resProfile.json();
-        throw new Error(resultProfile.message || "Registration failed");
+        throw new Error(resultProfile.message || "Login failed");
       }
 
       const resultProfile = await resProfile.json();
