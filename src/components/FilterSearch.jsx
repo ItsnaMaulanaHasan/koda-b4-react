@@ -5,33 +5,41 @@ import Checkbox from "../components/Checkbox";
 import PriceRangeFilter from "../components/PriceRangeFilter";
 import { DrawerFilterContext } from "../context/DrawerContext";
 import { SearchFilterContext } from "../context/SearchFilterContext";
+import { useFetchData } from "../hooks/useFetchData";
 import Button from "./Button";
 
 function FilterSearch({ isMobile = false }) {
+  const {
+    data: { data: categories = [] },
+  } = useFetchData(import.meta.env.VITE_BASE_URL + "/categories");
+
+  // context drawer filter
   const { showDrawer, setShowDrawer } = useContext(DrawerFilterContext);
-  // state data filter
+  // context state data filter
   const { searchFilter, setSearchFilter } = useContext(SearchFilterContext);
   // inisialisasi search params untuk filter
   const [searchParams, setSearchParams] = useSearchParams();
+
   // get data filter dari query params
   const getFiltersFromParams = () => {
-    const search = searchParams.get("search") || "";
-    const categoryFilter = searchParams.get("category")
-      ? searchParams.get("category").split(",")
+    const search = searchParams.get("q") || "";
+    const categoryFilter = searchParams.get("cat")
+      ? searchParams.get("cat").split(",")
       : [];
-    const sortByFilter = searchParams.get("sortBy")
-      ? searchParams.get("sortBy").split(",")
-      : [];
-    const minPrice = parseInt(searchParams.get("minPrice")) || 0;
-    const maxPrice = parseInt(searchParams.get("maxPrice")) || 1000000;
+    const sortName = searchParams.get("sort[name]") || "";
+    const sortPrice = searchParams.get("sort[price]") || "";
+    const minPrice = parseInt(searchParams.get("minprice")) || 0;
+    const maxPrice = parseInt(searchParams.get("maxprice")) || 1000000;
 
     return {
       search,
       categoryFilter,
-      sortByFilter,
+      sortName,
+      sortPrice,
       priceRange: { minPrice, maxPrice },
     };
   };
+
   // inisialisasi hooks useForm untuk form filter
   const { register, handleSubmit, setValue, reset } = useForm({
     defaultValues: getFiltersFromParams(),
@@ -40,13 +48,13 @@ function FilterSearch({ isMobile = false }) {
   useEffect(() => {
     setValue("search", searchFilter.search);
   }, [searchFilter.search, setValue]);
-  // handle input checkbox
+
+  // handle input category dan sortby
   const [categoryFilter, setCategoryFilter] = useState(
     getFiltersFromParams().categoryFilter
   );
-  const [sortByFilter, setSortByFilter] = useState(
-    getFiltersFromParams().sortByFilter
-  );
+  const [sortName, setSortName] = useState(getFiltersFromParams().sortName);
+  const [sortPrice, setSortPrice] = useState(getFiltersFromParams().sortPrice);
 
   const handleCategoryChange = (category) => {
     const currentCategory = categoryFilter.includes(category)
@@ -57,32 +65,42 @@ function FilterSearch({ isMobile = false }) {
     setValue("categoryFilter", currentCategory);
   };
 
-  const handleSortByChange = (sortby) => {
-    const currentSortBy = sortByFilter.includes(sortby)
-      ? sortByFilter.filter((b) => b !== sortby)
-      : [...sortByFilter, sortby];
+  const handleSortNameChange = (value) => {
+    const newSortName = sortName === value ? "" : value;
+    setSortName(newSortName);
+    setValue("sortName", newSortName);
+  };
 
-    setSortByFilter(currentSortBy);
-    setValue("sortByFilter", currentSortBy);
+  const handleSortPriceChange = (value) => {
+    const newSortPrice = sortPrice === value ? "" : value;
+    setSortPrice(newSortPrice);
+    setValue("sortPrice", newSortPrice);
   };
 
   const handlePriceChange = (priceData) => {
     setValue("priceRange", priceData);
   };
+
   // handle form filter
   const onFilter = (data) => {
     try {
       const params = new URLSearchParams();
 
-      if (data.search) params.set("search", data.search);
-      if (data.categoryFilter.length > 0)
-        params.set("category", data.categoryFilter.join(","));
-      if (data.sortByFilter.length > 0)
-        params.set("sortBy", data.sortByFilter.join(","));
+      if (data.search) params.set("q", data.search);
+
+      if (data.categoryFilter.length > 0) {
+        data.categoryFilter.forEach((cat) => {
+          params.append("cat", cat);
+        });
+      }
+
+      if (data.sortName) params.set("sort[name]", data.sortName);
+      if (data.sortPrice) params.set("sort[price]", data.sortPrice);
+
       if (data.priceRange.minPrice !== 0)
-        params.set("minPrice", data.priceRange.minPrice);
+        params.set("minprice", data.priceRange.minPrice);
       if (data.priceRange.maxPrice !== 1000000)
-        params.set("maxPrice", data.priceRange.maxPrice);
+        params.set("maxprice", data.priceRange.maxPrice);
 
       setSearchParams(params);
       setShowDrawer(false);
@@ -94,7 +112,7 @@ function FilterSearch({ isMobile = false }) {
     <>
       {isMobile ? (
         <form
-          onChange={handleSubmit(onFilter)}
+          onSubmit={handleSubmit(onFilter)}
           className="flex items-center w-full gap-4">
           <div className="flex border rounded-md py-3 px-4 border-[#DEDEDE] w-full gap-4">
             <img src="/icon/icon-search-black.svg" alt="Icon Search" />
@@ -119,6 +137,7 @@ function FilterSearch({ isMobile = false }) {
         </form>
       ) : (
         <form onSubmit={handleSubmit(onFilter)} className="flex flex-col gap-6">
+          {/* button reset */}
           <div className="flex items-center justify-between">
             <h1 className="text-lg font-semibold">Filter</h1>
             <button
@@ -127,11 +146,13 @@ function FilterSearch({ isMobile = false }) {
               onClick={() => {
                 reset();
                 setCategoryFilter([]);
-                setSortByFilter([]);
+                setSortName("");
+                setSortPrice("");
                 setSearchFilter({
                   search: "",
                   categoryFilter: [],
-                  sortByFilter: [],
+                  sortName: "",
+                  sortPrice: "",
                   priceRange: { minPrice: 0, maxPrice: 1000000 },
                 });
                 setSearchParams("");
@@ -139,6 +160,8 @@ function FilterSearch({ isMobile = false }) {
               Reset Filter
             </button>
           </div>
+
+          {/* filter search */}
           <div className="hidden md:flex flex-col gap-2">
             <label className="font-semibold" htmlFor="search">
               Search
@@ -151,55 +174,84 @@ function FilterSearch({ isMobile = false }) {
               {...register("search")}
             />
           </div>
+
+          {/* filter category */}
           <div className="flex flex-col gap-5">
             <h1 className="font-semibold">Category</h1>
-            <Checkbox
-              checked={categoryFilter.includes("favoriteproduct")}
-              onChange={() => handleCategoryChange("favoriteproduct")}
-              label="Favorite Product"
-            />
-            <Checkbox
-              checked={categoryFilter.includes("smoothies")}
-              onChange={() => handleCategoryChange("smoothies")}
-              label="Smoothies"
-            />
-            <Checkbox
-              checked={categoryFilter.includes("lattesandtonics")}
-              onChange={() => handleCategoryChange("lattesandtonics")}
-              label="Lattes & Tonics"
-            />
-            <Checkbox
-              checked={categoryFilter.includes("juices")}
-              onChange={() => handleCategoryChange("juices")}
-              label="Juices"
-            />
+            {categories.map((category) => (
+              <Checkbox
+                key={category.id}
+                checked={categoryFilter.includes(category.name)}
+                onChange={() => handleCategoryChange(category.name)}
+                label={category.name}
+              />
+            ))}
           </div>
-          <div className="flex flex-col gap-5">
-            <h1 className="font-semibold">Sort By</h1>
-            <Checkbox
-              checked={sortByFilter.includes("buyget1")}
-              onChange={() => handleSortByChange("buyget1")}
-              label="Buy 1 Get 1"
-            />
-            <Checkbox
-              checked={sortByFilter.includes("flashsale")}
-              onChange={() => handleSortByChange("flashsale")}
-              label="Flashsale"
-            />
-            <Checkbox
-              checked={sortByFilter.includes("workoutpackage")}
-              onChange={() => handleSortByChange("workoutpackage")}
-              label="Workout Package"
-            />
-            <Checkbox
-              checked={sortByFilter.includes("cheap")}
-              onChange={() => handleSortByChange("cheap")}
-              label="Cheap"
-            />
+
+          {/* sort by name */}
+          <div className="flex flex-col gap-4">
+            <h1 className="font-semibold">Sort by Name</h1>
+
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="radio"
+                name="sortName"
+                value="asc"
+                checked={sortName === "asc"}
+                onChange={() => handleSortNameChange("asc")}
+                className="w-4 h-4 text-[#FF8906] focus:ring-[#FF8906] cursor-pointer"
+              />
+              <span className="text-sm">A to Z</span>
+            </label>
+
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="radio"
+                name="sortName"
+                value="desc"
+                checked={sortName === "desc"}
+                onChange={() => handleSortNameChange("desc")}
+                className="w-4 h-4 text-[#FF8906] focus:ring-[#FF8906] cursor-pointer"
+              />
+              <span className="text-sm">Z to A</span>
+            </label>
           </div>
+
+          {/* sort by price */}
+          <div className="flex flex-col gap-4">
+            <h1 className="font-semibold">Sort by Price</h1>
+
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="radio"
+                name="sortPrice"
+                value="asc"
+                checked={sortPrice === "asc"}
+                onChange={() => handleSortPriceChange("asc")}
+                className="w-4 h-4 text-[#FF8906] focus:ring-[#FF8906] cursor-pointer"
+              />
+              <span className="text-sm">Cheapest</span>
+            </label>
+
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="radio"
+                name="sortPrice"
+                value="desc"
+                checked={sortPrice === "desc"}
+                onChange={() => handleSortPriceChange("desc")}
+                className="w-4 h-4 text-[#FF8906] focus:ring-[#FF8906] cursor-pointer"
+              />
+              <span className="text-sm">Most Expensive</span>
+            </label>
+          </div>
+
+          {/* filter price range */}
           <div>
             <PriceRangeFilter onPriceChange={handlePriceChange} />
           </div>
+
+          {/* button apply filter */}
           <Button type="submit" className="bg-[#FF8906] text-[#0B0909]">
             Apply Filter
           </Button>

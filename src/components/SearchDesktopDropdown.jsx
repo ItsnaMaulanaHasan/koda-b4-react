@@ -17,7 +17,7 @@ const SearchDesktopDropdown = ({ setShowSearchDesktop }) => {
   const onSearch = (data) => {
     try {
       const params = new URLSearchParams();
-      if (data.search) params.set("search", data.search);
+      if (data.search) params.set("q", data.search);
       setShowSearchDesktop(false);
       navigate(`/product?${params.toString()}`);
     } catch (error) {
