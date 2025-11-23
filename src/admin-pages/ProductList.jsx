@@ -1,7 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Alert from "../components/Alert";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
+import ModalConfirmation from "../components/ModalConfirmation";
 import ProductForm from "../components/ProductForm";
 import { AuthContext } from "../context/AuthContext";
 import { DrawerAdminContext } from "../context/DrawerContext";
@@ -9,6 +11,8 @@ import { useFetchData } from "../hooks/useFetchData";
 
 function ProductList() {
   const { accessToken } = useContext(AuthContext);
+  const [showModal, setShowModal] = useState(false);
+  const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
 
   // state untuk pagination dan search
   const [currentPage, setCurrentPage] = useState(1);
@@ -79,6 +83,11 @@ function ProductList() {
     drawerCtx.setShowDrawer(true);
   };
 
+  // Handler untuk Edit Product
+  const handleDeleteProduct = () => {
+    setShowModal(true);
+  };
+
   // handle pagination
   const handlePrev = () => {
     if (currentPage > 1) {
@@ -94,6 +103,38 @@ function ProductList() {
 
   const goToPage = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      const res = await fetch(
+        import.meta.env.VITE_BASE_URL + "/admin/products/" + id,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      const result = await res.json();
+
+      if (!result.success) {
+        throw new Error(result.message || "Failed to delete product");
+      }
+
+      setAlertStatus({
+        type: "success",
+        message: "Product deleted successfully",
+      });
+
+      setShowModal(false);
+    } catch (error) {
+      setAlertStatus({
+        type: "error",
+        message: error.message || "Failed to delete product",
+      });
+    }
   };
 
   if (isLoading) {
@@ -113,6 +154,12 @@ function ProductList() {
   }
   return (
     <div className="relative p-6">
+      <Alert
+        type={alertStatus.type}
+        message={alertStatus.message}
+        onClose={() => setAlertStatus({ type: "", message: "" })}
+      />
+
       <Drawer
         drawerCtx={drawerCtx}
         bg="bg-white"
@@ -125,6 +172,17 @@ function ProductList() {
           onSuccess={refetch}
         />
       </Drawer>
+
+      <ModalConfirmation
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => deleteProduct(selectedProduct.id)}
+        title="Confirm Delete"
+        message="Are you sure you want to delete this product?"
+        confirmText="Delete"
+        cancelText="Cancel"
+        type="warning"
+      />
 
       <h1 className="mb-6 text-3xl font-semibold">Product List</h1>
 
@@ -169,12 +227,9 @@ function ProductList() {
           {/* table header */}
           <thead className="border-b border-gray-200">
             <tr>
-              <th className="px-4 py-3 text-left">
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 border-gray-300 rounded"
-                />
-              </th>
+              {/* <th className="px-4 py-3 text-sm font-semibold text-center text-gray-700">
+                No
+              </th> */}
               <th className="px-4 py-3 text-sm font-semibold text-center text-gray-700">
                 Image
               </th>
@@ -225,12 +280,7 @@ function ProductList() {
                 <tr
                   key={product.id}
                   className={index % 2 === 0 && "bg-[#E8E8E84D]"}>
-                  <td className="px-4 py-4">
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 border-gray-300 rounded"
-                    />
-                  </td>
+                  {/* <td className="px-4 py-4">{index + 1}</td> */}
                   <td className="px-4 py-4">
                     <img
                       src={
@@ -367,6 +417,10 @@ function ProductList() {
                       </button>
                       <button className="cursor-pointer hover:bg-red-50 transition">
                         <img
+                          onClick={() => {
+                            handleDeleteProduct();
+                            setSelectedProduct(product);
+                          }}
                           className="size-5"
                           src="/icon/icon-delete.svg"
                           alt="Icon Delete"
