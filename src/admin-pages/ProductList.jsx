@@ -83,11 +83,6 @@ function ProductList() {
     drawerCtx.setShowDrawer(true);
   };
 
-  // Handler untuk Edit Product
-  const handleDeleteProduct = () => {
-    setShowModal(true);
-  };
-
   // handle pagination
   const handlePrev = () => {
     if (currentPage > 1) {
@@ -129,6 +124,7 @@ function ProductList() {
       });
 
       setShowModal(false);
+      refetch();
     } catch (error) {
       setAlertStatus({
         type: "error",
@@ -415,12 +411,13 @@ function ProductList() {
                           alt="Icon Edit"
                         />
                       </button>
-                      <button className="cursor-pointer hover:bg-red-50 transition">
+                      <button
+                        onClick={() => {
+                          setShowModal(true);
+                          setSelectedProduct(product);
+                        }}
+                        className="cursor-pointer hover:bg-red-50 transition">
                         <img
-                          onClick={() => {
-                            handleDeleteProduct();
-                            setSelectedProduct(product);
-                          }}
                           className="size-5"
                           src="/icon/icon-delete.svg"
                           alt="Icon Delete"
