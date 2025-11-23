@@ -252,8 +252,8 @@ function UsersList() {
                   colSpan="11"
                   className="px-4 py-8 text-center text-gray-500">
                   {debouncedSearch
-                    ? "No products found matching your search"
-                    : "No products available"}
+                    ? "No users found matching your search"
+                    : "No users available"}
                 </td>
               </tr>
             ) : (
