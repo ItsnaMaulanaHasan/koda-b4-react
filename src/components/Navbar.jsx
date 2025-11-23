@@ -6,6 +6,7 @@ import { DrawerNavbarContext } from "../context/DrawerContext";
 import { useFetchData } from "../hooks/useFetchData";
 import { setAmountCarts } from "../redux/reducers/cart";
 import { clearDataProfile } from "../redux/reducers/profile";
+import Alert from "./Alert";
 import Button from "./Button";
 import Drawer from "./Drawer";
 import ModalConfirmation from "./ModalConfirmation";
@@ -23,6 +24,8 @@ function Navbar() {
   const [showModal, setShowModal] = useState(false);
   // state for drawer
   const [showDrawer, setShowDrawer] = useState(false);
+  // state for alert
+  const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
   // state for dropdown
   const [showDropdown, setShowDropdown] = useState(false);
   // state for search bar in dekstop view
@@ -54,11 +57,40 @@ function Navbar() {
     }`;
 
   // handle logout
-  const handleLogout = () => {
-    setAccessToken("");
-    dispatch(clearDataProfile());
-    setShowDropdown(false);
-    navigate("/auth/login");
+  const handleLogout = async () => {
+    try {
+      const res = await fetch(
+        import.meta.env.VITE_BASE_URL + "/logout",
+        accessToken
+      );
+
+      if (!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message || "Failed to logout");
+      }
+
+      const result = await res.json();
+
+      if (!result.success) {
+        throw new Error(result.message);
+      }
+
+      setAccessToken("");
+      dispatch(clearDataProfile());
+      setShowDropdown(false);
+      navigate("/auth/login");
+    } catch (error) {
+      let errorMessage = "Failed to logout";
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (!navigator.onLine) {
+        errorMessage = "No internet connection";
+      }
+      setAlertStatus({
+        type: "error",
+        message: errorMessage,
+      });
+    }
   };
 
   const navbarBgClass = isAdminPage
@@ -71,6 +103,11 @@ function Navbar() {
 
   return (
     <DrawerNavbarContext.Provider value={{ showDrawer, setShowDrawer }}>
+      <Alert
+        type={alertStatus.type}
+        message={alertStatus.message}
+        onClose={() => setAlertStatus({ type: "", message: "" })}
+      />
       <ModalConfirmation
         isOpen={showModal}
         onClose={() => setShowModal(false)}

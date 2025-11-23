@@ -3,17 +3,48 @@ import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { clearDataProfile } from "../redux/reducers/profile";
+import Alert from "./Alert";
 import ModalConfirmation from "./ModalConfirmation";
 
 function SidebarAdmin({ children }) {
   const [showModal, setShowModal] = useState(false);
-  const { setAccessToken } = useContext(AuthContext);
+  const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  const { accessToken, setAccessToken } = useContext(AuthContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleLogout = () => {
-    setAccessToken("");
-    dispatch(clearDataProfile());
-    navigate("/auth/login");
+  const handleLogout = async () => {
+    try {
+      const res = await fetch(
+        import.meta.env.VITE_BASE_URL + "/logout",
+        accessToken
+      );
+
+      if (!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message || "Failed to logout");
+      }
+
+      const result = await res.json();
+
+      if (!result.success) {
+        throw new Error(result.message);
+      }
+
+      setAccessToken("");
+      dispatch(clearDataProfile());
+      navigate("/auth/login");
+    } catch (error) {
+      let errorMessage = "Failed to logout";
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (!navigator.onLine) {
+        errorMessage = "No internet connection";
+      }
+      setAlertStatus({
+        type: "error",
+        message: errorMessage,
+      });
+    }
   };
 
   const getNavLinkClass = ({ isActive }) =>
@@ -22,6 +53,11 @@ function SidebarAdmin({ children }) {
     }`;
   return (
     <div className="min-h-screen bg-gray-50">
+      <Alert
+        type={alertStatus.type}
+        message={alertStatus.message}
+        onClose={() => setAlertStatus({ type: "", message: "" })}
+      />
       <ModalConfirmation
         isOpen={showModal}
         onClose={() => setShowModal(false)}
