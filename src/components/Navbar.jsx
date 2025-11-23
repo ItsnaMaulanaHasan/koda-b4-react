@@ -1,10 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { DrawerNavbarContext } from "../context/DrawerContext";
-import { useFetchData } from "../hooks/useFetchData";
-import { setAmountCarts } from "../redux/reducers/cart";
 import { clearDataProfile } from "../redux/reducers/profile";
 import Alert from "./Alert";
 import Button from "./Button";
@@ -35,17 +33,6 @@ function Navbar() {
   // get data user login from redux
   const userLogin = useSelector((state) => state.profile.dataProfile);
   const dispatch = useDispatch();
-
-  const { data } = useFetchData(
-    import.meta.env.VITE_BASE_URL + "/carts",
-    accessToken
-  );
-
-  const carts = data?.data || [];
-  useEffect(() => {
-    dispatch(setAmountCarts(carts.length));
-  }, [carts.length, dispatch]);
-
   const amountCarts = useSelector((state) => state.cart.amountCarts);
 
   const isHomePage = location.pathname === "/";

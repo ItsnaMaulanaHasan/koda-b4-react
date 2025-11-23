@@ -8,6 +8,7 @@ import Alert from "../components/Alert";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { AuthContext } from "../context/AuthContext";
+import { setAmountCarts } from "../redux/reducers/cart";
 import { setDataProfile } from "../redux/reducers/profile";
 
 const LoginFormSchema = yup.object({
@@ -96,6 +97,17 @@ function LoginPage() {
       if (!resultProfile.success) {
         throw new Error(resultProfile.message);
       }
+
+      const resCarts = await fetch(import.meta.env.VITE_BASE_URL + "/carts", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const resultCarts = await resCarts.json();
+
+      const carts = resultCarts?.data || [];
+      dispatch(setAmountCarts(carts.length));
 
       setAlertStatus({ type: "success", message: "Login successful!" });
       setTimeout(() => {
