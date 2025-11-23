@@ -42,14 +42,19 @@ const AddProductSchema = yup.object({
 const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
   const { accessToken } = useContext(AuthContext);
   const { setShowDrawer } = useContext(DrawerAdminContext);
+  const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
 
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedVariants, setSelectedVariants] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+
+  const [isActive, setIsActive] = useState(true);
+  const [isFavourite, setIsFavourite] = useState(false);
+  const [isFlashSale, setIsFlashSale] = useState(false);
 
   const {
     data: { data: sizes = [] },
@@ -87,9 +92,16 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
       setValue("discountPercent", product.discountPercent || 0);
       setValue("rating", product.rating || 5);
 
+      // set checkbox states
+      setIsActive(product.isActive || false);
+      setIsFavourite(product.isFavourite || false);
+      setIsFlashSale(product.isFlashSale || false);
+
       // set preview edit mode
       if (product.productImages && product.productImages.length > 0) {
-        setImagePreviews(product.productImages);
+        setExistingImages(product.productImages);
+        setImagePreviews([]);
+        setImageFiles([]);
       }
 
       // set sizes
@@ -134,6 +146,9 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
       setSelectedSizes([]);
       setSelectedCategories([]);
       setSelectedVariants([]);
+      setIsActive(true);
+      setIsFavourite(false);
+      setIsFlashSale(false);
     }
   }, [mode, product, setValue, reset, sizes, categories, variants]);
 
@@ -141,7 +156,10 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
 
-    if (imageFiles.length + files.length > 4) {
+    const totalImages =
+      existingImages.length + imageFiles.length + files.length;
+
+    if (totalImages > 4) {
       setAlertStatus({
         type: "error",
         message: "Maximum 4 images allowed",
@@ -187,10 +205,15 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
     setImageFiles((prev) => [...prev, ...validFiles]);
   };
 
-  // remove image
-  const removeImage = (index) => {
+  // remove new uploaded image
+  const removeNewImage = (index) => {
     setImageFiles((prev) => prev.filter((_, i) => i !== index));
     setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // remove existing image from backend
+  const removeExistingImage = (index) => {
+    setExistingImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   // toggle selection
@@ -222,11 +245,25 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
     setIsSubmitting(true);
 
     try {
-      // validasi image
+      // validasi image untuk mode add
       if (mode === "add" && imageFiles.length === 0) {
         setAlertStatus({
           type: "error",
           message: "Please upload at least 1 product image",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // validasi mode edit
+      if (
+        mode === "edit" &&
+        existingImages.length === 0 &&
+        imageFiles.length === 0
+      ) {
+        setAlertStatus({
+          type: "error",
+          message: "Please keep at least 1 product image",
         });
         setIsSubmitting(false);
         return;
@@ -242,6 +279,7 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
         return;
       }
 
+      // validasi category
       if (selectedCategories.length === 0) {
         setAlertStatus({
           type: "error",
@@ -251,6 +289,7 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
         return;
       }
 
+      // validasi variant
       if (selectedVariants.length === 0) {
         setAlertStatus({
           type: "error",
@@ -267,47 +306,63 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
       formData.append("discountPercent", data.discountPercent || 0);
       formData.append("rating", data.rating || 5);
       formData.append("stock", data.stock);
-      formData.append("isFlashSale", false);
-      formData.append("isActive", true);
-      formData.append("isFavourite", false);
+      formData.append("isFlashSale", isFlashSale);
+      formData.append("isActive", isActive);
+      formData.append("isFavourite", isFavourite);
 
-      imageFiles.forEach((file) => {
-        formData.append("fileImages", file);
-      });
+      if (mode === "add") {
+        imageFiles.forEach((file) => {
+          formData.append("fileImages", file);
+        });
+      } else if (mode === "edit") {
+        if (existingImages.length > 0) {
+          formData.append("keepExistingImages", existingImages.join(","));
+        }
+        if (imageFiles.length > 0) {
+          imageFiles.forEach((file) => {
+            formData.append("fileImages", file);
+          });
+        }
+      }
 
       formData.append("sizeProducts", selectedSizes.join(","));
       formData.append("productCategories", selectedCategories.join(","));
       formData.append("productVariants", selectedVariants.join(","));
 
-      const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/admin/products`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: formData,
-        }
-      );
+      const url =
+        mode === "edit"
+          ? `${import.meta.env.VITE_BASE_URL}/admin/products/${product.id}`
+          : `${import.meta.env.VITE_BASE_URL}/admin/products`;
+
+      const method = mode === "edit" ? "PATCH" : "POST";
+
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: formData,
+      });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "Failed to create product");
+        throw new Error(result.message || `Failed to ${mode} product`);
       }
 
       setAlertStatus({
         type: "success",
-        message: "Product created successfully!",
+        message: `Product ${
+          mode === "edit" ? "updated" : "created"
+        } successfully!`,
       });
 
       setTimeout(() => {
         setShowDrawer(false);
+        if (onSuccess) {
+          onSuccess();
+        }
       }, 1000);
-
-      if (onSuccess) {
-        onSuccess();
-      }
 
       // reset form
       reset({
@@ -319,6 +374,9 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
       setSelectedSizes([]);
       setSelectedCategories([]);
       setSelectedVariants([]);
+      setIsActive(true);
+      setIsFavourite(false);
+      setIsFlashSale(false);
     } catch (err) {
       setAlertStatus({
         type: "error",
@@ -353,80 +411,109 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
           {/* Photo Product */}
           <div>
             <label className="block mb-2 text-sm font-medium">
-              Photo Product <span className="text-red-500">*</span>
+              Photo Product{" "}
+              {mode === "add" && <span className="text-red-500">*</span>}
               <span className="text-xs text-gray-500">
                 {" "}
                 (Max 4 images, 1MB each)
               </span>
             </label>
 
-            {/* Preview Images */}
-            {imagePreviews.length > 0 ? (
-              <div className="grid grid-cols-3 gap-2 mb-3">
-                {imagePreviews.map((preview, index) => (
-                  <div key={index} className="relative group">
-                    <img
-                      src={preview}
-                      alt={`Preview ${index + 1}`}
-                      className="object-cover w-full h-20 rounded-lg"
-                    />
-                    {mode === "add" && (
+            {/* preview image */}
+            {mode === "edit" && existingImages.length > 0 && (
+              <div className="mb-3">
+                <p className="mb-2 text-xs text-gray-600">Current Images:</p>
+                <div className="grid grid-cols-3 gap-2">
+                  {existingImages.map((image, index) => (
+                    <div key={`existing-${index}`} className="relative group">
+                      <img
+                        src={image}
+                        alt={`Existing ${index + 1}`}
+                        className="object-cover w-full h-20 rounded-lg"
+                      />
                       <button
                         type="button"
-                        onClick={() => removeImage(index)}
+                        onClick={() => removeExistingImage(index)}
                         className="absolute flex items-center justify-center w-5 h-5 text-xs text-white transition bg-red-500 rounded-full opacity-0 top-1 right-1 group-hover:opacity-100">
                         ✕
                       </button>
-                    )}
-                    {index === 0 && (
-                      <span className="absolute px-2 py-1 text-xs text-white bg-blue-500 rounded bottom-1 left-1">
-                        Primary
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="flex items-center justify-center w-16 h-16 mb-3 bg-gray-100 rounded-lg">
-                <svg
-                  className="w-8 h-8 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
+                      {index === 0 && (
+                        <span className="absolute px-2 py-1 text-xs text-white bg-blue-500 rounded bottom-1 left-1">
+                          Primary
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
-            {mode === "add" && (
-              <>
-                <input
-                  type="file"
-                  id="image-upload"
-                  accept="image/jpeg,image/jpg,image/png"
-                  multiple
-                  onChange={handleImageUpload}
-                  className="hidden"
-                  disabled={imagePreviews.length >= 4}
-                />
-                <label
-                  htmlFor="image-upload"
-                  className={`px-4 py-2 rounded-lg cursor-pointer transition text-sm font-medium inline-block ${
-                    imagePreviews.length >= 4
-                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                      : "bg-[#FF8906] hover:bg-[#e57a05]"
-                  }`}>
-                  {imagePreviews.length >= 4
-                    ? "Max images reached"
-                    : "Upload Images"}
-                </label>
-              </>
+            {imagePreviews.length > 0 && (
+              <div className="mb-3">
+                <p className="mb-2 text-xs text-gray-600">
+                  {mode === "edit"
+                    ? "New Images to Upload:"
+                    : "Preview Images:"}
+                </p>
+                <div className="grid grid-cols-3 gap-2">
+                  {imagePreviews.map((preview, index) => (
+                    <div key={`new-${index}`} className="relative group">
+                      <img
+                        src={preview}
+                        alt={`Preview ${index + 1}`}
+                        className="object-cover w-full h-20 rounded-lg"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeNewImage(index)}
+                        className="absolute flex items-center justify-center w-5 h-5 text-xs text-white transition bg-red-500 rounded-full opacity-0 top-1 right-1 group-hover:opacity-100">
+                        ✕
+                      </button>
+                      {mode === "add" && index === 0 && (
+                        <span className="absolute px-2 py-1 text-xs text-white bg-blue-500 rounded bottom-1 left-1">
+                          Primary
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
+
+            {/* Empty State */}
+            {mode === "add" && imagePreviews.length === 0 && (
+              <div className="flex items-center justify-center w-16 h-16 mb-3 bg-gray-100 rounded-lg">
+                <img src="/icon/empty-preview.svg" alt="Empty preview" />
+              </div>
+            )}
+
+            {/* Upload Button */}
+            <>
+              <input
+                type="file"
+                id="image-upload"
+                accept="image/jpeg,image/jpg,image/png"
+                multiple
+                onChange={handleImageUpload}
+                className="hidden"
+                disabled={existingImages.length + imagePreviews.length >= 4}
+              />
+              <label
+                htmlFor="image-upload"
+                className={`px-4 py-2 rounded-lg cursor-pointer transition text-sm font-medium inline-block ${
+                  existingImages.length + imagePreviews.length >= 4
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-[#FF8906] hover:bg-[#e57a05]"
+                }`}>
+                {existingImages.length + imagePreviews.length >= 4
+                  ? "Max images reached"
+                  : mode === "edit"
+                  ? imageFiles.length > 0
+                    ? "Add More Images"
+                    : "Upload New Images"
+                  : "Upload Images"}
+              </label>
+            </>
           </div>
 
           {/* Product Name */}
@@ -575,6 +662,46 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
                 {errors.stock.message}
               </p>
             )}
+          </div>
+
+          <div>
+            <label className="font-bold text-sm sm:text-base text-[#0B132A] mb-3 block">
+              Product Status
+            </label>
+            <div className="flex flex-col gap-5">
+              {/* Is Active */}
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isActive}
+                  onChange={(e) => setIsActive(e.target.checked)}
+                  className="w-4 h-4 text-[#FF8906] border-gray-300 rounded focus:ring-[#FF8906]"
+                />
+                <span className="text-sm text-gray-700">Active Product</span>
+              </label>
+
+              {/* Is Favourite */}
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isFavourite}
+                  onChange={(e) => setIsFavourite(e.target.checked)}
+                  className="w-4 h-4 text-[#FF8906] border-gray-300 rounded focus:ring-[#FF8906]"
+                />
+                <span className="text-sm text-gray-700">Favourite Product</span>
+              </label>
+
+              {/* Is Flash Sale */}
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isFlashSale}
+                  onChange={(e) => setIsFlashSale(e.target.checked)}
+                  className="w-4 h-4 text-[#FF8906] border-gray-300 rounded focus:ring-[#FF8906]"
+                />
+                <span className="text-sm text-gray-700">Flash Sale</span>
+              </label>
+            </div>
           </div>
 
           {/* Submit Button */}
