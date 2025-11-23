@@ -100,7 +100,7 @@ function Chat({ isShow }) {
           <button
             type="submit"
             className="bg-[#FF8906] p-3 rounded-full hover:bg-[#FF9D26] transition flex items-center justify-center w-12 h-12 flex-shrink-0">
-            <img src="/public/icon/icon-send.svg" alt="Icon Send" />
+            <img src="/icon/icon-send.svg" alt="Icon Send" />
           </button>
         </form>
       </div>

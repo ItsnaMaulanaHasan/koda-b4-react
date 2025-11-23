@@ -339,7 +339,7 @@ function CartPage() {
                       <img
                         src={
                           paymentMethod.image ||
-                          "/public/img/empty-image-placeholder.webp"
+                          "/img/empty-image-placeholder.webp"
                         }
                         alt={paymentMethod.name}
                         className="object-contain w-full h-4 sm:h-5"
