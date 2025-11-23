@@ -54,6 +54,7 @@ function CartPage() {
 
   const [orderMethodId, setOrderMethodId] = useState(null);
   const [paymentMethodId, setPaymentMethodId] = useState(null);
+
   useEffect(() => {
     if (orderMethods?.length > 0 && orderMethodId === null) {
       setOrderMethodId(orderMethods[0].id);
@@ -115,25 +116,38 @@ function CartPage() {
   };
 
   // calculate total and subtotal order
-  const { orderTotal, deliveryFee, tax, subTotal } = useMemo(() => {
-    const total =
-      dataCarts?.reduce((sum, item) => sum + (item.subtotal || 0), 0) || 0;
+  const { orderTotal, deliveryFee, adminFee, tax, totalTransactions } =
+    useMemo(() => {
+      const total =
+        dataCarts?.reduce((sum, item) => sum + (item.subtotal || 0), 0) || 0;
 
-    const selectedMethod = orderMethods?.find(
-      (method) => method.id === orderMethodId
-    );
-    const delivery = selectedMethod?.deliveryFee || 0;
+      const selectedMethod = orderMethods?.find(
+        (method) => method.id === orderMethodId
+      );
+      const selectedPayment = paymentMethods?.find(
+        (payment) => payment.id === paymentMethodId
+      );
 
-    const calculatedTax = total * 0.1;
-    const calculatedSubTotal = total + delivery + calculatedTax;
+      const delivery = selectedMethod?.deliveryFee || 0;
+      const admin = selectedPayment?.adminFee || 0;
 
-    return {
-      orderTotal: total,
-      deliveryFee: delivery,
-      tax: calculatedTax,
-      subTotal: calculatedSubTotal,
-    };
-  }, [dataCarts, orderMethods, orderMethodId]);
+      const calculatedTax = total * 0.1;
+      const calculatedTotalTransactions = total + delivery + calculatedTax;
+
+      return {
+        orderTotal: total,
+        deliveryFee: delivery,
+        adminFee: admin,
+        tax: calculatedTax,
+        totalTransactions: calculatedTotalTransactions,
+      };
+    }, [
+      dataCarts,
+      orderMethods,
+      paymentMethods,
+      orderMethodId,
+      paymentMethodId,
+    ]);
 
   // handle form order
   const {
@@ -234,7 +248,7 @@ function CartPage() {
         onClose={() => setShowModal(false)}
         onConfirm={handleConfirmCheckout}
         title="Confirm Checkout"
-        message={`Are you sure you want to checkout? Total: Idr. ${subTotal.toLocaleString(
+        message={`Are you sure you want to checkout? Total: Idr. ${totalTransactions.toLocaleString(
           "id"
         )}`}
         confirmText="Checkout"
@@ -290,14 +304,16 @@ function CartPage() {
                   Idr. {orderTotal.toLocaleString("id")}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-[#4F5665] font-bold text-sm sm:text-base">
-                  Delivery
-                </span>
-                <span className="font-bold text-[#0B132A] text-sm sm:text-base">
-                  Idr. {deliveryFee.toLocaleString("id")}
-                </span>
-              </div>
+              {deliveryFee > 0 && (
+                <div className="flex items-center justify-between">
+                  <span className="text-[#4F5665] font-bold text-sm sm:text-base">
+                    Delivery
+                  </span>
+                  <span className="font-bold text-[#0B132A] text-sm sm:text-base">
+                    Idr. {deliveryFee.toLocaleString("id")}
+                  </span>
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <span className="text-[#4F5665] font-bold text-sm sm:text-base">
                   Tax
@@ -306,12 +322,22 @@ function CartPage() {
                   Idr. {tax.toLocaleString("id")}
                 </span>
               </div>
+              {adminFee > 0 && (
+                <div className="flex items-center justify-between">
+                  <span className="text-[#4F5665] font-bold text-sm sm:text-base">
+                    Delivery
+                  </span>
+                  <span className="font-bold text-[#0B132A] text-sm sm:text-base">
+                    Idr. {deliveryFee.toLocaleString("id")}
+                  </span>
+                </div>
+              )}
               <div className="flex items-center justify-between pt-3 border-t sm:pt-4">
                 <span className="font-bold text-[#4F5665] text-sm sm:text-base">
                   Total
                 </span>
                 <span className="text-[#0B132A] font-bold text-sm sm:text-base">
-                  Idr. {subTotal.toLocaleString("id")}
+                  Idr. {totalTransactions.toLocaleString("id")}
                 </span>
               </div>
               <Button
