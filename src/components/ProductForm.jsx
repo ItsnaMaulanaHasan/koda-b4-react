@@ -2,7 +2,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import { AuthContext } from "../context/AuthContext";
 import { DrawerAdminContext } from "../context/DrawerContext";
+import { useFetchData } from "../hooks/useFetchData";
+import Alert from "./Alert";
 import Input from "./Input";
 
 const AddProductSchema = yup.object({
@@ -24,12 +27,41 @@ const AddProductSchema = yup.object({
     .required("Stock is required")
     .min(0, "Stock cannot be negative")
     .typeError("Stock must be a number"),
+  discountPercent: yup
+    .number()
+    .min(0, "Discount cannot be negative")
+    .max(100, "Discount cannot exceed 100%")
+    .typeError("Discount must be a number"),
+  rating: yup
+    .number()
+    .min(0, "Rating cannot be negative")
+    .max(5, "Rating cannot exceed 5")
+    .typeError("Rating must be a number"),
 });
 
-const ProductForm = ({ product = null, mode = "add" }) => {
+const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
+  const { accessToken } = useContext(AuthContext);
   const { setShowDrawer } = useContext(DrawerAdminContext);
-  const [images, setImages] = useState([]);
+
+  const [imageFiles, setImageFiles] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedVariants, setSelectedVariants] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+
+  const {
+    data: { data: sizes = [] },
+  } = useFetchData(import.meta.env.VITE_BASE_URL + "/sizes");
+
+  const {
+    data: { data: categories = [] },
+  } = useFetchData(import.meta.env.VITE_BASE_URL + "/categories");
+
+  const {
+    data: { data: variants = [] },
+  } = useFetchData(import.meta.env.VITE_BASE_URL + "/variants");
 
   const {
     register,
@@ -39,89 +71,271 @@ const ProductForm = ({ product = null, mode = "add" }) => {
     reset,
   } = useForm({
     resolver: yupResolver(AddProductSchema),
+    defaultValues: {
+      discountPercent: 0,
+      rating: 5,
+    },
   });
 
-  const sizes = ["R", "L", "XL", "250 gr", "500gr"];
-
-  // Auto-fill form jika mode edit
+  // auto fill form mode edit
   useEffect(() => {
     if (mode === "edit" && product) {
       setValue("name", product.name);
       setValue("price", product.price);
       setValue("description", product.description);
       setValue("stock", product.stock);
+      setValue("discountPercent", product.discountPercent || 0);
+      setValue("rating", product.rating || 5);
 
-      // Set images jika ada
-      if (product.images && Array.isArray(product.images)) {
-        setImages(product.images);
-      } else if (product.image) {
-        setImages([product.image]);
+      // set preview edit mode
+      if (product.productImages && product.productImages.length > 0) {
+        setImagePreviews(product.productImages);
       }
 
-      // Set sizes jika ada
-      if (product.sizes && Array.isArray(product.sizes)) {
-        setSelectedSizes(product.sizes);
-      } else if (product.size) {
-        // Convert "R,L,XL,250gr" ke array
-        const sizesArray = product.size.split(",").map((s) => s.trim());
-        setSelectedSizes(sizesArray);
+      // set sizes
+      if (product.productSizes && product.productSizes.length > 0) {
+        const sizeIds = product.productSizes
+          .map((sizeName) => {
+            const size = sizes.find((s) => s.name === sizeName);
+            return size ? size.id : null;
+          })
+          .filter((id) => id !== null);
+        setSelectedSizes(sizeIds);
+      }
+
+      // set categories
+      if (product.productCategories && product.productCategories.length > 0) {
+        const categoryIds = product.productCategories
+          .map((catName) => {
+            const category = categories.find((c) => c.name === catName);
+            return category ? category.id : null;
+          })
+          .filter((id) => id !== null);
+        setSelectedCategories(categoryIds);
+      }
+
+      // set variants
+      if (product.productVariants && product.productVariants.length > 0) {
+        const variantIds = product.productVariants
+          .map((varName) => {
+            const variant = variants.find((v) => v.name === varName);
+            return variant ? variant.id : null;
+          })
+          .filter((id) => id !== null);
+        setSelectedVariants(variantIds);
       }
     } else {
-      // Reset form untuk mode add
-      reset();
-      setImages([]);
+      reset({
+        discountPercent: 0,
+        rating: 5,
+      });
+      setImageFiles([]);
+      setImagePreviews([]);
       setSelectedSizes([]);
+      setSelectedCategories([]);
+      setSelectedVariants([]);
     }
-  }, [mode, product, setValue, reset]);
+  }, [mode, product, setValue, reset, sizes, categories, variants]);
 
-  // Handle multiple image upload
+  // handle multiple image upload
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
 
-    files.forEach((file) => {
-      if (file && file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImages((prev) => [...prev, reader.result]);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  };
-
-  // Remove image
-  const removeImage = (index) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  // Toggle size selection
-  const toggleSize = (size) => {
-    setSelectedSizes((prev) => {
-      if (prev.includes(size)) {
-        return prev.filter((s) => s !== size);
-      }
-      return [...prev, size];
-    });
-  };
-
-  const onSubmit = (data) => {
-    const productData = {
-      ...data,
-      images: images,
-      sizes: selectedSizes,
-      id: mode === "edit" ? product.id : Date.now(),
-    };
-
-    if (mode === "edit") {
-      console.log("Update Product:", productData);
-    } else {
-      console.log("Add Product:", productData);
+    if (imageFiles.length + files.length > 4) {
+      setAlertStatus({
+        type: "error",
+        message: "Maximum 4 images allowed",
+      });
+      return;
     }
-    setShowDrawer(false);
+
+    const validFiles = [];
+    const newPreviews = [];
+
+    files.forEach((file) => {
+      // validasi type
+      if (!file.type.match(/image\/(jpeg|jpg|png)/)) {
+        setAlertStatus({
+          type: "error",
+          message: "Only JPG, JPEG, and PNG images are allowed",
+        });
+        return;
+      }
+
+      // validasi size
+      if (file.size > 1024 * 1024) {
+        setAlertStatus({
+          type: "error",
+          message: `Image ${file.name} is too large. Maximum size is 1MB`,
+        });
+        return;
+      }
+
+      validFiles.push(file);
+
+      // create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        newPreviews.push(reader.result);
+        if (newPreviews.length === validFiles.length) {
+          setImagePreviews((prev) => [...prev, ...newPreviews]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    setImageFiles((prev) => [...prev, ...validFiles]);
+  };
+
+  // remove image
+  const removeImage = (index) => {
+    setImageFiles((prev) => prev.filter((_, i) => i !== index));
+    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // toggle selection
+  const toggleSize = (sizeId) => {
+    setSelectedSizes((prev) =>
+      prev.includes(sizeId)
+        ? prev.filter((id) => id !== sizeId)
+        : [...prev, sizeId]
+    );
+  };
+
+  const toggleCategory = (categoryId) => {
+    setSelectedCategories((prev) =>
+      prev.includes(categoryId)
+        ? prev.filter((id) => id !== categoryId)
+        : [...prev, categoryId]
+    );
+  };
+
+  const toggleVariant = (variantId) => {
+    setSelectedVariants((prev) =>
+      prev.includes(variantId)
+        ? prev.filter((id) => id !== variantId)
+        : [...prev, variantId]
+    );
+  };
+
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+
+    try {
+      // validasi image
+      if (mode === "add" && imageFiles.length === 0) {
+        setAlertStatus({
+          type: "error",
+          message: "Please upload at least 1 product image",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // validasi size
+      if (selectedSizes.length === 0) {
+        setAlertStatus({
+          type: "error",
+          message: "Please select at least 1 size",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (selectedCategories.length === 0) {
+        setAlertStatus({
+          type: "error",
+          message: "Please select at least 1 category",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (selectedVariants.length === 0) {
+        setAlertStatus({
+          type: "error",
+          message: "Please select at least 1 variant",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("description", data.description);
+      formData.append("price", data.price);
+      formData.append("discountPercent", data.discountPercent || 0);
+      formData.append("rating", data.rating || 5);
+      formData.append("stock", data.stock);
+      formData.append("isFlashSale", false);
+      formData.append("isActive", true);
+      formData.append("isFavourite", false);
+
+      imageFiles.forEach((file) => {
+        formData.append("fileImages", file);
+      });
+
+      formData.append("sizeProducts", selectedSizes.join(","));
+      formData.append("productCategories", selectedCategories.join(","));
+      formData.append("productVariants", selectedVariants.join(","));
+
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/admin/products`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: formData,
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to create product");
+      }
+
+      setAlertStatus({
+        type: "success",
+        message: "Product created successfully!",
+      });
+
+      setTimeout(() => {
+        setShowDrawer(false);
+      }, 1000);
+
+      if (onSuccess) {
+        onSuccess();
+      }
+
+      // reset form
+      reset({
+        discountPercent: 0,
+        rating: 5,
+      });
+      setImageFiles([]);
+      setImagePreviews([]);
+      setSelectedSizes([]);
+      setSelectedCategories([]);
+      setSelectedVariants([]);
+    } catch (err) {
+      setAlertStatus({
+        type: "error",
+        message: err.message,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="flex flex-col h-full">
+      <Alert
+        type={alertStatus.type}
+        message={alertStatus.message}
+        onClose={() => setAlertStatus({ type: "", message: "" })}
+      />
       <div className="flex flex-col flex-1 gap-5 p-4 overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -139,60 +353,80 @@ const ProductForm = ({ product = null, mode = "add" }) => {
           {/* Photo Product */}
           <div>
             <label className="block mb-2 text-sm font-medium">
-              Photo Product
+              Photo Product <span className="text-red-500">*</span>
+              <span className="text-xs text-gray-500">
+                {" "}
+                (Max 4 images, 1MB each)
+              </span>
             </label>
 
-            {/* Upload Button */}
-            <div className="flex flex-col items-start gap-3">
-              {images.length > 0 ? (
-                <div className="grid grid-cols-3 gap-2 mb-3">
-                  {images.map((image, index) => (
-                    <div key={index} className="relative group">
-                      <img
-                        src={image}
-                        alt={`Preview ${index + 1}`}
-                        className="object-cover w-full h-20 rounded-lg"
-                      />
+            {/* Preview Images */}
+            {imagePreviews.length > 0 ? (
+              <div className="grid grid-cols-3 gap-2 mb-3">
+                {imagePreviews.map((preview, index) => (
+                  <div key={index} className="relative group">
+                    <img
+                      src={preview}
+                      alt={`Preview ${index + 1}`}
+                      className="object-cover w-full h-20 rounded-lg"
+                    />
+                    {mode === "add" && (
                       <button
                         type="button"
                         onClick={() => removeImage(index)}
                         className="absolute flex items-center justify-center w-5 h-5 text-xs text-white transition bg-red-500 rounded-full opacity-0 top-1 right-1 group-hover:opacity-100">
                         ✕
                       </button>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-lg">
-                  <svg
-                    className="w-8 h-8 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                </div>
-              )}
+                    )}
+                    {index === 0 && (
+                      <span className="absolute px-2 py-1 text-xs text-white bg-blue-500 rounded bottom-1 left-1">
+                        Primary
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center w-16 h-16 mb-3 bg-gray-100 rounded-lg">
+                <svg
+                  className="w-8 h-8 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+            )}
 
-              <input
-                type="file"
-                id="image-upload"
-                accept="image/*"
-                multiple
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-              <label
-                htmlFor="image-upload"
-                className="px-4 py-2 bg-[#FF8906] rounded-lg cursor-pointer hover:bg-[#e57a05] transition text-sm font-medium">
-                Upload
-              </label>
-            </div>
+            {mode === "add" && (
+              <>
+                <input
+                  type="file"
+                  id="image-upload"
+                  accept="image/jpeg,image/jpg,image/png"
+                  multiple
+                  onChange={handleImageUpload}
+                  className="hidden"
+                  disabled={imagePreviews.length >= 4}
+                />
+                <label
+                  htmlFor="image-upload"
+                  className={`px-4 py-2 rounded-lg cursor-pointer transition text-sm font-medium inline-block ${
+                    imagePreviews.length >= 4
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-[#FF8906] hover:bg-[#e57a05]"
+                  }`}>
+                  {imagePreviews.length >= 4
+                    ? "Max images reached"
+                    : "Upload Images"}
+                </label>
+              </>
+            )}
           </div>
 
           {/* Product Name */}
@@ -203,22 +437,48 @@ const ProductForm = ({ product = null, mode = "add" }) => {
             error={errors}
             type="text"
             placeholder="Enter Product Name"
+            required
           />
 
           {/* Price */}
           <Input
             {...register("price")}
             id="price"
-            label="Price"
+            label="Price (IDR)"
             error={errors}
             type="number"
             placeholder="Enter Product Price"
+            required
           />
+
+          {/* Discount & Rating */}
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              {...register("discountPercent")}
+              id="discountPercent"
+              label="Discount (%)"
+              error={errors}
+              type="number"
+              placeholder="0"
+              step="0.01"
+            />
+            <Input
+              {...register("rating")}
+              id="rating"
+              label="Rating"
+              error={errors}
+              type="number"
+              placeholder="5"
+              step="0.1"
+              min="0"
+              max="5"
+            />
+          </div>
 
           {/* Description */}
           <div>
             <label className="font-bold text-sm sm:text-base text-[#0B132A] mb-3 block">
-              Description
+              Description <span className="text-red-500">*</span>
             </label>
             <textarea
               {...register("description")}
@@ -236,20 +496,64 @@ const ProductForm = ({ product = null, mode = "add" }) => {
           {/* Product Size */}
           <div>
             <label className="font-bold text-sm sm:text-base text-[#0B132A] mb-3 block">
-              Product Size
+              Product Size <span className="text-red-500">*</span>
             </label>
             <div className="flex flex-wrap gap-2">
               {sizes.map((size) => (
                 <button
-                  key={size}
+                  key={size.id}
                   type="button"
-                  onClick={() => toggleSize(size)}
+                  onClick={() => toggleSize(size.id)}
                   className={`px-6 py-2 text-sm rounded-lg border transition ${
-                    selectedSizes.includes(size)
+                    selectedSizes.includes(size.id)
                       ? "bg-[#FF8906] text-white border-[#FF8906]"
                       : "bg-white text-gray-700 border-gray-300 hover:border-[#FF8906]"
                   }`}>
-                  {size}
+                  {size.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Product Category */}
+          <div>
+            <label className="font-bold text-sm sm:text-base text-[#0B132A] mb-3 block">
+              Product Category <span className="text-red-500">*</span>
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  type="button"
+                  onClick={() => toggleCategory(category.id)}
+                  className={`px-6 py-2 text-sm rounded-lg border transition ${
+                    selectedCategories.includes(category.id)
+                      ? "bg-[#FF8906] text-white border-[#FF8906]"
+                      : "bg-white text-gray-700 border-gray-300 hover:border-[#FF8906]"
+                  }`}>
+                  {category.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Product Variant */}
+          <div>
+            <label className="font-bold text-sm sm:text-base text-[#0B132A] mb-3 block">
+              Product Variant <span className="text-red-500">*</span>
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {variants.map((variant) => (
+                <button
+                  key={variant.id}
+                  type="button"
+                  onClick={() => toggleVariant(variant.id)}
+                  className={`px-6 py-2 text-sm rounded-lg border transition ${
+                    selectedVariants.includes(variant.id)
+                      ? "bg-[#FF8906] text-white border-[#FF8906]"
+                      : "bg-white text-gray-700 border-gray-300 hover:border-[#FF8906]"
+                  }`}>
+                  {variant.name}
                 </button>
               ))}
             </div>
@@ -258,7 +562,7 @@ const ProductForm = ({ product = null, mode = "add" }) => {
           {/* Stock */}
           <div>
             <label className="font-bold text-sm sm:text-base text-[#0B132A] mb-3 block">
-              Stock
+              Stock <span className="text-red-500">*</span>
             </label>
             <input
               {...register("stock")}
@@ -276,8 +580,17 @@ const ProductForm = ({ product = null, mode = "add" }) => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-[#FF8906] text-white rounded-lg hover:bg-[#e57a05] transition font-medium mt-2">
-            {mode === "edit" ? "Edit Save" : "Save Product"}
+            disabled={isSubmitting}
+            className={`w-full py-3 text-white rounded-lg font-medium mt-2 transition ${
+              isSubmitting
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-[#FF8906] hover:bg-[#e57a05]"
+            }`}>
+            {isSubmitting
+              ? "Saving..."
+              : mode === "edit"
+              ? "Save Changes"
+              : "Save Product"}
           </button>
         </form>
       </div>
