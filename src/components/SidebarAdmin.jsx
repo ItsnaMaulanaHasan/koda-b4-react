@@ -14,10 +14,12 @@ function SidebarAdmin({ children }) {
   const dispatch = useDispatch();
   const handleLogout = async () => {
     try {
-      const res = await fetch(
-        import.meta.env.VITE_BASE_URL + "/logout",
-        accessToken
-      );
+      const res = await fetch(import.meta.env.VITE_BASE_URL + "/auth/logout", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
       if (!res.ok) {
         const result = await res.json();

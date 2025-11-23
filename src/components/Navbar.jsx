@@ -46,10 +46,12 @@ function Navbar() {
   // handle logout
   const handleLogout = async () => {
     try {
-      const res = await fetch(
-        import.meta.env.VITE_BASE_URL + "/logout",
-        accessToken
-      );
+      const res = await fetch(import.meta.env.VITE_BASE_URL + "/auth/logout", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
       if (!res.ok) {
         const result = await res.json();
@@ -237,7 +239,10 @@ function Navbar() {
                       Order Histories
                     </button>
                     <button
-                      onClick={() => setShowModal(true)}
+                      onClick={() => {
+                        setShowModal(true);
+                        setShowDropdown(false);
+                      }}
                       className="w-full px-4 py-2 text-sm text-left text-red-500 transition hover:bg-gray-100">
                       Logout
                     </button>
