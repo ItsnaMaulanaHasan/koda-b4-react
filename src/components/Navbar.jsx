@@ -230,6 +230,16 @@ function Navbar() {
                       className="w-full px-4 py-2 text-left text-sm text-[#0B132A] hover:bg-gray-100 transition">
                       Profile
                     </button>
+                    {userLogin.role === "admin" && (
+                      <button
+                        onClick={() => {
+                          navigate("/admin/dashboard");
+                          setShowDropdown(false);
+                        }}
+                        className="w-full px-4 py-2 text-left text-sm text-[#0B132A] hover:bg-gray-100 transition">
+                        Dashboard
+                      </button>
+                    )}
                     <button
                       onClick={() => {
                         navigate("/order-history");

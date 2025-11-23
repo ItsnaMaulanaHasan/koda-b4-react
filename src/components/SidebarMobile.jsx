@@ -7,9 +7,10 @@ import Button from "./Button";
 
 const SidebarMobile = ({ userLogin, handleLogout }) => {
   const { setShowDrawer } = useContext(DrawerNavbarContext);
-  const navigate = useNavigate();
   const { register, handleSubmit, setValue } = useForm();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
   const getNavLinkClass = ({ isActive }) =>
     `hover:font-bold w-full py-3 transition duration-300 border-b ${
       isActive ? "border-b-[#FF8906]" : "border-b-[#E8E8E8]"
@@ -103,6 +104,13 @@ const SidebarMobile = ({ userLogin, handleLogout }) => {
               className="px-3 text-sm border border-[#0B132A] text-[#0B132A] lg:px-4 whitespace-nowrap lg:text-base">
               Profile
             </Button>
+            {userLogin.role === "admin" && (
+              <Button
+                onClick={() => handleNavigation("/admin/dashboard")}
+                className="px-3 text-sm border border-[#0B132A] text-[#0B132A] lg:px-4 whitespace-nowrap lg:text-base">
+                Dashboard
+              </Button>
+            )}
             <Button
               onClick={() => handleNavigation("/order-history")}
               className="px-3 text-sm border border-[#0B132A] text-[#0B132A] lg:px-4 whitespace-nowrap lg:text-base">
