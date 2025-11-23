@@ -132,7 +132,8 @@ function CartPage() {
       const admin = selectedPayment?.adminFee || 0;
 
       const calculatedTax = total * 0.1;
-      const calculatedTotalTransactions = total + delivery + calculatedTax;
+      const calculatedTotalTransactions =
+        total + delivery + admin + calculatedTax;
 
       return {
         orderTotal: total,
@@ -325,10 +326,10 @@ function CartPage() {
               {adminFee > 0 && (
                 <div className="flex items-center justify-between">
                   <span className="text-[#4F5665] font-bold text-sm sm:text-base">
-                    Delivery
+                    Admin
                   </span>
                   <span className="font-bold text-[#0B132A] text-sm sm:text-base">
-                    Idr. {deliveryFee.toLocaleString("id")}
+                    Idr. {adminFee.toLocaleString("id")}
                   </span>
                 </div>
               )}
