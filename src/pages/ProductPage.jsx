@@ -231,6 +231,7 @@ function ProductPage() {
                     →
                   </button>
                 </div>
+
                 {/* Pagination Info */}
                 <div className="text-sm text-center text-gray-600">
                   Showing {dataMenu.length} of {meta.totalData || 0} products
