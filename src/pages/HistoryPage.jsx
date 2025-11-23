@@ -199,12 +199,10 @@ function HistoryPage() {
               </button>
             </div>
             {/* pagination Info */}
-            {dataHistories.length > 0 && (
-              <div className="text-center text-sm text-gray-600">
-                Showing {dataHistories.length} of {meta.totalData} results (Page{" "}
-                {currentPage} of {totalPages})
-              </div>
-            )}
+            <div className="text-center text-sm text-gray-600">
+              Showing {dataHistories.length} of {meta.totalData} results (Page{" "}
+              {currentPage} of {totalPages})
+            </div>
           </div>
         </div>
         {/* message Section */}
