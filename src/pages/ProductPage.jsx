@@ -211,18 +211,39 @@ function ProductPage() {
                     ←
                   </button>
 
-                  {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                      key={index + 1}
-                      onClick={() => goToPage(index + 1)}
-                      className={`size-10 rounded-full flex items-center justify-center transition ${
-                        currentPage === index + 1
-                          ? "bg-[#FF8906] text-[#0B0909]"
-                          : "bg-[#E8E8E8] text-[#A0A3BD] hover:bg-gray-300"
-                      }`}>
-                      {index + 1}
-                    </button>
-                  ))}
+                  {Array.from({ length: totalPages }, (_, index) => {
+                    const pageNumber = index + 1;
+                    if (
+                      totalPages <= 5 ||
+                      pageNumber === 1 ||
+                      pageNumber === totalPages ||
+                      (pageNumber >= currentPage - 1 &&
+                        pageNumber <= currentPage + 1)
+                    ) {
+                      return (
+                        <button
+                          key={index + 1}
+                          onClick={() => goToPage(index + 1)}
+                          className={`size-10 rounded-full flex items-center justify-center transition ${
+                            currentPage === index + 1
+                              ? "bg-[#FF8906] text-[#0B0909]"
+                              : "bg-[#E8E8E8] text-[#A0A3BD] hover:bg-gray-300"
+                          }`}>
+                          {index + 1}
+                        </button>
+                      );
+                    } else if (
+                      pageNumber === currentPage - 2 ||
+                      pageNumber === currentPage + 2
+                    ) {
+                      return (
+                        <span key={pageNumber} className="px-2 text-gray-400">
+                          ...
+                        </span>
+                      );
+                    }
+                    return null;
+                  })}
 
                   <button
                     onClick={handleNext}
