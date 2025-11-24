@@ -40,7 +40,7 @@ function Navbar() {
 
   const getNavLinkClass = ({ isActive }) =>
     `hover:font-bold py-1 transition duration-300 ${
-      isActive && "font-bold border-b border-[#FF8906]"
+      isActive && "font-bold border-b border-[#5a8120]"
     }`;
 
   // handle logout
@@ -115,7 +115,7 @@ function Navbar() {
           <div className="flex items-center gap-4 sm:gap-5 md:gap-7 lg:gap-10">
             <div className="flex-shrink-0">
               <img
-                className="w-auto h-6 sm:h-7 md:h-20"
+                className="w-auto h-6 sm:h-7 md:h-15"
                 src={
                   isAdminPage ? "/img/logo-original.png" : "/img/logo-white.png"
                 }
@@ -161,24 +161,26 @@ function Navbar() {
                 />
               )}
             </div>
-            <button
-              onClick={() => navigate("/cart")}
-              className="relative flex-shrink-0 w-5 h-5 cursor-pointer lg:h-6 lg:w-6">
-              <img
-                className="w-full h-full"
-                src={
-                  isAdminPage
-                    ? "/icon/icon-cart-black.svg"
-                    : "/icon/icon-cart.svg"
-                }
-                alt="Icon Cart"
-              />
-              {amountCarts > 0 && (
-                <div className="absolute flex items-center justify-center h-5 px-1 text-xs font-semibold text-white bg-red-500 rounded-full -top-2 -right-2 min-w-5">
-                  {amountCarts}
-                </div>
-              )}
-            </button>
+            {accessToken && (
+              <button
+                onClick={() => navigate("/cart")}
+                className="relative flex-shrink-0 w-5 h-5 cursor-pointer lg:h-6 lg:w-6">
+                <img
+                  className="w-full h-full"
+                  src={
+                    isAdminPage
+                      ? "/icon/icon-cart-black.svg"
+                      : "/icon/icon-cart.svg"
+                  }
+                  alt="Icon Cart"
+                />
+                {amountCarts > 0 && (
+                  <div className="absolute flex items-center justify-center h-5 px-1 text-xs font-semibold text-white bg-red-500 rounded-full -top-2 -right-2 min-w-5">
+                    {amountCarts}
+                  </div>
+                )}
+              </button>
+            )}
 
             {accessToken ? (
               <div className="relative">
@@ -268,7 +270,7 @@ function Navbar() {
                 </Button>
                 <Button
                   onClick={() => navigate("/auth/register")}
-                  className="px-5 lg:px-4 bg-[#FF8906] whitespace-nowrap text-sm lg:text-base">
+                  className="px-5 lg:px-4 bg-[#5a8120] whitespace-nowrap text-sm lg:text-base">
                   Sign Up
                 </Button>
               </>

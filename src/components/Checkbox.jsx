@@ -23,11 +23,10 @@ const Checkbox = ({ checked, onChange, label, size = 20 }) => {
           style={{
             width: size,
             height: size,
-            borderColor: checked ? "#FF8906" : "#A0A3BD",
-            backgroundColor: checked ? "#FF8906" : "transparent",
+            borderColor: checked ? "#5a8120" : "#A0A3BD",
+            backgroundColor: checked ? "#5a8120" : "transparent",
           }}
-          className="border-1 rounded-md transition-all duration-200 flex items-center justify-center"
-        >
+          className="border-1 rounded-md transition-all duration-200 flex items-center justify-center">
           {checked && (
             <Check
               size={size * 0.7}

@@ -181,7 +181,7 @@ function UsersList() {
         {/* button add */}
         <button
           onClick={handleAddUser}
-          className="flex items-center gap-2 bg-[#FF8906] px-6 py-3 rounded-lg hover:bg-[#e57a05] transition">
+          className="flex items-center gap-2 bg-[#5a8120] px-6 py-3 rounded-lg hover:bg-[#b9c228] transition">
           <svg
             className="w-5 h-5"
             fill="none"
@@ -293,7 +293,7 @@ function UsersList() {
                     <div className="flex items-center justify-center gap-2">
                       <button
                         onClick={() => handleEditUser(user)}
-                        className="p-2 cursor-pointer bg-[#FF89061A] hover:bg-yellow-50 rounded-full transition">
+                        className="p-2 cursor-pointer bg-[#5a81201A] hover:bg-yellow-50 rounded-full transition">
                         <img
                           className="size-5"
                           src="/icon/icon-edit.svg"
@@ -347,7 +347,7 @@ function UsersList() {
                     onClick={() => goToPage(pageNumber)}
                     className={`px-3 py-1 text-sm rounded ${
                       currentPage === pageNumber
-                        ? "bg-[#FF8906] text-white"
+                        ? "bg-[#5a8120] text-white"
                         : "text-gray-600 hover:bg-gray-100"
                     }`}>
                     {pageNumber}

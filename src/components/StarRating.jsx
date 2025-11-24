@@ -72,14 +72,14 @@ function StarRating({
                 <Star
                   size={size}
                   fill="none"
-                  stroke="#FF8906"
-                  className="text-[#FF8906] absolute top-0 left-0"
+                  stroke="#5a8120"
+                  className="text-[#5a8120] absolute top-0 left-0"
                 />
                 <Star
                   size={size}
-                  fill="#FF8906"
-                  stroke="#FF8906"
-                  className={`text-[#FF8906] ${
+                  fill="#5a8120"
+                  stroke="#5a8120"
+                  className={`text-[#5a8120] ${
                     !readonly
                       ? "cursor-pointer transition-all hover:scale-110"
                       : ""
@@ -97,9 +97,9 @@ function StarRating({
             ) : (
               <Star
                 size={size}
-                fill={fillType === "full" ? "#FF8906" : "none"}
-                stroke="#FF8906"
-                className={`text-[#FF8906] ${
+                fill={fillType === "full" ? "#5a8120" : "none"}
+                stroke="#5a8120"
+                className={`text-[#5a8120] ${
                   !readonly
                     ? "cursor-pointer transition-all hover:scale-110"
                     : ""

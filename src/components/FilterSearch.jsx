@@ -127,7 +127,7 @@ function FilterSearch({ isMobile = false }) {
           <button
             type="button"
             onClick={() => setShowDrawer(!showDrawer)}
-            className="bg-[#FF8906] p-4 rounded cursor-pointer">
+            className="bg-[#5a8120] p-4 rounded cursor-pointer">
             <img
               className="size-full"
               src="/icon/icon-filter.svg"
@@ -199,7 +199,7 @@ function FilterSearch({ isMobile = false }) {
                 value="asc"
                 checked={sortName === "asc"}
                 onChange={() => handleSortNameChange("asc")}
-                className="w-4 h-4 text-[#FF8906] focus:ring-[#FF8906] cursor-pointer"
+                className="w-4 h-4 text-[#5a8120] focus:ring-[#5a8120] cursor-pointer"
               />
               <span className="text-sm">A to Z</span>
             </label>
@@ -211,7 +211,7 @@ function FilterSearch({ isMobile = false }) {
                 value="desc"
                 checked={sortName === "desc"}
                 onChange={() => handleSortNameChange("desc")}
-                className="w-4 h-4 text-[#FF8906] focus:ring-[#FF8906] cursor-pointer"
+                className="w-4 h-4 text-[#5a8120] focus:ring-[#5a8120] cursor-pointer"
               />
               <span className="text-sm">Z to A</span>
             </label>
@@ -228,7 +228,7 @@ function FilterSearch({ isMobile = false }) {
                 value="asc"
                 checked={sortPrice === "asc"}
                 onChange={() => handleSortPriceChange("asc")}
-                className="w-4 h-4 text-[#FF8906] focus:ring-[#FF8906] cursor-pointer"
+                className="w-4 h-4 text-[#5a8120] focus:ring-[#5a8120] cursor-pointer"
               />
               <span className="text-sm">Cheapest</span>
             </label>
@@ -240,7 +240,7 @@ function FilterSearch({ isMobile = false }) {
                 value="desc"
                 checked={sortPrice === "desc"}
                 onChange={() => handleSortPriceChange("desc")}
-                className="w-4 h-4 text-[#FF8906] focus:ring-[#FF8906] cursor-pointer"
+                className="w-4 h-4 text-[#5a8120] focus:ring-[#5a8120] cursor-pointer"
               />
               <span className="text-sm">Most Expensive</span>
             </label>
@@ -252,7 +252,7 @@ function FilterSearch({ isMobile = false }) {
           </div>
 
           {/* button apply filter */}
-          <Button type="submit" className="bg-[#FF8906] text-[#0B0909]">
+          <Button type="submit" className="bg-[#5a8120] text-[#0B0909]">
             Apply Filter
           </Button>
         </form>

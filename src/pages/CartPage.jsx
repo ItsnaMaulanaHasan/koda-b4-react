@@ -279,7 +279,7 @@ function CartPage() {
               <Button
                 type="button"
                 onClick={() => navigate("/product")}
-                className="bg-[#FF8906] w-max py-2 px-3 sm:px-4 hover:bg-[#e67a05] transition text-sm sm:text-base">
+                className="bg-[#5a8120] w-max py-2 px-3 sm:px-4 hover:bg-[#b9c228] transition text-sm sm:text-base">
                 + Add Menu
               </Button>
             </div>
@@ -354,7 +354,7 @@ function CartPage() {
               <Button
                 type="submit"
                 disabled={dataCarts.length === 0}
-                className="bg-[#FF8906] py-3 sm:py-4 hover:bg-[#e67a05] transition disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base font-medium">
+                className="bg-[#5a8120] py-3 sm:py-4 hover:bg-[#b9c228] transition disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base font-medium">
                 Checkout
               </Button>
 
@@ -370,9 +370,9 @@ function CartPage() {
                       onClick={() => setPaymentMethodId(paymentMethod.id)}
                       className={`p-2 sm:p-3 border-2 ${
                         paymentMethodId === paymentMethod.id
-                          ? "border-[#FF8906]"
+                          ? "border-[#5a8120]"
                           : "border-[#E8E8E8]"
-                      } hover:bg-[#FF8906] transition`}>
+                      } hover:bg-[#5a8120] transition`}>
                       <img
                         src={
                           paymentMethod.image ||
@@ -437,9 +437,9 @@ function CartPage() {
                     onClick={() => setOrderMethodId(orderMethod.id)}
                     className={`py-2 sm:py-3 border-2 ${
                       orderMethodId === orderMethod.id
-                        ? "border-[#FF8906]"
+                        ? "border-[#5a8120]"
                         : "border-[#E8E8E8]"
-                    } hover:bg-[#FF8906] hover:text-white transition text-xs sm:text-sm md:text-base`}>
+                    } hover:bg-[#5a8120] hover:text-white transition text-xs sm:text-sm md:text-base`}>
                     {orderMethod.name}
                   </Button>
                 ))}

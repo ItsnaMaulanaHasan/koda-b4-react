@@ -65,7 +65,7 @@ function PromoSection() {
           </button>
           <button
             onClick={handleNext}
-            className="size-10 rounded-full bg-[#FF8906] text-black flex items-center justify-center hover:bg-[#e67a05] transition">
+            className="size-10 rounded-full bg-[#5a8120] text-black flex items-center justify-center hover:bg-[#b9c228] transition">
             →
           </button>
         </div>
@@ -115,7 +115,7 @@ function PromoSection() {
             key={item.id}
             onClick={() => setCurrentIndex(index)}
             className={`h-2 rounded-full transition ${
-              index === currentIndex ? "bg-[#FF8906] w-7" : "bg-[#DDE0E4] w-2"
+              index === currentIndex ? "bg-[#5a8120] w-7" : "bg-[#DDE0E4] w-2"
             }`}
           />
         ))}

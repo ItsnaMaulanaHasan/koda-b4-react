@@ -503,7 +503,7 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
                 className={`px-4 py-2 rounded-lg cursor-pointer transition text-sm font-medium inline-block ${
                   existingImages.length + imagePreviews.length >= 4
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-[#FF8906] hover:bg-[#e57a05]"
+                    : "bg-[#5a8120] hover:bg-[#b9c228]"
                 }`}>
                 {existingImages.length + imagePreviews.length >= 4
                   ? "Max images reached"
@@ -571,7 +571,7 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
               {...register("description")}
               placeholder="Enter Product Description"
               rows={5}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8906] resize-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5a8120] resize-none"
             />
             {errors.description && (
               <p className="mt-1 text-xs text-red-500">
@@ -593,8 +593,8 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
                   onClick={() => toggleSize(size.id)}
                   className={`px-6 py-2 text-sm rounded-lg border transition ${
                     selectedSizes.includes(size.id)
-                      ? "bg-[#FF8906] text-white border-[#FF8906]"
-                      : "bg-white text-gray-700 border-gray-300 hover:border-[#FF8906]"
+                      ? "bg-[#5a8120] text-white border-[#5a8120]"
+                      : "bg-white text-gray-700 border-gray-300 hover:border-[#5a8120]"
                   }`}>
                   {size.name}
                 </button>
@@ -615,8 +615,8 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
                   onClick={() => toggleCategory(category.id)}
                   className={`px-6 py-2 text-sm rounded-lg border transition ${
                     selectedCategories.includes(category.id)
-                      ? "bg-[#FF8906] text-white border-[#FF8906]"
-                      : "bg-white text-gray-700 border-gray-300 hover:border-[#FF8906]"
+                      ? "bg-[#5a8120] text-white border-[#5a8120]"
+                      : "bg-white text-gray-700 border-gray-300 hover:border-[#5a8120]"
                   }`}>
                   {category.name}
                 </button>
@@ -637,8 +637,8 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
                   onClick={() => toggleVariant(variant.id)}
                   className={`px-6 py-2 text-sm rounded-lg border transition ${
                     selectedVariants.includes(variant.id)
-                      ? "bg-[#FF8906] text-white border-[#FF8906]"
-                      : "bg-white text-gray-700 border-gray-300 hover:border-[#FF8906]"
+                      ? "bg-[#5a8120] text-white border-[#5a8120]"
+                      : "bg-white text-gray-700 border-gray-300 hover:border-[#5a8120]"
                   }`}>
                   {variant.name}
                 </button>
@@ -655,7 +655,7 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
               {...register("stock")}
               type="number"
               placeholder="Enter Product Stock"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8906]"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5a8120]"
             />
             {errors.stock && (
               <p className="mt-1 text-xs text-red-500">
@@ -675,7 +675,7 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
                   type="checkbox"
                   checked={isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
-                  className="w-4 h-4 text-[#FF8906] border-gray-300 rounded focus:ring-[#FF8906]"
+                  className="w-4 h-4 text-[#5a8120] border-gray-300 rounded focus:ring-[#5a8120]"
                 />
                 <span className="text-sm text-gray-700">Active Product</span>
               </label>
@@ -686,7 +686,7 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
                   type="checkbox"
                   checked={isFavourite}
                   onChange={(e) => setIsFavourite(e.target.checked)}
-                  className="w-4 h-4 text-[#FF8906] border-gray-300 rounded focus:ring-[#FF8906]"
+                  className="w-4 h-4 text-[#5a8120] border-gray-300 rounded focus:ring-[#5a8120]"
                 />
                 <span className="text-sm text-gray-700">Favourite Product</span>
               </label>
@@ -697,7 +697,7 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
                   type="checkbox"
                   checked={isFlashSale}
                   onChange={(e) => setIsFlashSale(e.target.checked)}
-                  className="w-4 h-4 text-[#FF8906] border-gray-300 rounded focus:ring-[#FF8906]"
+                  className="w-4 h-4 text-[#5a8120] border-gray-300 rounded focus:ring-[#5a8120]"
                 />
                 <span className="text-sm text-gray-700">Flash Sale</span>
               </label>
@@ -711,7 +711,7 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
             className={`w-full py-3 text-white rounded-lg font-medium mt-2 transition ${
               isSubmitting
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[#FF8906] hover:bg-[#e57a05]"
+                : "bg-[#5a8120] hover:bg-[#b9c228]"
             }`}>
             {isSubmitting
               ? "Saving..."

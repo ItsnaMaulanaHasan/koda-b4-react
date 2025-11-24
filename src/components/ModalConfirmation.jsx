@@ -11,7 +11,7 @@ import Button from "../components/Button";
  * @param {string} [props.message="Are you sure you want to proceed?"] - Confirmation message
  * @param {string} [props.confirmText="Confirm"] - Text for confirm button
  * @param {string} [props.cancelText="Cancel"] - Text for cancel button
- * @param {string} [props.confirmClassName="bg-[#FF8906] text-white hover:bg-[#e67a05]"] - Custom CSS classes for confirm button
+ * @param {string} [props.confirmClassName="bg-[#5a8120] text-white hover:bg-[#b9c228]"] - Custom CSS classes for confirm button
  * @param {'warning'|'danger'|'info'} [props.type="warning"] - Type of modal determining icon and styling
  * @returns {JSX.Element|null} ModalConfirmation component or null if not open
  */
@@ -23,7 +23,7 @@ function ModalConfirmation({
   message = "Are you sure you want to proceed?",
   confirmText = "Confirm",
   cancelText = "Cancel",
-  confirmClassName = "bg-[#FF8906] text-white hover:bg-[#e67a05]",
+  confirmClassName = "bg-[#5a8120] text-white hover:bg-[#b9c228]",
   type = "warning", // warning, danger, info
 }) {
   if (!isOpen) return null;

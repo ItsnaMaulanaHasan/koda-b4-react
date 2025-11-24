@@ -51,7 +51,7 @@ function SidebarAdmin({ children }) {
 
   const getNavLinkClass = ({ isActive }) =>
     `w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium ${
-      isActive ? "bg-[#FF8906] text-[#0B132A]" : "text-[#4F5665]"
+      isActive ? "bg-[#5a8120] text-[#0B132A]" : "text-[#4F5665]"
     }`;
   return (
     <div className="min-h-screen bg-gray-50">

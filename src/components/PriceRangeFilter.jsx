@@ -35,12 +35,11 @@ function PriceRangeFilter({
 
         {/* Active Track */}
         <div
-          className="absolute h-2 bg-[#FF8906] rounded"
+          className="absolute h-2 bg-[#5a8120] rounded"
           style={{
             left: `${(minPrice / absoluteMax) * 100}%`,
             right: `${100 - (maxPrice / absoluteMax) * 100}%`,
-          }}
-        ></div>
+          }}></div>
 
         {/* Min Range Input */}
         <input

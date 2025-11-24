@@ -187,7 +187,7 @@ function ProductList() {
         {/* button add */}
         <button
           onClick={handleAddProduct}
-          className="flex items-center gap-2 bg-[#FF8906] px-6 py-3 rounded-lg hover:bg-[#e57a05] transition">
+          className="flex items-center gap-2 bg-[#5a8120] px-6 py-3 rounded-lg hover:bg-[#b9c228] transition">
           <svg
             className="w-5 h-5"
             fill="none"
@@ -458,7 +458,7 @@ function ProductList() {
                     onClick={() => goToPage(pageNumber)}
                     className={`px-3 py-1 text-sm rounded ${
                       currentPage === pageNumber
-                        ? "bg-[#FF8906] text-white"
+                        ? "bg-[#5a8120] text-white"
                         : "text-gray-600 hover:bg-gray-100"
                     }`}>
                     {pageNumber}

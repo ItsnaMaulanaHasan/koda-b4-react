@@ -151,7 +151,7 @@ const OrderDetail = ({ order }) => {
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className="px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8906] cursor-pointer">
+                className="px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5a8120] cursor-pointer">
                 <option value="Pending">Pending</option>
                 <option value="Waiting">Waiting</option>
                 <option value="On Progress">On Progress</option>
@@ -162,7 +162,7 @@ const OrderDetail = ({ order }) => {
             {/* Total Transaksi */}
             <div className="flex items-center justify-between py-3">
               <span className="text-gray-600">Total Transaksi</span>
-              <span className="text-xl font-semibold text-[#FF8906]">
+              <span className="text-xl font-semibold text-[#5a8120]">
                 {order.total}
               </span>
             </div>
@@ -192,7 +192,7 @@ const OrderDetail = ({ order }) => {
         {/* Update Button */}
         <button
           onClick={handleUpdate}
-          className="w-full py-3 bg-[#FF8906] text-white rounded-lg hover:bg-[#e57a05] transition font-medium mt-2">
+          className="w-full py-3 bg-[#5a8120] text-white rounded-lg hover:bg-[#b9c228] transition font-medium mt-2">
           Update
         </button>
       </div>

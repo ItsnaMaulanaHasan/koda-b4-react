@@ -19,12 +19,12 @@ function NotFoundPage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={() => navigate("/")}
-            className="bg-[#FF8906] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#e67a05] transition-all shadow-lg">
+            className="bg-[#5a8120] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#b9c228] transition-all shadow-lg">
             Back to Home
           </button>
           <button
             onClick={() => navigate(-1)}
-            className="border-2 border-[#FF8906] text-[#FF8906] px-8 py-3 rounded-lg font-medium hover:bg-[#FF8906] hover:text-white transition-all">
+            className="border-2 border-[#5a8120] text-[#5a8120] px-8 py-3 rounded-lg font-medium hover:bg-[#5a8120] hover:text-white transition-all">
             Go Back
           </button>
         </div>

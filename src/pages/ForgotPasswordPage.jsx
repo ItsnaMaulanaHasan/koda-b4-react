@@ -116,7 +116,7 @@ function ForgotPasswordPage() {
             <Button
               disabled={isProcessing}
               type="submit"
-              className="bg-[#FF8906] disabled:opacity-50 disabled:cursor-not-allowed">
+              className="bg-[#5a8120] disabled:opacity-50 disabled:cursor-not-allowed">
               {!isProcessing ? "Submit" : "Sending email..."}
             </Button>
           </div>

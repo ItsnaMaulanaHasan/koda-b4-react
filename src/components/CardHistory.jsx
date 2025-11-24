@@ -15,7 +15,7 @@ import moment from "moment";
 function CardHistory({ dataHistory }) {
   const getStatusStyle = (status) => {
     const styles = {
-      "On Progress": "bg-[#FFEED9] text-[#FF8906]",
+      "On Progress": "bg-[#FFEED9] text-[#5a8120]",
       "Sending Goods": "bg-[#D4E9FF] text-[#2196F3]",
       "Finish Order": "bg-[#D4EDDA] text-[#28A745]",
     };
@@ -69,7 +69,7 @@ function CardHistory({ dataHistory }) {
         <div>
           <a
             href={`/order-history/${dataHistory.noInvoice}`}
-            className="underline text-[#FF8906]">
+            className="underline text-[#5a8120]">
             Views Order Detail
           </a>
         </div>

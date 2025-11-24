@@ -34,9 +34,9 @@ const SearchDesktopDropdown = ({ setShowSearchDesktop }) => {
           type="search"
           placeholder="Find Product"
           label="Search Product"
-          className="w-full px-4 py-2 text-sm border border-[#DEDEDE] rounded-lg focus:outline-none focus:border-[#FF8906] transition"
+          className="w-full px-4 py-2 text-sm border border-[#DEDEDE] rounded-lg focus:outline-none focus:border-[#5a8120] transition"
         />
-        <Button type="submit" className="bg-[#FF8906] w-full py-2">
+        <Button type="submit" className="bg-[#5a8120] w-full py-2">
           Search
         </Button>
       </form>

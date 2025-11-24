@@ -48,7 +48,7 @@ function CardCart({ cart, onRemove, remove = true }) {
               IDR{cart.productPrice.toLocaleString("id")}
             </span>
           )}
-          <span className="text-sm font-medium text-[#FF8906] sm:text-lg md:text-xl">
+          <span className="text-sm font-medium text-[#5a8120] sm:text-lg md:text-xl">
             IDR{" "}
             {cart.discountPrice
               ? cart.discountPrice.toLocaleString("id")

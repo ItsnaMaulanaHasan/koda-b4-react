@@ -132,7 +132,7 @@ function OrderList() {
       {/* Header Actions */}
       <div className="flex items-end justify-between mb-6">
         {/* button add */}
-        <button className="flex items-center gap-2 bg-[#FF8906] px-6 py-3 rounded-lg hover:bg-[#e57a05] transition">
+        <button className="flex items-center gap-2 bg-[#5a8120] px-6 py-3 rounded-lg hover:bg-[#b9c228] transition">
           <svg
             className="w-5 h-5"
             fill="none"
@@ -155,7 +155,7 @@ function OrderList() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF8906] bg-white">
+              className="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5a8120] bg-white">
               <option>All</option>
               <option>Finish Order</option>
               <option>On Progress</option>
@@ -268,7 +268,7 @@ function OrderList() {
                           alt="Icon Union"
                         />
                       </button>
-                      <button className="p-2 cursor-pointer bg-[#FF89061A] hover:bg-yellow-50 rounded-full transition">
+                      <button className="p-2 cursor-pointer bg-[#5a81201A] hover:bg-yellow-50 rounded-full transition">
                         <img
                           className="size-5"
                           src="/icon/icon-edit.svg"
@@ -317,7 +317,7 @@ function OrderList() {
                     onClick={() => goToPage(pageNumber)}
                     className={`px-3 py-1 text-sm rounded ${
                       currentPage === pageNumber
-                        ? "bg-[#FF8906] text-white"
+                        ? "bg-[#5a8120] text-white"
                         : "text-gray-600 hover:bg-gray-100"
                     }`}>
                     {pageNumber}

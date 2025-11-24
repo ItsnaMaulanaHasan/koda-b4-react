@@ -155,14 +155,14 @@ function RegisterPage() {
             <Button
               disabled={isRegister}
               type="submit"
-              className="bg-[#FF8906] disabled:opacity-50 disabled:cursor-not-allowed">
+              className="bg-[#5a8120] disabled:opacity-50 disabled:cursor-not-allowed">
               {isRegister ? "Register..." : "Register"}
             </Button>
           </div>
         </form>
         <div className="text-center">
           Have An Account?{" "}
-          <Link className="text-[#FF8906]" to="/auth/login">
+          <Link className="text-[#5a8120]" to="/auth/login">
             Login
           </Link>
         </div>

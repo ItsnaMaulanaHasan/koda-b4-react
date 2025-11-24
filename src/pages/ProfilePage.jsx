@@ -236,7 +236,7 @@ function ProfilePage() {
           <Button
             type="button"
             onClick={() => profileImg.current.click()}
-            className="bg-[#FF8906] py-4 w-full text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed">
+            className="bg-[#5a8120] py-4 w-full text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed">
             {isUploadingPhoto ? "Uploading..." : "Upload New Photo"}
           </Button>
           <div>
@@ -288,13 +288,13 @@ function ProfilePage() {
             />
             <Link
               to="/forgot-password"
-              className="text-[#FF8906] text-xs sm:text-sm">
+              className="text-[#5a8120] text-xs sm:text-sm">
               Set New Password
             </Link>
             <Button
               disabled={isUpdating}
               type="submit"
-              className="bg-[#FF8906] w-full sm:w-auto text-sm sm:text-base mt-2 disabled:opacity-50 disabled:cursor-not-allowed">
+              className="bg-[#5a8120] w-full sm:w-auto text-sm sm:text-base mt-2 disabled:opacity-50 disabled:cursor-not-allowed">
               {!isUpdating ? "Save Changes" : "Updating Profile..."}
             </Button>
           </form>

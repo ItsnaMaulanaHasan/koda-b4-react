@@ -67,17 +67,17 @@ function CardMenu({ dataMenu }) {
               IDR ${dataMenu.price.toLocaleString("id")}
             </span>
           )}
-          <span className="font-medium text-lg md:text-2xl text-[#FF8906]">
+          <span className="font-medium text-lg md:text-2xl text-[#5a8120]">
             {dataMenu.discountPrice !== 0
               ? `IDR ${dataMenu.discountPrice.toLocaleString("id")}`
               : `IDR ${dataMenu.price.toLocaleString("id")}`}
           </span>
         </div>
         <div className="flex flex-col gap-2 md:flex-row mt-auto">
-          <Button className="bg-[#FF8906] flex-2 hover:bg-[#e67a05]">
+          <Button className="bg-[#5a8120] flex-2 hover:bg-[#b9c228]">
             Buy
           </Button>
-          <Button className="flex-1 border border-[#FF8906] text-[#FF8906] justify-items-center content-center">
+          <Button className="flex-1 border border-[#5a8120] text-[#5a8120] justify-items-center content-center">
             <img src="/icon/icon-cart-orange.svg" alt="Icon Cart Orange" />
           </Button>
         </div>

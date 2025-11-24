@@ -45,24 +45,24 @@ function HomePage() {
             </p>
             <Button
               onClick={() => navigate("/product")}
-              className="bg-[#FF8906] w-max px-5 py-2 sm:py-4 sm:px-10 hover:bg-[#e67a05]">
+              className="bg-[#5a8120] w-max px-5 py-2 sm:py-4 sm:px-10 hover:bg-[#b9c228]">
               Get Started
             </Button>
             <div className="flex gap-10 mt-5">
               <div className="flex-1 border-r border-r-white">
-                <div className="font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#FF8906] mb-5">
+                <div className="font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#5a8120] mb-5">
                   90+
                 </div>
                 <span className="text-white">Staff</span>
               </div>
               <div className="flex-1 border-r border-r-white">
-                <div className="font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#FF8906] mb-5">
+                <div className="font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#5a8120] mb-5">
                   30+
                 </div>
                 <span className="text-white">Stores</span>
               </div>
               <div className="flex-1">
-                <div className="font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#FF8906] mb-5">
+                <div className="font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#5a8120] mb-5">
                   800+
                 </div>
                 <span className="text-white">Customer</span>
@@ -81,7 +81,7 @@ function HomePage() {
         {/* konten bawah */}
         <div className="flex flex-col justify-center flex-1 order-4 px-4 md:gap-5 md:order-3 sm:px-8 md:px-12 lg:px-16 xl:px-20">
           <div className="flex items-center">
-            <div className="bg-[#FF8906] w-2 h-15"></div>
+            <div className="bg-[#5a8120] w-2 h-15"></div>
             <div className="p-5 text-2xl font-medium sm:text-3xl md:text-4xl lg:text-5xl">
               We Provide{" "}
               <span className="text-[#8E6447]">Fresh Green Drinks</span> and{" "}
@@ -132,7 +132,7 @@ function HomePage() {
           <h1 className="text-2xl font-medium sm:text-3xl md:text-4xl lg:text-5xl">
             Here is People's <span className="text-[#8E6447]">Favorite</span>
           </h1>
-          <div className="h-2 w-20 bg-[#FF8906]"></div>
+          <div className="h-2 w-20 bg-[#5a8120]"></div>
           <p className="text-[#4F5665]">
             Let's choose and taste our best-selling healthy drinks. It might
             become your daily wellness companion too!
@@ -153,7 +153,7 @@ function HomePage() {
             <span className="text-[#8E6447]">Visit Our Store</span> in the Spot
             on the Map Below
           </h1>
-          <div className="h-2 w-20 bg-[#FF8906]"></div>
+          <div className="h-2 w-20 bg-[#5a8120]"></div>
           <p className="text-[#4F5665]">
             Find the nearest Daily Greens outlet and start your healthy
             lifestyle with our refreshing drinks!
@@ -170,7 +170,7 @@ function HomePage() {
       <div>
         <button
           onClick={() => setShowChat(!showChat)}
-          className="fixed z-50 cursor-pointer bottom-5 right-5 w-16 h-16 p-3 bg-[#FF8906] rounded-full shadow-xl hover:bg-[#FF9D26] transition-all hover:scale-110">
+          className="fixed z-50 cursor-pointer bottom-5 right-5 w-16 h-16 p-3 bg-[#5a8120] rounded-full shadow-xl hover:bg-[#b9c228] transition-all hover:scale-110">
           <img src="/icon/icon-chat.svg" alt="Icon Chat" />
         </button>
         <Chat isShow={showChat} />

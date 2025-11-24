@@ -13,7 +13,7 @@ const SidebarMobile = ({ userLogin, handleLogout }) => {
 
   const getNavLinkClass = ({ isActive }) =>
     `hover:font-bold w-full py-3 transition duration-300 border-b ${
-      isActive ? "border-b-[#FF8906]" : "border-b-[#E8E8E8]"
+      isActive ? "border-b-[#5a8120]" : "border-b-[#E8E8E8]"
     }`;
 
   useEffect(() => {
@@ -134,7 +134,7 @@ const SidebarMobile = ({ userLogin, handleLogout }) => {
             </Button>
             <Button
               onClick={() => handleNavigation("/auth/register")}
-              className="px-3 lg:px-4 bg-[#FF8906] whitespace-nowrap text-sm lg:text-base">
+              className="px-3 lg:px-4 bg-[#5a8120] whitespace-nowrap text-sm lg:text-base">
               Sign Up
             </Button>
           </>

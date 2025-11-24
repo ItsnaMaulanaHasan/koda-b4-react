@@ -39,7 +39,7 @@ function Chat({ isShow }) {
   return (
     <div className="fixed bottom-24 z-100 right-5 w-[350px] h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-[#FF8906] to-[#FFB347] rounded-t-2xl w-full h-5"></div>
+      <div className="bg-gradient-to-r from-[#5a8120] to-[#FFB347] rounded-t-2xl w-full h-5"></div>
       <div className="p-5">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 overflow-hidden bg-white rounded-full">
@@ -51,7 +51,7 @@ function Chat({ isShow }) {
           </div>
           <div className="text-[#0B132A]">
             <h3 className="text-lg font-semibold">Maria Angela</h3>
-            <p className="text-[#FF8906] text-sm opacity-90">Admin Support</p>
+            <p className="text-[#5a8120] text-sm opacity-90">Admin Support</p>
           </div>
         </div>
       </div>
@@ -95,11 +95,11 @@ function Chat({ isShow }) {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Enter your message"
-            className="flex-1 px-4 py-3 text-sm border border-gray-300 rounded-full focus:outline-none focus:border-[#FF8906] transition"
+            className="flex-1 px-4 py-3 text-sm border border-gray-300 rounded-full focus:outline-none focus:border-[#5a8120] transition"
           />
           <button
             type="submit"
-            className="bg-[#FF8906] p-3 rounded-full hover:bg-[#FF9D26] transition flex items-center justify-center w-12 h-12 flex-shrink-0">
+            className="bg-[#5a8120] p-3 rounded-full hover:bg-[#FF9D26] transition flex items-center justify-center w-12 h-12 flex-shrink-0">
             <img src="/icon/icon-send.svg" alt="Icon Send" />
           </button>
         </form>

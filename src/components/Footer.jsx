@@ -28,35 +28,35 @@ function Footer() {
               <li>
                 <Link
                   to="/product"
-                  className="hover:text-[#FF8906] hover:font-medium transition-all duration-300">
+                  className="hover:text-[#5a8120] hover:font-medium transition-all duration-300">
                   Our Product
                 </Link>
               </li>
               <li>
                 <Link
                   to="/pricing"
-                  className="hover:text-[#FF8906] hover:font-medium transition-all duration-300">
+                  className="hover:text-[#5a8120] hover:font-medium transition-all duration-300">
                   Pricing
                 </Link>
               </li>
               <li>
                 <Link
                   to="/locations"
-                  className="hover:text-[#FF8906] hover:font-medium transition-all duration-300">
+                  className="hover:text-[#5a8120] hover:font-medium transition-all duration-300">
                   Locations
                 </Link>
               </li>
               <li>
                 <Link
                   to="/countries"
-                  className="hover:text-[#FF8906] hover:font-medium transition-all duration-300">
+                  className="hover:text-[#5a8120] hover:font-medium transition-all duration-300">
                   Countries
                 </Link>
               </li>
               <li>
                 <Link
                   to="/blog"
-                  className="hover:text-[#FF8906] hover:font-medium transition-all duration-300">
+                  className="hover:text-[#5a8120] hover:font-medium transition-all duration-300">
                   Blog
                 </Link>
               </li>
@@ -68,35 +68,35 @@ function Footer() {
               <li>
                 <Link
                   to="/partner"
-                  className="hover:text-[#FF8906] hover:font-medium transition-all duration-300">
+                  className="hover:text-[#5a8120] hover:font-medium transition-all duration-300">
                   Partner
                 </Link>
               </li>
               <li>
                 <Link
                   to="/faq"
-                  className="hover:text-[#FF8906] hover:font-medium transition-all duration-300">
+                  className="hover:text-[#5a8120] hover:font-medium transition-all duration-300">
                   FAQ
                 </Link>
               </li>
               <li>
                 <Link
                   to="/about"
-                  className="hover:text-[#FF8906] hover:font-medium transition-all duration-300">
+                  className="hover:text-[#5a8120] hover:font-medium transition-all duration-300">
                   About Us
                 </Link>
               </li>
               <li>
                 <Link
                   to="/privacy-policy"
-                  className="hover:text-[#FF8906] hover:font-medium transition-all duration-300">
+                  className="hover:text-[#5a8120] hover:font-medium transition-all duration-300">
                   Privacy Policy
                 </Link>
               </li>
               <li>
                 <Link
                   to="/terms"
-                  className="hover:text-[#FF8906] hover:font-medium transition-all duration-300">
+                  className="hover:text-[#5a8120] hover:font-medium transition-all duration-300">
                   Terms of Service
                 </Link>
               </li>

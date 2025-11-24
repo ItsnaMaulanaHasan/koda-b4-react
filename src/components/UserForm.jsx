@@ -230,7 +230,7 @@ const UserForm = ({ user = null, mode = "add" }) => {
             />
             <label
               htmlFor="user-image-upload"
-              className="inline-block px-4 py-2 bg-[#FF8906] rounded-lg cursor-pointer hover:bg-[#e57a05] transition text-sm font-medium">
+              className="inline-block px-4 py-2 bg-[#5a8120] rounded-lg cursor-pointer hover:bg-[#b9c228] transition text-sm font-medium">
               Upload
             </label>
           </div>
@@ -306,8 +306,8 @@ const UserForm = ({ user = null, mode = "add" }) => {
                 onClick={() => setUserType("customer")}
                 className={`py-3 rounded-lg border-2 transition font-medium ${
                   userType === "customer"
-                    ? "border-[#FF8906] bg-[#FF8906] text-white"
-                    : "bg-white text-gray-700 border-gray-300 hover:border-[#FF8906]"
+                    ? "border-[#5a8120] bg-[#5a8120] text-white"
+                    : "bg-white text-gray-700 border-gray-300 hover:border-[#5a8120]"
                 }`}>
                 Normal User
               </button>
@@ -316,8 +316,8 @@ const UserForm = ({ user = null, mode = "add" }) => {
                 onClick={() => setUserType("admin")}
                 className={`py-3 rounded-lg border-2 transition font-medium ${
                   userType === "admin"
-                    ? "border-[#FF8906] bg-[#FF8906] text-white"
-                    : "bg-white text-gray-700 border-gray-300 hover:border-[#FF8906]"
+                    ? "border-[#5a8120] bg-[#5a8120] text-white"
+                    : "bg-white text-gray-700 border-gray-300 hover:border-[#5a8120]"
                 }`}>
                 Admin
               </button>
@@ -327,7 +327,7 @@ const UserForm = ({ user = null, mode = "add" }) => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-[#FF8906] text-white rounded-lg hover:bg-[#e57a05] transition font-medium mt-2">
+            className="w-full py-3 bg-[#5a8120] text-white rounded-lg hover:bg-[#b9c228] transition font-medium mt-2">
             {mode === "edit" ? "Update User" : "Add User"}
           </button>
         </form>

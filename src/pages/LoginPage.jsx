@@ -174,21 +174,21 @@ function LoginPage() {
               disabled={isLogginIn}
             />
             <Link
-              className="text-sm text-[#FF8906] w-max self-end"
+              className="text-sm text-[#5a8120] w-max self-end"
               to="/forgot-password">
               Forgot Password?
             </Link>
             <Button
               disabled={isLogginIn}
               type="submit"
-              className="bg-[#FF8906] disabled:opacity-50 disabled:cursor-not-allowed">
+              className="bg-[#5a8120] disabled:opacity-50 disabled:cursor-not-allowed">
               {!isLogginIn ? "Login" : "Logging In..."}
             </Button>
           </div>
         </form>
         <div className="text-center">
           Not Have An Account?{" "}
-          <Link className="text-[#FF8906]" to="/auth/register">
+          <Link className="text-[#5a8120]" to="/auth/register">
             Register
           </Link>
         </div>

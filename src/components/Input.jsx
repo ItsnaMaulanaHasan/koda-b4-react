@@ -62,7 +62,7 @@ function Input({
           </label>
           <Link
             to="/forgot-password"
-            className="text-[#FF8906] text-xs sm:text-sm">
+            className="text-[#5a8120] text-xs sm:text-sm">
             Set New Password
           </Link>
         </div>

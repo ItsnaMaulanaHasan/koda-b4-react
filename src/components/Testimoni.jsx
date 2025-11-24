@@ -37,10 +37,10 @@ function Testimoni() {
       </div>
       <div className="flex flex-col flex-1 gap-5 mt-5 text-white md:px-10 md:mt-0">
         <div className="hidden font-normal uppercase md:block">Testimonial</div>
-        <div className="sm:text-3xl md:text-4xl lg:text-5xl text-2xl font-medium border-l-5 border-[#FF8906] p-3">
+        <div className="sm:text-3xl md:text-4xl lg:text-5xl text-2xl font-medium border-l-5 border-[#5a8120] p-3">
           {data[currentIndex].name}
         </div>
-        <div className="mt-3 text-[#FF8906]">{data[currentIndex].position}</div>
+        <div className="mt-3 text-[#5a8120]">{data[currentIndex].position}</div>
         <p>{data[currentIndex].testimonial}</p>
         <StarRating rating={data[currentIndex].rating} readonly={true} />
         <div className="flex flex-col gap-5">
@@ -52,7 +52,7 @@ function Testimoni() {
             </button>
             <button
               onClick={handleNext}
-              className="size-10 rounded-full bg-[#FF8906] text-black flex items-center justify-center hover:bg-[#e67a05] transition">
+              className="size-10 rounded-full bg-[#5a8120] text-black flex items-center justify-center hover:bg-[#b9c228] transition">
               →
             </button>
           </div>
@@ -62,7 +62,7 @@ function Testimoni() {
                 key={data.id}
                 onClick={() => setCurrentIndex(index)}
                 className={`w-2 h-2 rounded-full transition ${
-                  index === currentIndex ? "bg-[#FF8906] w-7" : "bg-gray-500"
+                  index === currentIndex ? "bg-[#5a8120] w-7" : "bg-gray-500"
                 }`}
               />
             ))}

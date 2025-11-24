@@ -287,7 +287,7 @@ function DetailProduct() {
                 IDR ${product.price.toLocaleString("id")}
               </span>
             )}
-            <span className="text-xl font-medium sm:text-2xl md:text-3xl text-[#FF8906]">
+            <span className="text-xl font-medium sm:text-2xl md:text-3xl text-[#5a8120]">
               IDR{" "}
               {product.discountPrice
                 ? product.discountPrice.toLocaleString("id")
@@ -316,7 +316,7 @@ function DetailProduct() {
                 <Button
                   onClick={() => setAmount((prev) => prev - 1)}
                   disabled={amount <= 1 || isProcessing}
-                  className="size-6 sm:size-7 border-2 border-[#FF8906] flex items-center justify-center hover:bg-[#FF8906] hover:text-white transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed">
+                  className="size-6 sm:size-7 border-2 border-[#5a8120] flex items-center justify-center hover:bg-[#5a8120] hover:text-white transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed">
                   -
                 </Button>
                 <span className="w-10 text-xs font-medium text-center md:w-auto sm:text-sm">
@@ -325,7 +325,7 @@ function DetailProduct() {
                 <Button
                   onClick={() => setAmount((prev) => prev + 1)}
                   disabled={amount >= product.stock || isProcessing}
-                  className="size-6 sm:size-7 bg-[#FF8906] flex items-center justify-center hover:bg-[#e67a05] transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed">
+                  className="size-6 sm:size-7 bg-[#5a8120] flex items-center justify-center hover:bg-[#b9c228] transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed">
                   +
                 </Button>
               </div>
@@ -354,8 +354,8 @@ function DetailProduct() {
                   onClick={() => setSizeId(size.id)}
                   disabled={isProcessing}
                   className={`py-3 border-2 flex-1 disabled:opacity-50 disabled:cursor-not-allowed ${
-                    sizeId === size.id ? "border-[#FF8906]" : "border-[#E8E8E8]"
-                  } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
+                    sizeId === size.id ? "border-[#5a8120]" : "border-[#E8E8E8]"
+                  } hover:bg-[#5a8120] hover:text-white transition text-sm md:text-base`}>
                   {size.size}
                 </Button>
               ))}
@@ -373,9 +373,9 @@ function DetailProduct() {
                   onClick={() => setVariantId(variant.id)}
                   className={`py-3 border-2 flex-1 disabled:opacity-50 disabled:cursor-not-allowed ${
                     variantId === variant.id
-                      ? "border-[#FF8906]"
+                      ? "border-[#5a8120]"
                       : "border-[#E8E8E8]"
-                  } hover:bg-[#FF8906] hover:text-white transition text-sm md:text-base`}>
+                  } hover:bg-[#5a8120] hover:text-white transition text-sm md:text-base`}>
                   {variant.variant}
                 </Button>
               ))}
@@ -387,13 +387,13 @@ function DetailProduct() {
             <Button
               onClick={handleBuy}
               disabled={isProcessing}
-              className="py-3 sm:py-4 bg-[#FF8906] hover:bg-[#e67a05] transition font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+              className="py-3 sm:py-4 bg-[#5a8120] hover:bg-[#b9c228] transition font-medium disabled:opacity-50 disabled:cursor-not-allowed">
               Buy
             </Button>
             <Button
               onClick={handleAddToCart}
               disabled={isProcessing}
-              className="py-3 sm:py-4 border-2 border-[#FF8906] text-[#FF8906] hover:bg-[#f9eeee] transition flex items-center justify-center gap-2 font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+              className="py-3 sm:py-4 border-2 border-[#5a8120] text-[#5a8120] hover:bg-[#f9eeee] transition flex items-center justify-center gap-2 font-medium disabled:opacity-50 disabled:cursor-not-allowed">
               <img
                 className="size-5"
                 src="/icon/icon-cart-orange.svg"
@@ -429,7 +429,7 @@ function DetailProduct() {
               onClick={() => goToPage(index + 1)}
               className={`size-8 sm:size-10 rounded-full flex items-center justify-center transition text-sm sm:text-base ${
                 currentPage === index + 1
-                  ? "bg-[#FF8906] text-[#0B0909]"
+                  ? "bg-[#5a8120] text-[#0B0909]"
                   : "bg-[#E8E8E8] text-[#A0A3BD] hover:bg-gray-300"
               }`}>
               {index + 1}
@@ -437,7 +437,7 @@ function DetailProduct() {
           ))}
           <button
             onClick={handleNext}
-            className="size-8 sm:size-10 rounded-full bg-[#FF8906] text-white flex items-center justify-center hover:bg-[#e67a05] transition text-sm sm:text-base">
+            className="size-8 sm:size-10 rounded-full bg-[#5a8120] text-white flex items-center justify-center hover:bg-[#b9c228] transition text-sm sm:text-base">
             →
           </button>
         </div>

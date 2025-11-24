@@ -185,7 +185,7 @@ function HistoryPage() {
                   onClick={() => goToPage(index + 1)}
                   className={`size-8 sm:size-10 rounded-full flex items-center justify-center transition text-sm sm:text-base ${
                     currentPage === index + 1
-                      ? "bg-[#FF8906] text-[#0B0909]"
+                      ? "bg-[#5a8120] text-[#0B0909]"
                       : "bg-[#E8E8E8] text-[#A0A3BD] hover:bg-gray-300"
                   }`}>
                   {index + 1}
@@ -194,7 +194,7 @@ function HistoryPage() {
               <button
                 onClick={handleNext}
                 disabled={currentPage === totalPages}
-                className="size-8 sm:size-10 rounded-full bg-[#FF8906] text-white flex items-center justify-center hover:bg-[#e67a05] transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed">
+                className="size-8 sm:size-10 rounded-full bg-[#5a8120] text-white flex items-center justify-center hover:bg-[#b9c228] transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed">
                 →
               </button>
             </div>
@@ -217,7 +217,7 @@ function HistoryPage() {
             if your unable to find answer or find your product quickly, please
             describe your problem and tell us. we will give you solution.
           </p>
-          <Button className="bg-[#FF8906]">Send Message</Button>
+          <Button className="bg-[#5a8120]">Send Message</Button>
         </div>
       </div>
     </div>

@@ -152,7 +152,7 @@ function DetailHistory() {
               <div className="font-medium text-[#4F5665] text-xs sm:text-sm">
                 Total Transaction
               </div>
-              <div className="font-bold text-[#FF8906] text-sm sm:text-base md:text-lg">
+              <div className="font-bold text-[#5a8120] text-sm sm:text-base md:text-lg">
                 Idr. {history.totalTransaction?.toLocaleString("id")}
               </div>
             </div>
