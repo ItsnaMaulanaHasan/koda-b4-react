@@ -4,7 +4,8 @@ export const SearchFilterContext = createContext({
   searchFilter: {
     search: "",
     categoryFilter: [],
-    sortByFilter: [],
+    sortName: "",
+    sortPrice: "",
     priceRange: { minPrice: 0, maxPrice: 1000000 },
   },
   setSearchFilter: function () {},
