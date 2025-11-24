@@ -186,6 +186,11 @@ function ProductPage() {
 
             {/* list menu */}
             <div className="flex flex-col gap-10">
+              {/* Pagination Info */}
+              <div className="text-md text-gray-600">
+                Showing {dataMenu.length} of {meta.totalData || 0} products
+                (Page {currentPage} of {totalPages})
+              </div>
               {dataMenu.length === 0 ? (
                 <div className="content-center h-full py-10 text-gray-500 justify-items-center">
                   <p className="text-xl">Menu data not found</p>
@@ -250,12 +255,6 @@ function ProductPage() {
                   className="size-10 rounded-full bg-[#5a8120] text-white flex items-center justify-center hover:bg-[#b9c228] transition disabled:opacity-50 disabled:cursor-not-allowed">
                   →
                 </button>
-              </div>
-
-              {/* Pagination Info */}
-              <div className="text-sm text-center text-gray-600">
-                Showing {dataMenu.length} of {meta.totalData || 0} products
-                (Page {currentPage} of {totalPages})
               </div>
             </div>
           </div>
