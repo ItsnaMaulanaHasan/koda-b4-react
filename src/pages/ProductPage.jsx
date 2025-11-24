@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, ScrollRestoration, useSearchParams } from "react-router-dom";
 import CardMenu from "../components/CardMenu";
 import Drawer from "../components/Drawer";
@@ -20,7 +20,7 @@ function ProductPage() {
   const [searchParams] = useSearchParams();
 
   // get data filter dari query params
-  const getFiltersFromParams = () => {
+  const getFiltersFromParams = useCallback(() => {
     const search = searchParams.get("q") || "";
     const categoryFilter = searchParams.getAll("cat") || [];
     const sortName = searchParams.get("sort[name]") || "";
@@ -35,7 +35,7 @@ function ProductPage() {
       sortPrice,
       priceRange: { minPrice, maxPrice },
     };
-  };
+  }, [searchParams]);
 
   // state data filter
   const [searchFilter, setSearchFilter] = useState(getFiltersFromParams());
@@ -43,7 +43,7 @@ function ProductPage() {
   // update searchFilter ketika query params berubah
   useEffect(() => {
     setSearchFilter(getFiltersFromParams());
-  }, [searchParams]);
+  }, [getFiltersFromParams, searchParams]);
 
   // build URL dinamis dengan semua filter
   const buildURL = () => {
