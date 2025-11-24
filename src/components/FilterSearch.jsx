@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 import Checkbox from "../components/Checkbox";
 import PriceRangeFilter from "../components/PriceRangeFilter";
 import { DrawerFilterContext } from "../context/DrawerContext";
-import { SearchFilterContext } from "../context/SearchFilterContext";
 import { useFetchData } from "../hooks/useFetchData";
 import Button from "./Button";
 
@@ -15,8 +14,6 @@ function FilterSearch({ isMobile = false }) {
 
   // context drawer filter
   const { showDrawer, setShowDrawer } = useContext(DrawerFilterContext);
-  // context state data filter
-  const { searchFilter, setSearchFilter } = useContext(SearchFilterContext);
   // inisialisasi search params untuk filter
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -42,10 +39,6 @@ function FilterSearch({ isMobile = false }) {
   const { register, handleSubmit, setValue, reset } = useForm({
     defaultValues: getFiltersFromParams(),
   });
-
-  useEffect(() => {
-    setValue("search", searchFilter.search);
-  }, [searchFilter.search, setValue]);
 
   // handle input category dan sortby
   const [categoryFilter, setCategoryFilter] = useState(
@@ -146,13 +139,6 @@ function FilterSearch({ isMobile = false }) {
                 setCategoryFilter([]);
                 setSortName("");
                 setSortPrice("");
-                setSearchFilter({
-                  search: "",
-                  categoryFilter: [],
-                  sortName: "",
-                  sortPrice: "",
-                  priceRange: { minPrice: 0, maxPrice: 1000000 },
-                });
                 setSearchParams("");
               }}>
               Reset Filter
