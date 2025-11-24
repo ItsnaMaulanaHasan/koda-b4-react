@@ -23,9 +23,7 @@ function FilterSearch({ isMobile = false }) {
   // get data filter dari query params
   const getFiltersFromParams = () => {
     const search = searchParams.get("q") || "";
-    const categoryFilter = searchParams.get("cat")
-      ? searchParams.get("cat").split(",")
-      : [];
+    const categoryFilter = searchParams.getAll("cat") || [];
     const sortName = searchParams.get("sort[name]") || "";
     const sortPrice = searchParams.get("sort[price]") || "";
     const minPrice = parseInt(searchParams.get("minprice")) || 0;
