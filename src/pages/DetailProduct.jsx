@@ -186,11 +186,26 @@ function DetailProduct() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading...
+      </div>
+    );
 
-  if (error) return <div>Error: {error}</div>;
+  if (error)
+    return (
+      <div className="flex items-center justify-center min-h-screen text-red-500">
+        Error: {error}
+      </div>
+    );
 
-  if (!product) return <div>Product tidak ditemukan</div>;
+  if (!product)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Product not found
+      </div>
+    );
 
   return (
     <div className="flex flex-col gap-10 px-4 py-6 mt-16 sm:gap-12 sm:px-6 sm:py-8 sm:mt-20 md:gap-16 md:px-10 md:py-10 lg:gap-20 lg:px-16 xl:px-20">

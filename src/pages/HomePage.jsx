@@ -15,9 +15,19 @@ function HomePage() {
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading...
+      </div>
+    );
 
-  if (error) return <div>Error: {error}</div>;
+  if (error)
+    return (
+      <div className="flex items-center justify-center min-h-screen text-red-500">
+        Error: {error}
+      </div>
+    );
   return (
     <div className="relative">
       {/* section 1 */}

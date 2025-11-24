@@ -144,9 +144,19 @@ function Dashboard() {
   ];
 
   // handle loading and error fetching data menu
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading...
+      </div>
+    );
 
-  if (error) return <div>Error: {error}</div>;
+  if (error)
+    return (
+      <div className="flex items-center justify-center min-h-screen text-red-500">
+        Error: {error}
+      </div>
+    );
   return (
     <>
       <div className="grid grid-cols-3 gap-6 mb-8">
