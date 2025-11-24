@@ -110,7 +110,6 @@ yarn preview
 | apexcharts       | 5.3.5   | Charts           |
 | react-hook-form  | 7.63.0  | Form management  |
 | yup              | 1.7.1   | Validation       |
-| bcryptjs         | 3.0.2   | Password hashing |
 | lucide-react     | 0.544.0 | Icons            |
 
 ## Features Breakdown
@@ -268,7 +267,7 @@ docker run -p 5173:5173 daily-greens-frontend
 
 For questions or support, please contact:
 
-- Email: your.email@example.com
+- Email: hasanmaulana453@gmail.com
 - GitHub: [@ItsnaMaulanaHasan](https://github.com/ItsnaMaulanaHasan)
 - Live Demo: [https://www.dailygreensfresh.store](https://www.dailygreensfresh.store)
 - Backend Repository: [https://github.com/ItsnaMaulanaHasan/koda-b4-backend](https://github.com/ItsnaMaulanaHasan/koda-b4-backend)
