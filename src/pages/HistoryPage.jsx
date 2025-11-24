@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { ScrollRestoration } from "react-router-dom";
 import Button from "../components/Button";
 import CardHistory from "../components/CardHistory";
 import { AuthContext } from "../context/AuthContext";
@@ -95,6 +96,7 @@ function HistoryPage() {
     );
   return (
     <div className="px-4 py-10 mt-20 sm:px-6 md:px-10 lg:px-16 xl:px-20">
+      <ScrollRestoration />
       <div className="flex items-center gap-10 mb-10">
         <h1 className="font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#0B0909]">
           History Order

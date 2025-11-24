@@ -1,6 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  ScrollRestoration,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
 import CardMenu from "../components/CardMenu";
@@ -209,6 +214,7 @@ function DetailProduct() {
 
   return (
     <div className="flex flex-col gap-10 px-4 py-6 mt-16 sm:gap-12 sm:px-6 sm:py-8 sm:mt-20 md:gap-16 md:px-10 md:py-10 lg:gap-20 lg:px-16 xl:px-20">
+      <ScrollRestoration />
       <Alert
         type={alertStatus.type}
         message={alertStatus.message}

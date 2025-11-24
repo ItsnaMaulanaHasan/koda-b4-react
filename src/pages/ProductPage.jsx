@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, ScrollRestoration, useSearchParams } from "react-router-dom";
 import CardMenu from "../components/CardMenu";
 import Drawer from "../components/Drawer";
 import FilterSearch from "../components/FilterSearch";
@@ -150,6 +150,7 @@ function ProductPage() {
   return (
     <SearchFilterContext value={{ searchFilter, setSearchFilter }}>
       <DrawerFilterContext.Provider value={{ showDrawer, setShowDrawer }}>
+        <ScrollRestoration />
         <div className="flex flex-col gap-10 mb-20 mt-13 md:mt-20">
           {/* Filter Search on Mobile */}
           <div className="flex items-center justify-center flex-1 gap-4 px-8 pb-3 mt-5 border-b border-b-[#E8E8E8] md:hidden">

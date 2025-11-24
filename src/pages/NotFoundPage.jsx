@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { ScrollRestoration, useNavigate } from "react-router-dom";
 
 function NotFoundPage() {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
+      <ScrollRestoration />
       <div className="max-w-2xl w-full text-center">
         {/* Content */}
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">

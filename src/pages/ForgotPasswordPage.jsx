@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { ScrollRestoration } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
@@ -76,6 +77,7 @@ function ForgotPasswordPage() {
   };
   return (
     <div className="flex w-full min-h-screen">
+      <ScrollRestoration />
       <Alert
         type={alertStatus.type}
         message={alertStatus.message}

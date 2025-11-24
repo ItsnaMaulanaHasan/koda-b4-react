@@ -3,7 +3,7 @@ import moment from "moment";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, ScrollRestoration } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
@@ -200,6 +200,7 @@ function ProfilePage() {
   };
   return (
     <div className="px-4 py-6 mt-16 mb-10 sm:px-6 sm:py-8 sm:mt-20 md:px-10 md:mb-16 lg:px-16 xl:px-20 lg:mb-20">
+      <ScrollRestoration />
       <Alert
         type={alertStatus.type}
         message={alertStatus.message}

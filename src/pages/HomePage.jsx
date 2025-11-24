@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, ScrollRestoration, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import CardMenu from "../components/CardMenu";
 import Chat from "../components/Chat";
@@ -30,6 +30,7 @@ function HomePage() {
     );
   return (
     <div className="relative">
+      <ScrollRestoration />
       {/* section 1 */}
       <div className="grid grid-cols-1 grid-rows-1 md:grid-cols-2 md:grid-rows-2">
         {/* konten atas */}

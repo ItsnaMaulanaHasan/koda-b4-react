@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { ScrollRestoration, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
@@ -249,6 +249,7 @@ function CartPage() {
 
   return (
     <div className="px-4 py-6 mt-20 mb-10 sm:px-6 sm:py-8 md:px-10 md:mb-16 lg:px-16 xl:px-20 lg:mb-20">
+      <ScrollRestoration />
       <Alert
         type={alertStatus.type}
         message={alertStatus.message}

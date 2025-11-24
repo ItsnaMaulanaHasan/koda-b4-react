@@ -1,6 +1,6 @@
 import moment from "moment";
 import { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { ScrollRestoration, useParams } from "react-router-dom";
 import CardCart from "../components/CardCart";
 import { AuthContext } from "../context/AuthContext";
 import { useFetchData } from "../hooks/useFetchData";
@@ -50,6 +50,7 @@ function DetailHistory() {
 
   return (
     <div className="p-4 mt-20 sm:p-6 md:p-10 lg:p-16 xl:p-20">
+      <ScrollRestoration />
       <h1 className="mb-3 text-2xl font-medium sm:mb-4 sm:text-3xl md:mb-5 md:text-4xl">
         Order <span className="font-bold">{history.noInvoice}</span>
       </h1>
