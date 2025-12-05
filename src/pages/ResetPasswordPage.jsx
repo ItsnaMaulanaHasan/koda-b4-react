@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import {
+  Link,
   ScrollRestoration,
   useNavigate,
   useSearchParams,
@@ -96,60 +97,87 @@ function ResetPasswordPage() {
     }
   };
   return (
-    <div className="flex w-full min-h-screen">
+    <div className="flex w-full h-screen overflow-hidden bg-gradient-to-br from-green-50 via-white to-amber-50">
       <ScrollRestoration />
       <Alert
         type={alertStatus.type}
         message={alertStatus.message}
         onClose={() => setAlertStatus({ type: "", message: "" })}
       />
-      <div className="hidden w-1/4 md:block">
-        <img
-          className="object-cover w-full h-full"
-          src="/img/img-forgot-password.png"
-          alt="Image Login"
-        />
-      </div>
-      <div className="flex flex-col flex-1 gap-5 px-8 py-20 sm:px-12 md:px-16 lg:px-40">
-        <div>
-          <img
-            className="w-30"
-            src="/img/logo-original.png"
-            alt="Logo Daily Greens"
-          />
-        </div>
-        <h1 className="font-semibold text-[#8E6447] text-xl">
-          Fill out the form correctly
-        </h1>
-        <p className="text-[#4F5665]">Set your new password</p>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-5">
+
+      {/* form */}
+      <div className="flex flex-1 items-center justify-center px-6 sm:px-12 lg:px-16 overflow-y-auto">
+        <div className="w-full max-w-md py-8">
+          {/* logo */}
+          <div className="mb-8 text-center md:text-left">
+            <img
+              className="w-28 mx-auto md:mx-0"
+              src="/img/logo-original.png"
+              alt="Logo Daily Greens"
+            />
+          </div>
+
+          {/* header */}
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold text-gray-800 mb-2">
+              Set New Password
+            </h1>
+            <p className="text-sm text-gray-600">
+              Your new password must be different from previously used passwords
+            </p>
+          </div>
+
+          {/* form */}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <Input
               {...register("password")}
               error={errors}
               id="password"
               type="password"
               label="New Password"
-              placeholder="Enter Your New Password"
+              placeholder="Enter your new password"
               disabled={isProcessing}
             />
+
             <Input
               {...register("confirmPassword")}
               error={errors}
               id="confirmPassword"
               type="password"
               label="Confirm Password"
-              placeholder="Confirm New Password"
+              placeholder="Confirm your new password"
               disabled={isProcessing}
             />
+
             <Button
               disabled={isProcessing}
               type="submit"
-              className="bg-[#5a8120] disabled:opacity-50 disabled:cursor-not-allowed">
-              {!isProcessing ? "Submit" : "Reset email..."}
+              className="w-full bg-[#5a8120] hover:bg-[#4a6e18] text-white font-semibold py-3 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl">
+              {!isProcessing ? "Reset Password" : "Processing..."}
             </Button>
+          </form>
+
+          {/* back to login */}
+          <div className="mt-6 text-center">
+            <Link
+              className="text-sm text-gray-600 hover:text-[#5a8120] transition-colors inline-flex items-center gap-2"
+              to="/auth/login">
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                />
+              </svg>
+              Back to Login
+            </Link>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
