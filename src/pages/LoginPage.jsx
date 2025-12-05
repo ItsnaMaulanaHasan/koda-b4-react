@@ -139,7 +139,7 @@ function LoginPage() {
       />
 
       {/* left side */}
-      <div className="hidden md:flex md:w-5/12 lg:w-1/2 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 to-amber-900/20 z-10"></div>
         <img
           className="object-cover w-full h-full"
