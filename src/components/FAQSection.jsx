@@ -48,7 +48,7 @@ function FAQSection() {
               }`}>
               <img
                 className="h-6"
-                src="/public/icon/icon-dropdown-white.svg"
+                src="/icon/icon-dropdown-white.svg"
                 alt="Icon Dropdown"
               />
             </div>
