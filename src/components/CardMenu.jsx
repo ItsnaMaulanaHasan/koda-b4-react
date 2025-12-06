@@ -18,15 +18,8 @@ import Button from "./Button";
 function CardMenu({ dataMenu }) {
   const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
 
-  let productImage;
-  if (dataMenu.productImage) {
-    productImage = dataMenu.productImage;
-  } else {
-    productImage = "/img/empty-image-placeholder.webp";
-  }
-
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="flex flex-col w-full h-full">
       <Alert
         type={alertStatus.type}
         message={alertStatus.message}
@@ -40,9 +33,12 @@ function CardMenu({ dataMenu }) {
       />
       <div className="relative flex-shrink-0">
         <img
-          className="size-full object-cover aspect-square"
-          src={productImage}
+          className="object-cover size-full aspect-square"
+          src={dataMenu.productImage || "/img/empty-image-placeholder.webp"}
           alt={dataMenu.name}
+          onError={(e) => {
+            e.currentTarget.src = "/img/empty-image-placeholder.webp";
+          }}
         />
         {dataMenu.isFlashSale && (
           <span className="absolute top-2 text-xs md:text-base left-2 py-1 md:py-3 px-2 bg-[#D00000] text-white uppercase font-bold rounded-full">
@@ -50,7 +46,7 @@ function CardMenu({ dataMenu }) {
           </span>
         )}
       </div>
-      <div className="relative z-50 flex flex-col gap-3 py-5 mx-auto bg-white md:shadow-md md:px-4 md:w-12/13 md:-mt-13 flex-grow">
+      <div className="relative z-50 flex flex-col flex-grow gap-3 py-5 mx-auto bg-white md:shadow-md md:px-4 md:w-12/13 md:-mt-13">
         <h1
           className="text-lg font-medium md:text-2xl line-clamp-2 min-h-[3.5rem] md:min-h-[4rem]"
           title={dataMenu.name}>
@@ -73,7 +69,7 @@ function CardMenu({ dataMenu }) {
               : `IDR ${dataMenu.price.toLocaleString("id")}`}
           </span>
         </div>
-        <div className="flex flex-col gap-2 md:flex-row mt-auto">
+        <div className="flex flex-col gap-2 mt-auto md:flex-row">
           <Button className="bg-[#5a8120] flex-2 hover:bg-[#b9c228]">
             Buy
           </Button>
