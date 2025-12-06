@@ -2,10 +2,12 @@ import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import Input from "../components/Input";
+import { AuthContext } from "../context/AuthContext";
 import { DrawerNavbarContext } from "../context/DrawerContext";
 import Button from "./Button";
 
 const SidebarMobile = ({ userLogin, handleLogout }) => {
+  const { accessToken } = useContext(AuthContext);
   const { setShowDrawer } = useContext(DrawerNavbarContext);
   const { register, handleSubmit, setValue } = useForm();
   const [searchParams] = useSearchParams();
@@ -78,7 +80,7 @@ const SidebarMobile = ({ userLogin, handleLogout }) => {
       </div>
 
       <div className="flex flex-col gap-5">
-        {userLogin ? (
+        {accessToken ? (
           <>
             <div className="flex items-center gap-3 p-3 border border-[#E8E8E8] rounded-lg">
               <div className="flex-shrink-0 w-12 h-12 overflow-hidden rounded-full">
