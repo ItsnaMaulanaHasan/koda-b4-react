@@ -115,7 +115,7 @@ function Navbar() {
           <div className="flex items-center gap-4 sm:gap-5 md:gap-7 lg:gap-10">
             <div className="flex-shrink-0">
               <img
-                className="w-auto h-6 sm:h-7 md:h-15"
+                className="w-auto h-7 sm:h-8 md:h-10"
                 src={
                   isAdminPage ? "/img/logo-original.png" : "/img/logo-white.png"
                 }
