@@ -7,7 +7,14 @@ import { Link } from "react-router-dom";
 function Footer() {
   return (
     <footer>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-20 bg-[#F8F8F8] px-4 sm:px-8 md:px-12 lg:px-16 xl:px-30 py-20">
+      <div className="relative grid grid-cols-1 md:grid-cols-3 gap-20 bg-[#F8F8F8] px-4 sm:px-8 md:px-12 lg:px-16 xl:px-30 py-20">
+        <div className="absolute left-0 hidden -top-30 md:block">
+          <img
+            className="w-40 rotate-[20deg] opacity-80"
+            src="/img/img-leafe-decoration2.png"
+            alt="Decorative Leafe"
+          />
+        </div>
         <div className="flex flex-col justify-center gap-5">
           <div>
             <img
