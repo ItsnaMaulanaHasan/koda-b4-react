@@ -9,6 +9,7 @@ import {
 import Alert from "../components/Alert";
 import Button from "../components/Button";
 import CardMenu from "../components/CardMenu";
+import ImageGallerySection from "../components/ImageGallerySection";
 import ModalConfirmation from "../components/ModalConfirmation";
 import StarRating from "../components/StarRating";
 import { AuthContext } from "../context/AuthContext";
@@ -194,21 +195,30 @@ function DetailProduct() {
   if (isLoading)
     return (
       <div className="flex items-center justify-center min-h-screen">
-        Loading...
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[#5a8120] border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
       </div>
     );
 
   if (error)
     return (
-      <div className="flex items-center justify-center min-h-screen text-red-500">
-        Error: {error}
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="p-8 text-center border border-red-200 rounded-lg bg-red-50">
+          <img src="/icon/icon-warning.svg" alt="Icon Warning" />
+          <p className="font-medium text-red-600">Error: {error}</p>
+        </div>
       </div>
     );
 
   if (!product)
     return (
       <div className="flex items-center justify-center min-h-screen">
-        Product not found
+        <div className="p-8 text-center border border-red-200 rounded-lg bg-red-50">
+          <img src="/icon/icon-warning.svg" alt="Icon Warning" />
+          <p className="font-medium text-red-600">Product not found</p>
+        </div>
       </div>
     );
 
@@ -234,48 +244,7 @@ function DetailProduct() {
       />
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:gap-10">
         {/* Kolom Gambar */}
-        <div className="flex flex-col gap-3 sm:gap-4 md:gap-5">
-          {/* Gambar Utama */}
-          <div className="w-full h-64 sm:h-80 md:h-96">
-            <img
-              className="object-cover w-full h-full"
-              src={
-                product.prouductImages || "/img/empty-image-placeholder.webp"
-              }
-              alt={product.name}
-            />
-          </div>
-          {/* Thumbnail Gambar */}
-          <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            <div className="h-32 transition cursor-pointer hover:opacity-80">
-              <img
-                className="object-cover w-full h-full"
-                src={
-                  product.prouductImages || "/img/empty-image-placeholder.webp"
-                }
-                alt={product.name}
-              />
-            </div>
-            <div className="h-32 transition cursor-pointer hover:opacity-80">
-              <img
-                className="object-cover w-full h-full"
-                src={
-                  product.prouductImages || "/img/empty-image-placeholder.webp"
-                }
-                alt={product.name}
-              />
-            </div>
-            <div className="h-32 transition cursor-pointer hover:opacity-80">
-              <img
-                className="object-cover w-full h-full"
-                src={
-                  product.prouductImages || "/img/empty-image-placeholder.webp"
-                }
-                alt={product.name}
-              />
-            </div>
-          </div>
-        </div>
+        <ImageGallerySection product={product} />
 
         {/* Kolom Detail Produk */}
         <div className="flex flex-col gap-3 sm:gap-4 md:gap-5">
