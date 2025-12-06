@@ -55,7 +55,7 @@ function PromoSection() {
     <>
       <div className="flex items-center justify-between px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20">
         <h1 className="text-xl font-medium sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
-          Today <span className="text-[#8E6447]">Promo</span>
+          Today <span className="text-[#5a8120]">Promo</span>
         </h1>
         <div className="hidden gap-3 md:flex">
           <button

@@ -412,7 +412,7 @@ function DetailProduct() {
       </div>
       <div className="flex flex-col gap-6 sm:gap-8 md:gap-10">
         <h1 className="text-xl font-medium sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
-          Recomendation <span className="text-[#8E6447]">For You</span>
+          Recomendation <span className="text-[#5a8120]">For You</span>
         </h1>
 
         <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 md:gap-5">
