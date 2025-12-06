@@ -19,8 +19,8 @@
   animation: slide-in 0.3s ease-out;
 }
 
-@layer utilities {
-  .bg-custom-gradient {
-    background: linear-gradient(168.18deg, #777c82 -114.74%, #0b0909 91.35%);
-  }
+.miniver-regular {
+  font-family: "Miniver", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
