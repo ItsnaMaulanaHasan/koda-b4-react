@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "question": "What ingredients are used in Daily Greens drinks?",
+    "answer": "All our drinks are made with 100% natural and organic ingredients. We use fresh fruits, vegetables, and superfoods without any artificial preservatives, colors, or flavors. Each ingredient is carefully selected to ensure maximum nutritional value."
+  },
+  {
+    "id": 2,
+    "question": "How many calories are in each drink?",
+    "answer": "Our drinks range from 80-200 calories per serving, making them perfect for any diet program. Each product label includes detailed nutritional information so you can make informed choices based on your health goals."
+  },
+  {
+    "id": 3,
+    "question": "Can I customize my drink order?",
+    "answer": "Yes! You can customize your drinks by adjusting sweetness levels, adding extra toppings, or requesting specific ingredient substitutions. Our nutrition staff can help create a personalized drink that fits your dietary needs and preferences."
+  },
+  {
+    "id": 4,
+    "question": "How do I get the loyalty card?",
+    "answer": "You'll receive a free loyalty card automatically when your total purchase reaches IDR 200,000. The loyalty card gives you exclusive discounts, early access to new products, and special birthday rewards."
+  },
+  {
+    "id": 5,
+    "question": "Do you offer delivery services?",
+    "answer": "Yes, we offer delivery services through our website and mobile app. Delivery is available within a 10km radius of our stores. Orders over IDR 150,000 get free delivery!"
+  },
+  {
+    "id": 6,
+    "question": "Are your drinks suitable for people with dietary restrictions?",
+    "answer": "Absolutely! We offer vegan, gluten-free, and dairy-free options. Our menu clearly labels all allergens, and our staff can provide detailed ingredient information to help you choose the right drink for your dietary needs."
+  }
+]
