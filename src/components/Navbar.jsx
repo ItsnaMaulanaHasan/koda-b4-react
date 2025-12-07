@@ -85,10 +85,8 @@ function Navbar() {
   const navbarBgClass = isAdminPage
     ? "bg-white"
     : isHomePage
-    ? "bg-[#0B090921]"
+    ? "bg-[#0e131051]"
     : "bg-[#0B0909]";
-
-  const navTextColor = isAdminPage ? "text-[#0B132A]" : "text-white";
 
   return (
     <DrawerNavbarContext.Provider value={{ showDrawer, setShowDrawer }}>
@@ -114,7 +112,7 @@ function Navbar() {
           }`}>
           {/* logo */}
           <div className="flex items-center gap-4 sm:gap-5 md:gap-7 lg:gap-10">
-            <div className="flex-shrink-0">
+            <div onClick={() => navigate("/")} className="flex-shrink-0">
               <img
                 className="w-auto h-7 sm:h-8 md:h-10"
                 src={
@@ -127,8 +125,7 @@ function Navbar() {
             {/* nav menu */}
             {!isAdminPage && (
               <div className="hidden md:block">
-                <ul
-                  className={`flex items-center gap-6 text-sm lg:gap-10 lg:text-base ${navTextColor}`}>
+                <ul className="flex items-center gap-6 text-sm lg:gap-10 lg:text-base text-white">
                   <NavLink to="/" className={getNavLinkClass}>
                     <li>Home</li>
                   </NavLink>
@@ -197,14 +194,22 @@ function Navbar() {
                     />
                   </div>
                   <div
-                    className={`${navTextColor} transition-transform ${
+                    className={`text-white transition-transform ${
                       showDropdown ? "rotate-180" : ""
                     }`}>
-                    <img
-                      className="size-4"
-                      src="/icon/icon-dropdown.svg"
-                      alt="Icon Dropdown"
-                    />
+                    {isAdminPage ? (
+                      <img
+                        className="size-4"
+                        src="/icon/icon-dropdown.svg"
+                        alt="Icon Dropdown"
+                      />
+                    ) : (
+                      <img
+                        className="size-7"
+                        src="/icon/icon-dropdown-white.svg"
+                        alt="Icon Dropdown"
+                      />
+                    )}
                   </div>
                 </button>
 
