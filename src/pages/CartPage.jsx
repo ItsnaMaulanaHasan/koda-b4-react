@@ -158,6 +158,7 @@ function CartPage() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(PaymentFormSchema),
+    mode: "onSubmit",
     defaultValues: {
       fullName: userLogin?.fullName,
       email: userLogin?.email,
