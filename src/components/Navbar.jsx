@@ -112,7 +112,9 @@ function Navbar() {
           }`}>
           {/* logo */}
           <div className="flex items-center gap-4 sm:gap-5 md:gap-7 lg:gap-10">
-            <div onClick={() => navigate("/")} className="flex-shrink-0">
+            <div
+              onClick={() => navigate("/")}
+              className="flex-shrink-0 cursor-pointer">
               <img
                 className="w-auto h-7 sm:h-8 md:h-10"
                 src={
