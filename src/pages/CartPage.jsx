@@ -90,13 +90,6 @@ function CartPage() {
       dispatch(reduceAmountCarts());
       refetchCarts();
 
-      reset({
-        email: userLogin?.email || "",
-        fullName: userLogin?.fullName || "",
-        phone: userLogin?.phone || "",
-        address: userLogin?.address || "",
-      });
-
       setAlertStatus({
         type: "success",
         message: result.message,
