@@ -10,12 +10,16 @@ import { useFetchData } from "../hooks/useFetchData";
 function OrderList() {
   const { accessToken } = useContext(AuthContext);
 
-  // state untuk pagination dan search
   const [currentPage, setCurrentPage] = useState(1);
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   const limit = 5;
 
-  // build url dengan query params
+  const { data: { data: statusList = [] } = {} } = useFetchData(
+    `${import.meta.env.VITE_BASE_URL}/admin/status`,
+    accessToken
+  );
+
   const buildURL = () => {
     const params = new URLSearchParams({
       page: currentPage,
@@ -24,6 +28,10 @@ function OrderList() {
 
     if (debouncedSearch.trim()) {
       params.append("search", debouncedSearch.trim());
+    }
+
+    if (statusFilter && statusFilter !== "") {
+      params.append("status_id", statusFilter);
     }
 
     return `${
@@ -43,14 +51,12 @@ function OrderList() {
   const totalPages = meta.totalPages || 1;
   const totalData = meta.totalData || 0;
 
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [statusFilter, setStatusFilter] = useState("All");
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
   const drawerCtx = useContext(DrawerAdminContext);
 
   const { register, watch } = useForm();
   const searchValue = watch("search");
 
-  // debounce effect
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchValue || "");
@@ -60,14 +66,12 @@ function OrderList() {
     return () => clearTimeout(timer);
   }, [searchValue]);
 
-  // refetch when currentPage atau debouncedSearch berubah
   useEffect(() => {
     refetch();
-  }, [currentPage, debouncedSearch, refetch]);
+  }, [currentPage, debouncedSearch, statusFilter, refetch]);
 
-  // Handler untuk Edit Product
-  const handleDetailOrder = (order) => {
-    setSelectedOrder(order);
+  const handleDetailOrder = (id) => {
+    setSelectedOrderId(id);
     drawerCtx.setShowDrawer(true);
   };
 
@@ -78,7 +82,7 @@ function OrderList() {
       case "On Progress":
         return "bg-orange-100 text-orange-700";
       case "Sending Goods":
-        return "bg-gray-200 text-gray-700";
+        return "bg-blue-100 text-blue-700";
       default:
         return "bg-gray-100 text-gray-700";
     }
@@ -103,16 +107,22 @@ function OrderList() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-lg">Loading...</div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center gap-4">
+          <div className="size-12 border-4 border-[#5a8120] border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-lg text-red-600">Error: {error}</div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="p-8 text-center border border-red-200 rounded-lg bg-red-50">
+          <img src="/icon/icon-warning.svg" alt="Icon Warning" />
+          <p className="font-medium text-red-600">Error: {error}</p>
+        </div>
       </div>
     );
   }
@@ -125,41 +135,31 @@ function OrderList() {
         textColor="text-[#0B132A]"
         direction="right"
         width="w-120">
-        <OrderDetail order={selectedOrder} />
+        <OrderDetail orderId={selectedOrderId} onSuccess={refetch} />
       </Drawer>
 
       <h1 className="mb-6 text-3xl font-semibold">Order List</h1>
       {/* Header Actions */}
-      <div className="flex items-end justify-between mb-6">
-        {/* button add */}
-        <button className="flex items-center gap-2 bg-[#5a8120] px-6 py-3 rounded-lg hover:bg-[#b9c228] transition">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
-          Add Order
-        </button>
-
+      <div className="flex items-end justify-end mb-6">
         {/* status filter */}
         <div className="flex items-end gap-3">
-          <div>
-            <label className="block mb-2 text-sm text-gray-600">Status</label>
+          <div className="flex flex-col gap-1.5 sm:gap-2">
+            <label className="font-bold text-sm sm:text-base text-[#0B132A]">
+              Status
+            </label>
             <select
               value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5a8120] bg-white">
-              <option>All</option>
-              <option>Finish Order</option>
-              <option>On Progress</option>
-              <option>Sending Goods</option>
+              onChange={(e) => {
+                setStatusFilter(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="w-64 px-4 py-2 border h-11 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5a8120] bg-white">
+              <option value="">All</option>
+              {statusList.map((status) => (
+                <option key={status.id} value={status.id}>
+                  {status.name}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -169,8 +169,8 @@ function OrderList() {
                 {...register("search")}
                 id="search"
                 type="search"
-                label="Search User"
-                placeholder="Search by name or description"
+                label="Search Transaction"
+                placeholder="Search by invoice or customer"
               />
             </div>
           </div>
@@ -182,12 +182,6 @@ function OrderList() {
         <table className="w-full">
           <thead className="border-b border-gray-200">
             <tr>
-              {/* <th className="px-4 py-3 text-left">
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 border-gray-300 rounded"
-                />
-              </th> */}
               <th className="px-4 py-3 text-sm font-semibold text-center text-gray-700">
                 No. Invoice
               </th>
@@ -211,10 +205,10 @@ function OrderList() {
           <tbody>
             {orders.length === 0 ? (
               <tr>
-                <td
-                  colSpan="11"
-                  className="px-4 py-8 text-center text-gray-500">
-                  {debouncedSearch
+                <td colSpan="6" className="px-4 py-8 text-center text-gray-500">
+                  {statusFilter !== ""
+                    ? `No orders with selected status`
+                    : debouncedSearch
                     ? "No orders found matching your search"
                     : "No orders available"}
                 </td>
@@ -223,22 +217,16 @@ function OrderList() {
               orders.map((order, index) => (
                 <tr
                   key={order.id}
-                  className={index % 2 === 0 && "bg-[#E8E8E84D]"}>
-                  {/* <td className="px-4 py-4">
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 border-gray-300 rounded"
-                    />
-                  </td> */}
-                  <td className="px-4 py-4 text-sm text-gray-800">
+                  className={index % 2 === 0 ? "bg-[#E8E8E84D]" : ""}>
+                  <td className="px-4 py-4 text-sm text-center text-gray-800">
                     {order.noInvoice}
                   </td>
-                  <td className="px-4 py-4 text-sm text-gray-800">
+                  <td className="px-4 py-4 text-sm text-center text-gray-800">
                     {order.dateTransaction}
                   </td>
                   <td className="px-4 py-4">
                     <ul className="text-sm text-gray-800">
-                      {order.transactionItems.map((item, idx) => (
+                      {order.transactionItems?.map((item, idx) => (
                         <li key={idx} className="flex items-center gap-1">
                           <span className="w-1.5 h-1.5 bg-gray-800 rounded-full"></span>
                           {item}
@@ -254,32 +242,18 @@ function OrderList() {
                       {order.status}
                     </span>
                   </td>
-                  <td className="px-4 py-4 text-sm text-gray-800">
-                    {order.total}
+                  <td className="px-4 py-4 text-sm text-center text-gray-800">
+                    {order.total.toLocaleString("id")}
                   </td>
                   <td className="px-4 py-4">
                     <div className="flex items-center justify-center gap-2">
                       <button
-                        onClick={() => handleDetailOrder(order)}
-                        className="p-2 bg-[#8E64471A] transition rounded-full hover:bg-blue-50">
-                        <img
-                          className="size-5"
-                          src="/icon/icon-union.svg"
-                          alt="Icon Union"
-                        />
-                      </button>
-                      <button className="p-2 cursor-pointer bg-[#5a81201A] hover:bg-yellow-50 rounded-full transition">
+                        onClick={() => handleDetailOrder(order.id)}
+                        className="p-2 cursor-pointer bg-[#5a81201A] hover:bg-yellow-50 rounded-full transition">
                         <img
                           className="size-5"
                           src="/icon/icon-edit.svg"
                           alt="Icon Edit"
-                        />
-                      </button>
-                      <button className="p-2 cursor-pointer bg-[#D000001A] hover:bg-red-50 rounded-full transition">
-                        <img
-                          className="size-5"
-                          src="/icon/icon-delete.svg"
-                          alt="Icon Delete"
                         />
                       </button>
                     </div>
@@ -293,7 +267,7 @@ function OrderList() {
         {/* Pagination */}
         <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
           <div className="text-sm text-gray-600">
-            Show {orders.length} user of {totalData || 0} users
+            Show {orders.length} of {totalData || 0} transactions
           </div>
           <div className="flex items-center gap-2">
             <button
