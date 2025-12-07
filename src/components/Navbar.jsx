@@ -112,6 +112,7 @@ function Navbar() {
           className={`flex w-full fixed top-0 justify-between items-center px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 z-200 py-4 sm:py-5 ${navbarBgClass} ${
             isAdminPage && "border-b border-b-[#E8E8E8]"
           }`}>
+          {/* logo */}
           <div className="flex items-center gap-4 sm:gap-5 md:gap-7 lg:gap-10">
             <div className="flex-shrink-0">
               <img
@@ -122,6 +123,8 @@ function Navbar() {
                 alt="Logo Daily Greens"
               />
             </div>
+
+            {/* nav menu */}
             {!isAdminPage && (
               <div className="hidden md:block">
                 <ul
@@ -140,20 +143,18 @@ function Navbar() {
           {/* Desktop Menu */}
           <div className="items-center hidden gap-3 md:flex lg:gap-5">
             <div className="relative">
-              <button
-                onClick={() => setShowSearchDesktop(!showSearchDesktop)}
-                className="flex-shrink-0 w-5 h-5 cursor-pointer lg:h-6 lg:w-6">
-                <img
-                  className="w-full h-full"
-                  src={
-                    isAdminPage
-                      ? "/icon/icon-search-black.svg"
-                      : "/icon/icon-search.svg"
-                  }
-                  alt="Icon Search"
-                />
-              </button>
-
+              {/* search button */}
+              {!isAdminPage && (
+                <button
+                  onClick={() => setShowSearchDesktop(!showSearchDesktop)}
+                  className="flex-shrink-0 w-5 h-5 cursor-pointer lg:h-6 lg:w-6">
+                  <img
+                    className="w-full h-full"
+                    src="/icon/icon-search.svg"
+                    alt="Icon Search"
+                  />
+                </button>
+              )}
               {/* Search Dropdown */}
               {showSearchDesktop && (
                 <SearchDesktopDropdown
@@ -161,17 +162,15 @@ function Navbar() {
                 />
               )}
             </div>
-            {accessToken && (
+
+            {/* cart menu */}
+            {accessToken && !isAdminPage && (
               <button
                 onClick={() => navigate("/cart")}
                 className="relative flex-shrink-0 w-5 h-5 cursor-pointer lg:h-6 lg:w-6">
                 <img
                   className="w-full h-full"
-                  src={
-                    isAdminPage
-                      ? "/icon/icon-cart-black.svg"
-                      : "/icon/icon-cart.svg"
-                  }
+                  src="/icon/icon-cart.svg"
                   alt="Icon Cart"
                 />
                 {amountCarts > 0 && (
@@ -197,20 +196,16 @@ function Navbar() {
                       alt="Profile"
                     />
                   </div>
-                  <svg
-                    className={`w-4 h-4 ${navTextColor} transition-transform ${
+                  <div
+                    className={`${navTextColor} transition-transform ${
                       showDropdown ? "rotate-180" : ""
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
+                    }`}>
+                    <img
+                      className="size-4"
+                      src="/icon/icon-dropdown.svg"
+                      alt="Icon Dropdown"
                     />
-                  </svg>
+                  </div>
                 </button>
 
                 {/* Dropdown Menu */}
