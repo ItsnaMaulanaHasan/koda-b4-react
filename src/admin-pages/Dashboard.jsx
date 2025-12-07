@@ -144,19 +144,27 @@ function Dashboard() {
   ];
 
   // handle loading and error fetching data menu
-  if (isLoading)
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        Loading...
+        <div className="flex flex-col items-center gap-4">
+          <div className="size-12 border-4 border-[#5a8120] border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
       </div>
     );
+  }
 
-  if (error)
+  if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen text-red-500">
-        Error: {error}
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="p-8 text-center border border-red-200 rounded-lg bg-red-50">
+          <img src="/icon/icon-warning.svg" alt="Icon Warning" />
+          <p className="font-medium text-red-600">Error: {error}</p>
+        </div>
       </div>
     );
+  }
   return (
     <>
       <div className="grid grid-cols-3 gap-6 mb-8">

@@ -135,16 +135,22 @@ function ProductList() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-lg">Loading...</div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center gap-4">
+          <div className="size-12 border-4 border-[#5a8120] border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-lg text-red-600">Error: {error}</div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="p-8 text-center border border-red-200 rounded-lg bg-red-50">
+          <img src="/icon/icon-warning.svg" alt="Icon Warning" />
+          <p className="font-medium text-red-600">Error: {error}</p>
+        </div>
       </div>
     );
   }

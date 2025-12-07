@@ -11,9 +11,27 @@ function PromoSection() {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-full">
+        <div className="flex flex-col items-center gap-4">
+          <div className="size-12 border-4 border-[#5a8120] border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
-  if (error) return <div>Error: {error}</div>;
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-full">
+        <div className="p-8 text-center border border-red-200 rounded-lg bg-red-50">
+          <img src="/icon/icon-warning.svg" alt="Icon Warning" />
+          <p className="font-medium text-red-600">Error: {error}</p>
+        </div>
+      </div>
+    );
+  }
 
   // handle button pagination
   const handlePrev = () => {
