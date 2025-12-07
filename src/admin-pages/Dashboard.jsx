@@ -2,6 +2,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import DatePicker from "react-multi-date-picker";
+import { ScrollRestoration } from "react-router-dom";
 import { useFetchData } from "../hooks/useFetchData";
 
 function Dashboard() {
@@ -168,6 +169,7 @@ function Dashboard() {
   return (
     <>
       <div className="grid grid-cols-3 gap-6 mb-8">
+        <ScrollRestoration />
         {/* Order On Progress */}
         <div className="bg-[#6FC276] rounded-md p-6 text-white">
           <div className="flex items-center gap-3 mb-4">

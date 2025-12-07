@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { ScrollRestoration } from "react-router-dom";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import OrderDetail from "../components/OrderDetail";
@@ -129,6 +130,7 @@ function OrderList() {
 
   return (
     <div className="p-6">
+      <ScrollRestoration />
       <Drawer
         drawerCtx={drawerCtx}
         bg="bg-white"

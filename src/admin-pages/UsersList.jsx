@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { ScrollRestoration } from "react-router-dom";
 import Alert from "../components/Alert";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
@@ -155,6 +156,7 @@ function UsersList() {
 
   return (
     <div className="p-6">
+      <ScrollRestoration />
       <Alert
         type={alertStatus.type}
         message={alertStatus.message}
