@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
 /**
  * Input component with label, icon, and password visibility toggle
@@ -18,7 +17,6 @@ function Input({
   label,
   placeholder,
   error = {},
-  passwordInProfile = false,
   disabled = false,
   ...register
 }) {
@@ -53,26 +51,11 @@ function Input({
 
   return (
     <div className="flex flex-col gap-1.5 sm:gap-2">
-      {passwordInProfile ? (
-        <div className="flex items-center justify-between">
-          <label
-            className="font-bold text-sm sm:text-base text-[#0B132A]"
-            htmlFor={id}>
-            {label}
-          </label>
-          <Link
-            to="/forgot-password"
-            className="text-[#5a8120] text-xs sm:text-sm">
-            Set New Password
-          </Link>
-        </div>
-      ) : (
-        <label
-          className="font-bold text-sm sm:text-base text-[#0B132A]"
-          htmlFor={id}>
-          {label}
-        </label>
-      )}
+      <label
+        className="font-bold text-sm sm:text-base text-[#0B132A]"
+        htmlFor={id}>
+        {label}
+      </label>
       {!isPassword ? (
         <div>
           <div className="flex border rounded-md py-2.5 px-3 sm:py-3 sm:px-4 border-[#DEDEDE] w-full gap-3 sm:gap-4">
