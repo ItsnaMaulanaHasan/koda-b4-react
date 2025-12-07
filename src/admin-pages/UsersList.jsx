@@ -133,16 +133,22 @@ function UsersList() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-lg">Loading...</div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center gap-4">
+          <div className="size-12 border-4 border-[#5a8120] border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-lg text-red-600">Error: {error}</div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="p-8 text-center border border-red-200 rounded-lg bg-red-50">
+          <img src="/icon/icon-warning.svg" alt="Icon Warning" />
+          <p className="font-medium text-red-600">Error: {error}</p>
+        </div>
       </div>
     );
   }
@@ -182,18 +188,11 @@ function UsersList() {
         <button
           onClick={handleAddUser}
           className="flex items-center gap-2 bg-[#5a8120] px-6 py-3 rounded-lg hover:bg-[#b9c228] transition">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
+          <img
+            src="/public/icon/icon-plus.svg"
+            alt="Icon Plus"
+            className="size-5"
+          />
           Add User
         </button>
 
@@ -217,12 +216,6 @@ function UsersList() {
           {/* table header */}
           <thead className="border-b border-gray-200 bg-gray-50">
             <tr>
-              {/* <th className="px-4 py-3 text-left">
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 border-gray-300 rounded"
-                />
-              </th> */}
               <th className="px-4 py-3 text-sm font-semibold text-center text-gray-700">
                 Photo
               </th>
@@ -261,12 +254,6 @@ function UsersList() {
                 <tr
                   key={user.id}
                   className={index % 2 === 0 && "bg-[#E8E8E84D]"}>
-                  {/* <td className="px-4 py-4">
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 border-gray-300 rounded"
-                    />
-                  </td> */}
                   <td className="px-4 py-4">
                     <img
                       src={user.profilePhoto || "/img/empty-photo-profile.jpeg"}
