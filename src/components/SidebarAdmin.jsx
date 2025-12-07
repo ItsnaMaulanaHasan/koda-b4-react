@@ -87,7 +87,7 @@ function SidebarAdmin({ children }) {
                 src="/icon/icon-glass.svg"
                 alt="Icon Product"
               />
-              Product
+              Products
             </NavLink>
             <NavLink to="/admin/order" className={getNavLinkClass}>
               <img
@@ -95,7 +95,7 @@ function SidebarAdmin({ children }) {
                 src="/icon/icon-bag.svg"
                 alt="Icon Order"
               />
-              Order
+              Transactions
             </NavLink>
             <NavLink to="/admin/users" className={getNavLinkClass}>
               <img
@@ -103,7 +103,7 @@ function SidebarAdmin({ children }) {
                 src="/icon/icon-users.svg"
                 alt="Icon Users"
               />
-              User
+              Users
             </NavLink>
             <button
               onClick={() => setShowModal(true)}
@@ -113,7 +113,7 @@ function SidebarAdmin({ children }) {
                 src="/icon/icon-logout.svg"
                 alt="Icon Logout"
               />
-              Keluar
+              Logout
             </button>
           </nav>
         </div>
