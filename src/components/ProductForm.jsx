@@ -243,7 +243,6 @@ const ProductForm = ({ product = null, mode = "add", onSuccess }) => {
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
-
     try {
       // validasi image untuk mode add
       if (mode === "add" && imageFiles.length === 0) {
