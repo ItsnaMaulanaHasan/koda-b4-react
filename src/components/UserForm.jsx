@@ -1,10 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import bcrypt from "bcryptjs";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import { AuthContext } from "../context/AuthContext";
 import { DrawerAdminContext } from "../context/DrawerContext";
+import Alert from "./Alert";
 import Input from "./Input";
+import ModalConfirmation from "./ModalConfirmation";
 
 const AddUserSchema = yup.object({
   fullName: yup
@@ -23,16 +25,26 @@ const AddUserSchema = yup.object({
     .string()
     .required("Password is required")
     .min(6, "Password must be at least 6 characters"),
+  confirmPassword: yup
+    .string()
+    .required("Password confirmation is required")
+    .oneOf([yup.ref("password")], "Password does not match"),
   address: yup
     .string()
     .required("Address is required")
     .min(5, "Address must be at least 5 characters"),
 });
 
-const UserForm = ({ user = null, mode = "add" }) => {
+const UserForm = ({ user = null, mode = "add", onSuccess }) => {
+  const { accessToken } = useContext(AuthContext);
   const { setShowDrawer } = useContext(DrawerAdminContext);
-  const [image, setImage] = useState(null);
-  const [userType, setUserType] = useState("customer");
+  const [alertStatus, setAlertStatus] = useState({ type: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [userRole, setUserRole] = useState("customer");
 
   const {
     register,
@@ -44,138 +56,185 @@ const UserForm = ({ user = null, mode = "add" }) => {
     resolver: yupResolver(AddUserSchema),
   });
 
-  // Auto-fill form jika mode edit
   useEffect(() => {
     if (mode === "edit" && user) {
       setValue("fullName", user.fullName);
       setValue("email", user.email);
       setValue("phone", user.phone);
-      setValue("password", user.password || "******"); // Show placeholder for existing password
       setValue("address", user.address);
+      setUserRole(user.role || "customer");
 
-      // Set image jika ada
-      if (user.image) {
-        setImage(user.image);
-      }
-
-      // Set user type
-      if (user.role) {
-        setUserType(user.role);
+      if (user.profilePhoto) {
+        setImagePreview(user.profilePhoto);
       }
     } else {
-      // Reset form untuk mode add
       reset();
-      setImage(null);
-      setUserType("customer");
+      setImageFile(null);
+      setUserRole("customer");
     }
   }, [mode, user, setValue, reset]);
 
   // Handle image upload
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-
     if (file) {
-      if (!file.type.startsWith("image/")) {
-        alert("Please upload an image file");
+      // validasi type
+      if (!file.type.match(/image\/(jpeg|jpg|png)/)) {
+        setAlertStatus({
+          type: "error",
+          message: "Only JPG, JPEG, and PNG images are allowed",
+        });
         return;
       }
 
-      if (file.size > 2 * 1024 * 1024) {
-        alert("Image size must be less than 2MB");
+      // validasi size
+      if (file.size > 3 * 1024 * 1024) {
+        setAlertStatus({
+          type: "error",
+          message: `Image ${file.name} is too large. Maximum size is 3MB`,
+        });
         return;
       }
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result);
+        setImagePreview(reader.result);
+        setImageFile(file);
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const removeImage = () => {
+    setImageFile(null);
+    setImagePreview(null);
+  };
+
   const onSubmit = async (data) => {
+    setIsSubmitting(true);
     try {
-      // Hash password hanya jika password berubah (tidak sama dengan placeholder)
-      let hashedPassword = data.password;
-      if (mode === "add" || data.password !== "******") {
-        const salt = await bcrypt.genSalt(10);
-        hashedPassword = await bcrypt.hash(data.password, salt);
+      const formData = new FormData();
+      formData.append("fullName", data.fullName);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      formData.append("phone", data.phone);
+      formData.append("address", data.address);
+      formData.append("role", userRole);
+
+      if (mode === "add") {
+        if (imageFile) {
+          formData.append("filePhoto", imageFile);
+        }
       } else if (mode === "edit") {
-        // Gunakan password lama jika tidak diubah
-        hashedPassword = user.password;
+        if (imageFile) {
+          formData.append("filePhoto", imageFile);
+        }
       }
 
-      // Get join date (gunakan yang lama jika edit, buat baru jika add)
-      const joinDate =
-        mode === "edit" && user.joinDate
-          ? user.joinDate
-          : new Date().toLocaleDateString("en-US", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            });
+      const url =
+        mode === "edit"
+          ? `${import.meta.env.VITE_BASE_URL}/admin/users/${user.id}`
+          : `${import.meta.env.VITE_BASE_URL}/admin/users`;
 
-      const userData = {
-        id: mode === "edit" ? user.id : Date.now(),
-        fullName: data.fullName,
-        email: data.email,
-        phone: data.phone,
-        password: hashedPassword,
-        address: data.address,
-        role: userType,
-        image: image || "",
-        joinDate: joinDate,
-      };
+      const method = mode === "edit" ? "PATCH" : "POST";
 
-      if (mode === "edit") {
-        // Update existing user in localStorage
-        const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
-        const userIndex = existingUsers.findIndex((u) => u.id === user.id);
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: formData,
+      });
 
-        if (userIndex !== -1) {
-          // Check if email changed and already exists
-          const emailExists = existingUsers.some(
-            (u) => u.email === data.email && u.id !== user.id
-          );
-          if (emailExists) {
-            alert("Email already registered by another user!");
-            return;
-          }
+      const result = await response.json();
 
-          existingUsers[userIndex] = userData;
-          localStorage.setItem("users", JSON.stringify(existingUsers));
-          console.log("User Updated:", userData);
-          alert("User updated successfully!");
-        }
-      } else {
-        // Add new user to localStorage
-        const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
-
-        // Check if email already exists
-        const emailExists = existingUsers.some(
-          (user) => user.email === data.email
-        );
-        if (emailExists) {
-          alert("Email already registered!");
-          return;
-        }
-
-        existingUsers.push(userData);
-        localStorage.setItem("users", JSON.stringify(existingUsers));
-        console.log("User Added:", userData);
-        alert("User added successfully!");
+      if (!response.ok) {
+        throw new Error(result.message || `Failed to ${mode} user`);
       }
 
-      // Close drawer
-      setShowDrawer(false);
-    } catch (error) {
-      console.error("Error saving user:", error);
-      alert("Failed to save user");
+      setAlertStatus({
+        type: "success",
+        message: `User ${
+          mode === "edit" ? "updated" : "created"
+        } successfully!`,
+      });
+
+      setTimeout(() => {
+        setShowDrawer(false);
+        if (onSuccess) {
+          onSuccess();
+        }
+      }, 1000);
+
+      reset();
+      setImageFile(null);
+      setImagePreview(null);
+      setUserRole("customer");
+    } catch (err) {
+      setAlertStatus({
+        type: "error",
+        message: err.message,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const resetPassword = async (userId) => {
+    try {
+      setIsSubmitting(true);
+
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/admin/users/${userId}/reset-password`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to reset password");
+      }
+
+      setAlertStatus({
+        type: "success",
+        message: "Password reset successfully! New password: Password@123",
+      });
+
+      setShowModal(false);
+    } catch (err) {
+      setAlertStatus({
+        type: "error",
+        message: err.message,
+      });
+      setShowModal(false);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="flex flex-col h-full">
+      <Alert
+        type={alertStatus.type}
+        message={alertStatus.message}
+        onClose={() => setAlertStatus({ type: "", message: "" })}
+      />
+      <ModalConfirmation
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => resetPassword(user.id)}
+        title="Confirm Reset Password"
+        message="Are you sure you want to reset password?"
+        confirmText="Reset"
+        cancelText="Cancel"
+        type="warning"
+      />
       <div className="flex flex-col flex-1 gap-5 p-4 overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -192,47 +251,60 @@ const UserForm = ({ user = null, mode = "add" }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           {/* Image User */}
           <div>
-            <label className="block mb-2 text-sm font-medium">Image User</label>
+            <label className="block mb-2 text-sm font-medium">
+              Photo Profile{" "}
+              {mode === "add" && <span className="text-red-500">*</span>}
+              <span className="text-xs text-gray-500"> (Max 1 image, 3MB)</span>
+            </label>
 
-            {/* Image Preview */}
-            <div className="flex items-center gap-3 mb-3">
-              <div className="flex items-center justify-center w-16 h-16 overflow-hidden bg-gray-100 rounded-lg">
-                {image ? (
-                  <img
-                    src={image}
-                    alt="Preview"
-                    className="object-cover w-full h-full"
-                  />
-                ) : (
-                  <svg
-                    className="w-8 h-8 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+            {/* preview image */}
+            {imagePreview && (
+              <div className="mb-3">
+                <p className="mb-2 text-xs text-gray-600">
+                  {mode === "edit" ? "New Image to Upload:" : "Preview Image:"}{" "}
+                </p>
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="relative group">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="object-cover w-full h-20 rounded-lg"
+                      onError={(e) => {
+                        e.target.src = "/img/empty-image-placeholder.webp";
+                      }}
                     />
-                  </svg>
-                )}
+                    <button
+                      type="button"
+                      onClick={removeImage}
+                      className="absolute flex items-center justify-center w-5 h-5 text-xs text-white transition bg-red-500 rounded-full opacity-0 top-1 right-1 group-hover:opacity-100">
+                      ✕
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
+
+            {mode === "add" && !imagePreview && (
+              <div className="flex items-center justify-center w-16 h-16 mb-3 bg-gray-100 rounded-lg">
+                <img src="/icon/empty-preview.svg" alt="Empty preview" />
+              </div>
+            )}
 
             {/* Upload Button */}
-            <input
-              type="file"
-              id="user-image-upload"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
-            />
-            <label
-              htmlFor="user-image-upload"
-              className="inline-block px-4 py-2 bg-[#5a8120] rounded-lg cursor-pointer hover:bg-[#b9c228] transition text-sm font-medium">
-              Upload
-            </label>
+            <>
+              <input
+                type="file"
+                id="image-upload"
+                accept="image/jpeg,image/jpg,image/png"
+                onChange={handleImageUpload}
+                className="hidden"
+              />
+              <label
+                htmlFor="image-upload"
+                className="px-4 py-2 rounded-lg cursor-pointer transition text-sm font-medium inline-block bg-[#5a8120] hover:bg-[#b9c228]">
+                Upload Image
+              </label>
+            </>
           </div>
 
           {/* Full Name */}
@@ -266,23 +338,25 @@ const UserForm = ({ user = null, mode = "add" }) => {
           />
 
           {/* Password */}
-          <Input
-            {...register("password")}
-            id="password"
-            label="Password"
-            error={errors}
-            type="password"
-            placeholder={
-              mode === "edit"
-                ? "Leave blank to keep current password"
-                : "Enter Your Password"
-            }
-            passwordInProfile={true}
-          />
-          {mode === "edit" && (
-            <p className="-mt-3 text-xs text-gray-500">
-              Leave blank to keep the current password
-            </p>
+          {mode !== "edit" && (
+            <>
+              <Input
+                {...register("password")}
+                id="password"
+                label="Password"
+                error={errors}
+                type="password"
+                placeholder="Enter Your Password"
+              />
+              <Input
+                {...register("confirmPassword")}
+                error={errors}
+                id="confirmPassword"
+                type="password"
+                label="Confirm Password"
+                placeholder="Enter Your Password Again"
+              />
+            </>
           )}
 
           {/* Address */}
@@ -297,25 +371,25 @@ const UserForm = ({ user = null, mode = "add" }) => {
 
           {/* Type of User */}
           <div>
-            <label className="block mb-3 text-sm font-medium">
-              Type of User
+            <label className="block mb-3 text-sm font-bold sm:text-base">
+              Role of User
             </label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
-                onClick={() => setUserType("customer")}
+                onClick={() => setUserRole("customer")}
                 className={`py-3 rounded-lg border-2 transition font-medium ${
-                  userType === "customer"
+                  userRole === "customer"
                     ? "border-[#5a8120] bg-[#5a8120] text-white"
                     : "bg-white text-gray-700 border-gray-300 hover:border-[#5a8120]"
                 }`}>
-                Normal User
+                Customer
               </button>
               <button
                 type="button"
-                onClick={() => setUserType("admin")}
+                onClick={() => setUserRole("admin")}
                 className={`py-3 rounded-lg border-2 transition font-medium ${
-                  userType === "admin"
+                  userRole === "admin"
                     ? "border-[#5a8120] bg-[#5a8120] text-white"
                     : "bg-white text-gray-700 border-gray-300 hover:border-[#5a8120]"
                 }`}>
@@ -324,11 +398,36 @@ const UserForm = ({ user = null, mode = "add" }) => {
             </div>
           </div>
 
+          {mode === "edit" && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowModal(true);
+              }}
+              disabled={isSubmitting}
+              className={`w-full py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition font-medium mt-2 ${
+                isSubmitting
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-yellow-600 hover:bg-yellow-700"
+              }`}>
+              Reset Password
+            </button>
+          )}
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-[#5a8120] text-white rounded-lg hover:bg-[#b9c228] transition font-medium mt-2">
-            {mode === "edit" ? "Update User" : "Add User"}
+            disabled={isSubmitting}
+            className={`w-full py-3 bg-[#5a8120] text-white rounded-lg hover:bg-[#b9c228] transition font-medium mt-2 ${
+              isSubmitting
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-[#5a8120] hover:bg-[#b9c228]"
+            }`}>
+            {isSubmitting
+              ? "Saving..."
+              : mode === "edit"
+              ? "Save Changes"
+              : "Save User"}
           </button>
         </form>
       </div>
